@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Leads | NorthX Systems</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="dashboard-body">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="leads.html" class="active">Leads</a>
+      <a href="#">Messages</a>
+      <a href="#">Automations</a>
+      <a href="#">Settings</a>
+    </nav>
+
+    <a href="index.html" class="sidebar-logout">Back Home</a>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>All Leads</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <input type="text" placeholder="Search leads..." />
+        <button id="export-csv">Export CSV</button>
+      </div>
+    </header>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Lead Database</h2>
+          <p>View, search, and update every captured lead.</p>
+        </div>
+
+        <select id="lead-filter">
+          <option>All Leads</option>
+          <option>New</option>
+          <option>Contacted</option>
+          <option>Booked</option>
+          <option>Lost</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Call Status</th>
+              <th>Time</th>
+              <th>Follow-Up</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+
+          <tbody id="leads-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="lead-modal" id="lead-modal">
+    <div class="lead-modal-card">
+      <button class="modal-close" id="modal-close">×</button>
+
+      <p class="eyebrow">Lead Details</p>
+      <h2 id="modal-lead-name">Unknown Lead</h2>
+
+      <div class="modal-grid">
+        <div>
+          <span>Phone</span>
+          <strong id="modal-lead-phone">-</strong>
+        </div>
+
+        <div>
+          <span>Call Status</span>
+          <strong id="modal-lead-status">-</strong>
+        </div>
+
+        <div>
+          <span>Follow-Up</span>
+          <strong id="modal-lead-followup">-</strong>
+        </div>
+
+        <div>
+          <span>Created</span>
+          <strong id="modal-lead-created">-</strong>
+        </div>
+      </div>
+
+      <label class="modal-label">Notes</label>
+      <textarea id="modal-lead-notes"></textarea>
+
+      <button class="modal-save" id="modal-save-notes">Save Notes</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/dashboard.js"></script>
+
+</body>
+</html>

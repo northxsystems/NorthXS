@@ -12,8 +12,8 @@
     <div class="sidebar-logo">NorthX<span>Systems</span></div>
 
     <nav class="sidebar-nav">
-      <a href="#" class="active">Dashboard</a>
-      <a href="#">Leads</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+          <a href="leads.html">Leads</a>
       <a href="#">Messages</a>
       <a href="#">Automations</a>
       <a href="#">Settings</a>
@@ -31,33 +31,33 @@
 
       <div class="topbar-actions">
         <input type="text" placeholder="Search leads..." />
-        <button>Export CSV</button>
+        <button id="export-csv">Export CSV</button>
       </div>
     </header>
 
     <section class="stats-grid">
       <div class="stat-card">
         <p>Total Leads</p>
-        <h2>42</h2>
-        <span>+12 this month</span>
+        <h2 id="total-leads">0</h2>
+        <span id="monthly-leads-text">0 this month</span>
       </div>
 
       <div class="stat-card">
         <p>Missed Calls</p>
-        <h2>31</h2>
-        <span>Recovered automatically</span>
+        <h2 id="missed-calls">0</h2>
+        <span id="recovered-text">0 recovered</span>
       </div>
 
       <div class="stat-card">
         <p>Contacted</p>
-        <h2>24</h2>
-        <span>Follow-ups started</span>
+        <h2 id="contacted-leads">0</h2>
+        <span id="followups-text">0 follow-ups</span>
       </div>
 
       <div class="stat-card">
         <p>Booked</p>
-        <h2>9</h2>
-        <span>Converted leads</span>
+        <h2 id="booked-leads">0</h2>
+        <span id="converted-text">0 converted</span>
       </div>
     </section>
 
@@ -68,7 +68,7 @@
           <p>Track missed calls, replies, and follow-up progress.</p>
         </div>
 
-        <select>
+        <select id="lead-filter">
           <option>All Leads</option>
           <option>New</option>
           <option>Contacted</option>
@@ -90,60 +90,52 @@
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>Unknown Lead</td>
-              <td>+1 (403) 555-0182</td>
-              <td><span class="badge new">Missed Call</span></td>
-              <td>Today, 2:43 PM</td>
-              <td>
-                <select class="status-select">
-                  <option>New</option>
-                  <option>Contacted</option>
-                  <option>Booked</option>
-                  <option>Lost</option>
-                </select>
-              </td>
-              <td>Auto-text sent</td>
-            </tr>
+       <tbody id="leads-table-body"></tbody>
 
-            <tr>
-              <td>Sarah M.</td>
-              <td>+1 (587) 555-0144</td>
-              <td><span class="badge contacted">Text Reply</span></td>
-              <td>Today, 1:10 PM</td>
-              <td>
-                <select class="status-select">
-                  <option>Contacted</option>
-                  <option>New</option>
-                  <option>Booked</option>
-                  <option>Lost</option>
-                </select>
-              </td>
-              <td>Asked about pricing</td>
-            </tr>
-
-            <tr>
-              <td>Mike R.</td>
-              <td>+1 (825) 555-0199</td>
-              <td><span class="badge booked">Booked</span></td>
-              <td>Yesterday, 5:22 PM</td>
-              <td>
-                <select class="status-select">
-                  <option>Booked</option>
-                  <option>New</option>
-                  <option>Contacted</option>
-                  <option>Lost</option>
-                </select>
-              </td>
-              <td>Appointment set</td>
-            </tr>
-          </tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <script src="../js/dashboard.js"></script>
+  <div class="lead-modal" id="lead-modal">
+  <div class="lead-modal-card">
+    <button class="modal-close" id="modal-close">×</button>
+
+    <p class="eyebrow">Lead Details</p>
+    <h2 id="modal-lead-name">Unknown Lead</h2>
+
+    <div class="modal-grid">
+      <div>
+        <span>Phone</span>
+        <strong id="modal-lead-phone">-</strong>
+      </div>
+
+      <div>
+        <span>Call Status</span>
+        <strong id="modal-lead-status">-</strong>
+      </div>
+
+      <div>
+        <span>Follow-Up</span>
+        <strong id="modal-lead-followup">-</strong>
+      </div>
+
+      <div>
+        <span>Created</span>
+        <strong id="modal-lead-created">-</strong>
+      </div>
+    </div>
+
+    <label class="modal-label">Notes</label>
+    <textarea id="modal-lead-notes"></textarea>
+
+    <button class="modal-save" id="modal-save-notes">Save Notes</button>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/config.js"></script>
+<script src="../js/dashboard.js"></script>
+
 </body>
 </html>
