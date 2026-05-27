@@ -1,3 +1,14 @@
+async function protectPage() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    window.location.href = "login.html";
+  }
+}
+
+protectPage();
+
+
 let allLeads = [];
 
 async function loadLeads() {
@@ -276,6 +287,20 @@ if (exportButton) {
 
     URL.revokeObjectURL(url);
   });
+}
+
+
+const logoutButton = document.getElementById("logout-button");
+
+if (logoutButton) {
+
+  logoutButton.addEventListener("click", async function () {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+  });
+
 }
 
 

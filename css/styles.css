@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -6,14 +7,18 @@
 
 body {
   font-family: Inter, Arial, sans-serif;
-  background: #080b12;
-  color: #f5f7fb;
   line-height: 1.6;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* PUBLIC SITE */
+body:not(.dashboard-body):not(.login-body) {
+  background: #080b12;
+  color: #f5f7fb;
 }
 
 .navbar {
@@ -30,14 +35,15 @@ a {
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.logo {
-  font-size: 1.3rem;
+.logo,
+.sidebar-logo {
+  font-size: 1.4rem;
   font-weight: 800;
-  letter-spacing: -0.5px;
 }
 
-.logo span {
-  color: #4f8cff;
+.logo span,
+.sidebar-logo span {
+  color: #3b82f6;
 }
 
 nav {
@@ -51,7 +57,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #ffffff;
+  color: #fff;
 }
 
 .login-btn,
@@ -66,7 +72,6 @@ nav a:hover {
 .primary-btn {
   background: linear-gradient(135deg, #4f8cff, #7c5cff);
   color: white;
-  box-shadow: 0 10px 30px rgba(79,140,255,0.25);
 }
 
 .secondary-btn {
@@ -109,38 +114,29 @@ nav a:hover {
   max-width: 650px;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 16px;
-  margin: 34px 0;
-}
-
+.hero-buttons,
 .hero-stats {
   display: flex;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
+  margin-top: 34px;
+}
+
+.hero-stats div,
+.hero-card,
+.service-card,
+.demo-slot,
+.pricing-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 24px;
 }
 
 .hero-stats div {
   padding: 18px 22px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-}
-
-.hero-stats h3 {
-  font-size: 1.4rem;
-}
-
-.hero-stats p {
-  color: #aab3c8;
-  font-size: 0.9rem;
 }
 
 .hero-card {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 28px;
   padding: 24px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.35);
 }
@@ -166,18 +162,8 @@ nav a:hover {
   margin-bottom: 18px;
 }
 
-.lead-alert p {
-  color: #b8c0d4;
-}
-
-.lead-alert h3 {
-  font-size: 1.8rem;
-  margin: 8px 0;
-}
-
 .lead-alert span {
   color: #8ff0b3;
-  font-size: 0.9rem;
 }
 
 .message-preview {
@@ -197,14 +183,6 @@ nav a:hover {
   height: 16px;
   border-radius: 999px;
   background: rgba(255,255,255,0.14);
-}
-
-.dashboard-preview div:nth-child(2) {
-  width: 80%;
-}
-
-.dashboard-preview div:nth-child(3) {
-  width: 60%;
 }
 
 .section {
@@ -230,22 +208,6 @@ nav a:hover {
 .demo-slot,
 .pricing-card {
   padding: 30px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 24px;
-}
-
-.service-card h3,
-.demo-slot h3,
-.pricing-card h3 {
-  margin-bottom: 12px;
-  font-size: 1.35rem;
-}
-
-.service-card p,
-.demo-slot p,
-.pricing-card li {
-  color: #b8c0d4;
 }
 
 .demo-section,
@@ -269,7 +231,7 @@ nav a:hover {
   font-size: 1.7rem;
   font-weight: 900;
   margin: 18px 0;
-  color: #ffffff;
+  color: #fff;
 }
 
 .pricing-card ul {
@@ -316,47 +278,7 @@ footer {
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-@media (max-width: 900px) {
-  nav {
-    display: none;
-  }
-
-  .hero {
-    grid-template-columns: 1fr;
-    padding-top: 70px;
-  }
-
-  .service-grid,
-  .demo-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-  }
-}
-
-
-
-
-.badge.lost {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-
-.leads-table tr {
-  transition: 0.2s ease;
-  cursor: pointer;
-}
-
-.leads-table tr:hover {
-  transform: scale(1.01);
-  background: #f8fbff;
-}
-
-
-
+/* LOGIN */
 .login-body {
   min-height: 100vh;
   background:
@@ -432,62 +354,26 @@ footer {
   font-weight: 900;
   color: white;
   background: linear-gradient(135deg, #4f8cff, #7c5cff);
-  box-shadow: 0 15px 35px rgba(79,140,255,0.28);
 }
 
-.login-help {
-  margin-top: 24px;
-  font-size: 0.92rem;
-}
-
-@media (max-width: 700px) {
-  .login-card {
-    padding: 34px 26px;
-  }
-
-  .login-card h1 {
-    font-size: 2.6rem;
-  }
-}
-
-
-
-
-
-
-
-
-
-/* DASHBOARD */
-
+/* DASHBOARD LAYOUT */
 .dashboard-body {
+  min-height: 100vh;
   background: #f4f7fb;
   color: #111827;
-  display: flex;
-  min-height: 100vh;
-  font-family: Inter, Arial, sans-serif;
 }
-
-/* SIDEBAR */
 
 .sidebar {
   width: 260px;
-  background: #ffffff;
+  height: 100vh;
+  position: fixed;
+  inset: 0 auto 0 0;
+  background: #fff;
   border-right: 1px solid #e6ebf2;
   padding: 30px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.sidebar-logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #111827;
-}
-
-.sidebar-logo span {
-  color: #3b82f6;
 }
 
 .sidebar-nav {
@@ -501,7 +387,7 @@ footer {
   padding: 14px 16px;
   border-radius: 14px;
   color: #5b6475;
-  font-weight: 600;
+  font-weight: 700;
   transition: 0.2s ease;
 }
 
@@ -516,22 +402,27 @@ footer {
 }
 
 .sidebar-logout {
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: #f3f4f6;
-  color: #374151;
-  font-weight: 600;
-  text-align: center;
+  width: 100%;
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 16px;
+  border-radius: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-/* MAIN */
+.sidebar-logout:hover {
+  background: #1d4ed8;
+}
 
 .dashboard-main {
-  flex: 1;
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  min-height: 100vh;
   padding: 40px;
 }
-
-/* TOPBAR */
 
 .dashboard-topbar {
   display: flex;
@@ -566,22 +457,24 @@ footer {
   color: white;
   padding: 14px 18px;
   border-radius: 14px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
-/* STATS */
-
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
 
-.stat-card {
+.stat-card,
+.dashboard-panel {
   background: white;
   border: 1px solid #e6ebf2;
+}
+
+.stat-card {
   border-radius: 22px;
   padding: 24px;
 }
@@ -602,11 +495,7 @@ footer {
   font-size: 0.92rem;
 }
 
-/* PANEL */
-
 .dashboard-panel {
-  background: white;
-  border: 1px solid #e6ebf2;
   border-radius: 24px;
   padding: 28px;
 }
@@ -635,8 +524,6 @@ footer {
   background: white;
 }
 
-/* TABLE */
-
 .table-wrap {
   overflow-x: auto;
 }
@@ -655,7 +542,7 @@ footer {
   padding: 18px;
   color: #6b7280;
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .leads-table td {
@@ -664,17 +551,20 @@ footer {
   color: #111827;
 }
 
+.leads-table tr {
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
 .leads-table tr:hover {
   background: #f9fbff;
 }
-
-/* BADGES */
 
 .badge {
   padding: 8px 12px;
   border-radius: 999px;
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .badge.new {
@@ -692,7 +582,10 @@ footer {
   color: #15803d;
 }
 
-/* STATUS SELECT */
+.badge.lost {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 .status-select {
   padding: 10px 12px;
@@ -701,38 +594,7 @@ footer {
   background: white;
 }
 
-/* RESPONSIVE */
-
-@media (max-width: 1100px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 850px) {
-  .sidebar {
-    display: none;
-  }
-
-  .dashboard-main {
-    padding: 20px;
-  }
-
-  .dashboard-topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-
-
-
+/* LEAD MODAL */
 .lead-modal {
   position: fixed;
   inset: 0;
@@ -831,8 +693,87 @@ footer {
   cursor: pointer;
 }
 
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .service-grid,
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 850px) {
+  .sidebar {
+    display: none;
+  }
+
+  .dashboard-main {
+    margin-left: 0;
+    width: 100%;
+    padding: 24px;
+  }
+
+  .dashboard-topbar,
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    display: none;
+  }
+}
+
 @media (max-width: 700px) {
+  .login-card {
+    padding: 34px 26px;
+  }
+
+  .login-card h1 {
+    font-size: 2.6rem;
+  }
+
   .modal-grid {
     grid-template-columns: 1fr;
   }
+}
+
+
+/* LOGIN TEXT FIX */
+
+.sidebar-logo {
+  color: rgb(0, 0, 0);
+}
+
+.sidebar-logo span {
+  color: #3b82f6;
+}
+
+
+/* LOGIN PAGE LOGO */
+
+.login-body .logo {
+  color: white;
+}
+
+.login-body .logo span {
+  color: #3b82f6;
+}
+
+/* LOGIN PAGE TITLE */
+
+.login-card h1 {
+  color: white;
 }
