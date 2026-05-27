@@ -22,11 +22,28 @@ async function loadLeads() {
     </tr>
   `;
 
-  const { data, error } = await supabaseClient
-    .from("leads")
-    .select("*")
-    .order("created_at", { ascending: false });
+ const { data: sessionData } = await supabaseClient.auth.getSession();
 
+const userId = sessionData.session.user.id;
+
+const { data: profile, error: profileError } = await supabaseClient
+  .from("profiles")
+  .select("client_id")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  console.error("Error loading profile:", profileError);
+  return;
+}
+
+const { data, error } = await supabaseClient
+  .from("leads")
+  .select("*")
+  .eq("client_id", profile.client_id)
+  .order("created_at", { ascending: false });
+
+  
   if (error) {
     console.error("Error loading leads:", error);
     return;
