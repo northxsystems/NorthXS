@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body">
+
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="leads.html">Leads</a>
+        <a href="messages.html" class="active">Messages</a>
+        <a href="#">Automations</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Messages</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <input type="text" id="message-search" placeholder="Search messages..." />
+      </div>
+    </header>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Message History</h2>
+          <p>View automated texts and customer replies.</p>
+        </div>
+
+        <select id="message-filter">
+          <option value="All">All Messages</option>
+          <option value="sent">Sent</option>
+          <option value="received">Received</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Phone</th>
+              <th>Direction</th>
+              <th>Message</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+
+          <tbody id="messages-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/messages.js"></script>
+
+</body>
+</html>
