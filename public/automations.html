@@ -59,6 +59,25 @@
       </div>
     </section>
 
+    <section class="dashboard-panel usage-panel">
+  <div class="panel-header">
+    <div>
+      <h2>Monthly SMS Usage</h2>
+      <p id="usage-plan-text">Plan: Starter</p>
+    </div>
+
+    <strong id="usage-count-text">0 / 500 SMS</strong>
+  </div>
+
+  <div class="usage-bar">
+    <div id="usage-bar-fill"></div>
+  </div>
+
+  <p class="usage-small-text" id="usage-remaining-text">
+    500 SMS remaining this month
+  </p>
+</section>
+
     <section class="dashboard-panel automation-form-panel">
       <div class="panel-header">
         <div>
@@ -71,9 +90,12 @@
         <div class="form-grid">
           <div>
             <label>Phone Number</label>
-            <select id="sms-phone" required>
-            <option value="">Select a lead phone number</option>
-            </select>
+            <div class="custom-select-wrapper">
+              <button type="button" id="phone-dropdown-btn" class="custom-select-btn">Select Phone Numbers</button>
+                  <div id="sms-phone-list" class="phone-dropdown hidden">
+                    <p>Loading lead numbers...</p>
+                  </div>
+            </div>
           </div>
 
           <div>
@@ -98,12 +120,17 @@
           <p>Track pending and completed follow-up SMS messages.</p>
         </div>
 
-        <select id="scheduled-filter">
-          <option value="All">All</option>
-          <option value="pending">Pending</option>
-          <option value="sent">Sent</option>
-          <option value="failed">Failed</option>
-        </select>
+        <div class="panel-actions">
+          <button id="bulk-delete-toggle" class="bulk-delete-btn">Bulk Delete</button>
+
+            <select id="scheduled-filter">
+              <option value="All">All</option>
+              <option value="pending">Pending</option>
+              <option value="sent">Sent</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="failed">Failed</option>
+            </select>
+          </div>
       </div>
 
       <div class="table-wrap">
@@ -114,6 +141,7 @@
               <th>Message</th>
               <th>Send At</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
