@@ -777,3 +777,72 @@ footer {
 .login-card h1 {
   color: white;
 }
+
+
+
+
+/* AUTOMATIONS PAGE */
+
+.automation-form {
+  display: grid;
+  gap: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.automation-form label {
+  display: block;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.automation-form input,
+.automation-form select,
+.automation-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #dbe2ea;
+  background: #fff;
+  color: #111827;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.automation-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.automation-form input:focus,
+.automation-form select:focus,
+.automation-form textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.automation-form button {
+  width: fit-content;
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.automation-form button:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 800px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
