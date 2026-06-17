@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plans | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="leads.html">Leads</a>
+        <a href="messages.html">Messages</a>
+        <a href="automations.html">Automations</a>
+        <a href="plans.html" class="active">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Plans</h1>
+      </div>
+    </header>
+
+<section class="dashboard-panel current-plan-banner">
+  <div class="current-plan-left">
+    <p class="plan-eyebrow">CURRENT PLAN</p>
+    <h2>Starter</h2>
+    <p>$99/month</p>
+  </div>
+
+  <div class="current-plan-middle">
+    <h3>5 / 500 SMS Used</h3>
+    <p>495 SMS remaining this month</p>
+
+    <div class="usage-bar">
+      <div id="usage-bar-fill"></div>
+    </div>
+  </div>
+
+  <div class="current-plan-right">
+    <div class="plan-stat">
+      <strong>500</strong>
+      <span>Monthly SMS</span>
+    </div>
+
+    <div class="plan-stat">
+      <strong>1%</strong>
+      <span>Usage</span>
+    </div>
+  </div>
+</section>
+
+    <section class="plans-grid">
+      <div class="plan-card">
+        <p class="plan-label">Starter</p>
+        <h2>$99<span>/mo</span></h2>
+        <ul>
+          <li>Missed call text-back</li>
+          <li>Lead dashboard</li>
+          <li>Messages page</li>
+          <li>500 SMS/month</li>
+        </ul>
+        <button>Current Plan</button>
+      </div>
+
+      <div class="plan-card featured-plan">
+        <p class="plan-label">Growth</p>
+        <h2>$199<span>/mo</span></h2>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Retention SMS campaigns</li>
+          <li>Review request campaigns</li>
+          <li>1,500 SMS/month</li>
+        </ul>
+        <button>Request Upgrade</button>
+      </div>
+
+      <div class="plan-card">
+        <p class="plan-label">AI Front Desk</p>
+        <h2>$399<span>/mo</span></h2>
+        <ul>
+          <li>Everything in Growth</li>
+          <li>AI chatbot</li>
+          <li>AI quote intake</li>
+          <li>3,000 SMS/month</li>
+        </ul>
+        <button>Request Upgrade</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/plans.js"></script>
+</body>
+</html>

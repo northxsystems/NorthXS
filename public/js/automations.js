@@ -136,11 +136,34 @@ function updateUsageDisplay() {
   const remaining = Math.max(limit - used, 0);
   const percentUsed = limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
 
+  const usagePanel = document.querySelector(".usage-panel");
+  const scheduleButton = document.querySelector(
+    "#scheduled-message-form button[type='submit']"
+  );
+
   document.getElementById("usage-plan-text").textContent = `Plan: ${plan}`;
   document.getElementById("usage-count-text").textContent = `${used} / ${limit} SMS`;
   document.getElementById("usage-remaining-text").textContent =
     `${remaining} SMS remaining this month`;
   document.getElementById("usage-bar-fill").style.width = `${percentUsed}%`;
+
+  usagePanel.classList.remove("usage-good", "usage-warning", "usage-danger");
+
+  if (percentUsed >= 100) {
+    usagePanel.classList.add("usage-danger");
+    document.getElementById("usage-remaining-text").textContent =
+      "SMS limit reached. Upgrade your plan to continue.";
+    scheduleButton.disabled = true;
+    scheduleButton.textContent = "SMS Limit Reached";
+  } else if (percentUsed >= 80) {
+    usagePanel.classList.add("usage-warning");
+    scheduleButton.disabled = false;
+    scheduleButton.textContent = "Schedule SMS";
+  } else {
+    usagePanel.classList.add("usage-good");
+    scheduleButton.disabled = false;
+    scheduleButton.textContent = "Schedule SMS";
+  }
 }
 
 function renderScheduledMessages(messages) {

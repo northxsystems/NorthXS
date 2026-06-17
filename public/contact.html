@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="leads.html">Leads</a>
+        <a href="messages.html">Messages</a>
+        <a href="automations.html">Automations</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html" class="active">Contact Us</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Contact Us</h1>
+      </div>
+    </header>
+
+    <section class="dashboard-panel contact-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Need help?</h2>
+          <p>Send a message to NorthX Systems and we’ll get back to you.</p>
+        </div>
+      </div>
+
+      <form id="contact-form" class="contact-form">
+        <div>
+          <label>Subject</label>
+          <input id="contact-subject" type="text" placeholder="Billing, support, upgrade, etc." required />
+        </div>
+
+        <div>
+          <label>Message</label>
+          <textarea id="contact-message" placeholder="Write your message here..." required></textarea>
+        </div>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
