@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get a Quote | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="quote-intake-body">
+  <main class="quote-intake-page">
+    <section class="quote-intake-card">
+      <p class="eyebrow">Get a Quote</p>
+      <h1>Tell us what you need help with</h1>
+      <p class="quote-intake-subtext">
+        Fill out the details below and the team will review your request.
+      </p>
+
+      <form id="quote-intake-form" class="quote-intake-form">
+        <div class="form-grid">
+          <div>
+            <label>Name</label>
+            <input id="quote-name" type="text" required />
+          </div>
+
+          <div>
+            <label>Phone</label>
+            <input id="quote-phone" type="text" required />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label>Email</label>
+            <input id="quote-email" type="email" />
+          </div>
+
+          <div>
+            <label>Urgency</label>
+            <select id="quote-urgency" required>
+              <option value="">Select urgency</option>
+              <option value="Emergency">Emergency</option>
+              <option value="This week">This week</option>
+              <option value="Flexible">Flexible</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label>Trade</label>
+            <select id="quote-trade" required>
+              <option value="">Select trade</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Plumbing">Plumbing</option>
+              <option value="HVAC">HVAC</option>
+              <option value="Roofing">Roofing</option>
+              <option value="General Contracting">General Contracting</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Job Type</label>
+            <input id="quote-job-type" type="text" placeholder="Panel upgrade, furnace repair, etc." required />
+          </div>
+        </div>
+
+        <div>
+          <label>Address</label>
+          <input id="quote-address" type="text" placeholder="City, area, or full address" />
+        </div>
+
+        <div>
+          <label>Describe the job</label>
+          <textarea id="quote-description" placeholder="Tell us what is going on..." required></textarea>
+        </div>
+
+        <button type="submit">Submit Quote Request</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/quote-intake.js"></script>
+</body>
+</html>

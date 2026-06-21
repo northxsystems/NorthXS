@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Requests | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="leads.html">Leads</a>
+        <a href="quote-requests.html" class="active">Quote Requests</a>
+        <a href="messages.html">Messages</a>
+        <a href="automations.html">Automations</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Quote Requests</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <input id="quote-search" type="text" placeholder="Search quote requests..." />
+      </div>
+    </header>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p>Total Requests</p>
+        <h2 id="total-quotes">0</h2>
+        <span>All quote requests</span>
+      </div>
+
+      <div class="stat-card">
+        <p>New</p>
+        <h2 id="new-quotes">0</h2>
+        <span>Needs review</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Quote Sent</p>
+        <h2 id="sent-quotes">0</h2>
+        <span>Follow-up ready</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Booked</p>
+        <h2 id="booked-quotes">0</h2>
+        <span>Converted jobs</span>
+      </div>
+    </section>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Incoming Quote Requests</h2>
+          <p>Review customer quote requests and update their progress.</p>
+        </div>
+
+        <select id="quote-filter">
+          <option value="All">All</option>
+          <option value="new">New</option>
+          <option value="reviewing">Reviewing</option>
+          <option value="quote_sent">Quote Sent</option>
+          <option value="booked">Booked</option>
+          <option value="lost">Lost</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Job Type</th>
+              <th>Urgency</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+
+          <tbody id="quote-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="lead-modal" id="quote-modal">
+    <div class="lead-modal-card">
+      <button class="modal-close" id="quote-modal-close">×</button>
+
+      <p class="eyebrow">Quote Request Details</p>
+      <h2 id="modal-quote-name">Unknown Customer</h2>
+
+      <div class="modal-grid">
+        <div>
+          <span>Phone</span>
+          <strong id="modal-quote-phone">-</strong>
+        </div>
+
+        <div>
+          <span>Email</span>
+          <strong id="modal-quote-email">-</strong>
+        </div>
+
+        <div>
+          <span>Trade</span>
+          <strong id="modal-quote-trade">-</strong>
+        </div>
+
+        <div>
+          <span>Job Type</span>
+          <strong id="modal-quote-job">-</strong>
+        </div>
+
+        <div>
+          <span>Urgency</span>
+          <strong id="modal-quote-urgency">-</strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong id="modal-quote-status">-</strong>
+        </div>
+      </div>
+
+      <label class="modal-label">Address</label>
+      <p id="modal-quote-address" class="quote-detail-box">-</p>
+
+      <label class="modal-label">Problem Description</label>
+      <p id="modal-quote-description" class="quote-detail-box">-</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/quote-requests.js"></script>
+</body>
+</html>

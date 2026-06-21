@@ -1250,3 +1250,15 @@ footer {
   font-weight: 800;
   cursor: pointer;
 }
+
+
+/* Quote Requests Page */
+
+.quote-detail-box {
+  background: #f8fafc;
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: #111827;
+  margin-bottom: 18px;
+}
