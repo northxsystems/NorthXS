@@ -14,13 +14,13 @@
 
       <nav class="sidebar-nav">
         <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html">Customers</a>
         <a href="leads.html">Leads</a>
         <a href="quote-requests.html">Quote Requests</a>
-        <a href="messages.html">Messages</a>
-        <a href="automations.html">Automations</a>
+        <a href="messages.html">SMS Control</a>
         <a href="plans.html" class="active">Plans</a>
         <a href="contact.html">Contact Us</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
       </nav>
     </div>
 
@@ -38,13 +38,13 @@
 <section class="dashboard-panel current-plan-banner">
   <div class="current-plan-left">
     <p class="plan-eyebrow">CURRENT PLAN</p>
-    <h2>Starter</h2>
-    <p>$99/month</p>
+    <h2 id="current-plan">Starter</h2>
+    <p id="current-plan-price">$99/month</p>
   </div>
 
   <div class="current-plan-middle">
-    <h3>5 / 500 SMS Used</h3>
-    <p>495 SMS remaining this month</p>
+    <h3><span id="plans-usage-text">5 / 500</span> SMS Used</h3>
+    <p id="plans-usage-status">Within limits</p>
 
     <div class="usage-bar">
       <div id="usage-bar-fill"></div>

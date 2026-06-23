@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html" class="active">Customers</a>
+        <a href="leads.html">Leads</a>
+        <a href="quote-requests.html">Quote Requests</a>
+        <a href="messages.html">SMS Control</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Customers</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <input id="customer-search" type="text" placeholder="Search customers..." />
+      </div>
+    </header>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Customer Directory</h2>
+          <p>View customer records, quote history, notes, and recent activity.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Requests</th>
+              <th>Quotes</th>
+              <th>Latest Activity</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="customers-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="lead-modal" id="customer-modal">
+    <div class="lead-modal-card customer-modal-card">
+      <button class="modal-close" id="customer-modal-close">&times;</button>
+
+      <p class="eyebrow">Customer Details</p>
+      <h2 id="customer-detail-name">Unknown Customer</h2>
+
+      <div class="modal-grid">
+        <div>
+          <span>Phone</span>
+          <strong id="customer-detail-phone">-</strong>
+        </div>
+
+        <div>
+          <span>Email</span>
+          <strong id="customer-detail-email">-</strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong id="customer-detail-status">-</strong>
+        </div>
+
+        <div>
+          <span>Latest Activity</span>
+          <strong id="customer-detail-latest">-</strong>
+        </div>
+      </div>
+
+      <label class="modal-label">Address</label>
+      <p id="customer-detail-address" class="quote-detail-box">-</p>
+
+      <div class="customer-detail-grid">
+        <section>
+          <div class="customer-section-heading">
+            <h3>Quote Requests</h3>
+          </div>
+          <div id="customer-requests-list" class="customer-mini-list"></div>
+        </section>
+
+        <section>
+          <div class="customer-section-heading">
+            <h3>Quotes</h3>
+          </div>
+          <div id="customer-quotes-list" class="customer-mini-list"></div>
+        </section>
+      </div>
+
+      <section class="customer-notes-panel">
+        <div class="customer-section-heading">
+          <h3>Notes</h3>
+        </div>
+
+        <form id="customer-note-form" class="customer-note-form">
+          <textarea id="customer-note-input" rows="3" placeholder="Add an internal note..."></textarea>
+          <button type="submit">Add Note</button>
+        </form>
+
+        <div id="customer-notes-list" class="customer-mini-list"></div>
+      </section>
+
+      <section>
+        <div class="customer-section-heading">
+          <h3>Timeline</h3>
+        </div>
+        <div id="customer-timeline-list" class="customer-timeline"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/customers.js"></script>
+</body>
+</html>

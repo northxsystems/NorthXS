@@ -14,13 +14,13 @@
 
       <nav class="sidebar-nav">
         <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html">Customers</a>
         <a href="leads.html">Leads</a>
         <a href="quote-requests.html" class="active">Quote Requests</a>
-        <a href="messages.html">Messages</a>
-        <a href="automations.html">Automations</a>
+        <a href="messages.html">SMS Control</a>
         <a href="plans.html">Plans</a>
         <a href="contact.html">Contact Us</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
       </nav>
     </div>
 
@@ -41,27 +41,33 @@
 
     <section class="stats-grid">
       <div class="stat-card">
-        <p>Total Requests</p>
-        <h2 id="total-quotes">0</h2>
-        <span>All quote requests</span>
-      </div>
-
-      <div class="stat-card">
         <p>New</p>
         <h2 id="new-quotes">0</h2>
         <span>Needs review</span>
       </div>
 
       <div class="stat-card">
-        <p>Quote Sent</p>
-        <h2 id="sent-quotes">0</h2>
-        <span>Follow-up ready</span>
+        <p>Contacted</p>
+        <h2 id="contacted-quotes">0</h2>
+        <span>Conversation started</span>
       </div>
 
       <div class="stat-card">
-        <p>Booked</p>
-        <h2 id="booked-quotes">0</h2>
-        <span>Converted jobs</span>
+        <p>Quoted</p>
+        <h2 id="quoted-quotes">0</h2>
+        <span>Proposal sent</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Won</p>
+        <h2 id="won-quotes">0</h2>
+        <span>Approved work</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Lost</p>
+        <h2 id="lost-quotes">0</h2>
+        <span>Closed out</span>
       </div>
     </section>
 
@@ -72,14 +78,16 @@
           <p>Review customer quote requests and update their progress.</p>
         </div>
 
-        <select id="quote-filter">
-          <option value="All">All</option>
-          <option value="new">New</option>
-          <option value="reviewing">Reviewing</option>
-          <option value="quote_sent">Quote Sent</option>
-          <option value="booked">Booked</option>
-          <option value="lost">Lost</option>
-        </select>
+        <div class="quote-filter-group">
+          <select id="quote-filter">
+            <option value="All">All Statuses</option>
+            <option value="new">New</option>
+            <option value="reviewing">Contacted</option>
+            <option value="quote_sent">Quoted</option>
+            <option value="booked">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
       </div>
 
       <div class="table-wrap">
@@ -88,10 +96,10 @@
             <tr>
               <th>Customer</th>
               <th>Phone</th>
-              <th>Job Type</th>
-              <th>Urgency</th>
+              <th>Service Requested</th>
               <th>Status</th>
-              <th>Created</th>
+              <th>Submitted</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -102,7 +110,7 @@
   </main>
 
   <div class="lead-modal" id="quote-modal">
-    <div class="lead-modal-card">
+    <div class="lead-modal-card quote-modal-card">
       <button class="modal-close" id="quote-modal-close">×</button>
 
       <p class="eyebrow">Quote Request Details</p>
@@ -125,7 +133,7 @@
         </div>
 
         <div>
-          <span>Job Type</span>
+          <span>Service Requested</span>
           <strong id="modal-quote-job">-</strong>
         </div>
 
@@ -145,10 +153,105 @@
 
       <label class="modal-label">Problem Description</label>
       <p id="modal-quote-description" class="quote-detail-box">-</p>
+
+      <div class="quote-status-actions">
+        <button type="button" class="quote-builder-open" id="create-quote-button">Create Quote</button>
+        <button type="button" class="quote-status-action" data-status="reviewing">Mark Contacted</button>
+        <button type="button" class="quote-status-action" data-status="quote_sent">Mark Quoted</button>
+        <button type="button" class="quote-status-action" data-status="booked">Mark Won</button>
+        <button type="button" class="quote-status-action lost" data-status="lost">Mark Lost</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lead-modal" id="quote-builder-modal">
+    <div class="lead-modal-card quote-builder-card">
+      <button class="modal-close" id="quote-builder-close">&times;</button>
+
+      <p class="eyebrow">Quote Builder</p>
+      <h2>Create Customer Quote</h2>
+
+      <form id="quote-builder-form" class="quote-builder-form">
+        <div class="modal-grid">
+          <div>
+            <span>Customer</span>
+            <strong id="builder-customer-name">-</strong>
+          </div>
+
+          <div>
+            <span>Phone</span>
+            <strong id="builder-phone">-</strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong id="builder-email">-</strong>
+          </div>
+
+          <div>
+            <span>Service Requested</span>
+            <strong id="builder-service">-</strong>
+          </div>
+        </div>
+
+        <label class="modal-label">Problem Description</label>
+        <p id="builder-problem-description" class="quote-detail-box">-</p>
+
+        <div class="quote-builder-header">
+          <div>
+            <h3>Line Items</h3>
+            <p>Add labor, materials, fees, and any other chargeable work.</p>
+          </div>
+
+          <button type="button" id="add-line-item" class="quote-secondary-btn">Add Item</button>
+        </div>
+
+        <div class="quote-line-items" id="quote-line-items"></div>
+
+        <div class="quote-builder-summary">
+          <label>
+            Quote Status
+            <select id="builder-status">
+              <option value="draft">Draft</option>
+              <option value="sent">Sent</option>
+              <option value="accepted">Accepted</option>
+              <option value="declined">Declined</option>
+            </select>
+          </label>
+
+          <label>
+            Tax
+            <input id="builder-tax" type="number" min="0" step="0.01" value="0" />
+          </label>
+
+          <div class="quote-total-card">
+            <div>
+              <span>Subtotal</span>
+              <strong id="builder-subtotal">$0.00</strong>
+            </div>
+
+            <div>
+              <span>Tax</span>
+              <strong id="builder-tax-total">$0.00</strong>
+            </div>
+
+            <div>
+              <span>Grand Total</span>
+              <strong id="builder-grand-total">$0.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-builder-footer">
+          <button type="submit" class="quote-save-btn">Save Quote</button>
+          <button type="button" id="download-pdf-button" class="quote-send-btn" disabled>Download PDF</button>
+        </div>
+      </form>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/quote-requests.js"></script>
 </body>

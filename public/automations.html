@@ -3,160 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automations | NorthX Systems</title>
+  <meta http-equiv="refresh" content="0; url=messages.html" />
+  <title>SMS Control Center | NorthX Systems</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body class="dashboard-body">
-
-  <aside class="sidebar">
-    <div>
-      <div class="sidebar-logo">NorthX<span>Systems</span></div>
-
-      <nav class="sidebar-nav">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="leads.html">Leads</a>
-        <a href="quote-requests.html">Quote Requests</a>
-        <a href="messages.html">Messages</a>
-        <a href="automations.html" class="active">Automations</a>
-        <a href="plans.html">Plans</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="#">Settings</a>
-      </nav>
-    </div>
-
-    <button id="logout-button" class="sidebar-logout">Logout</button>
-  </aside>
-
-  <main class="dashboard-main">
-    <header class="dashboard-topbar">
-      <div>
-        <p class="eyebrow">Client Portal</p>
-        <h1>Automations</h1>
-      </div>
-    </header>
-
-    <section class="stats-grid">
-      <div class="stat-card">
-        <p>Active Automations</p>
-        <h2 id="active-automations">1</h2>
-        <span>Retention SMS enabled</span>
-      </div>
-
-      <div class="stat-card">
-        <p>Pending SMS</p>
-        <h2 id="pending-sms">0</h2>
-        <span>Waiting to send</span>
-      </div>
-
-      <div class="stat-card">
-        <p>Sent SMS</p>
-        <h2 id="sent-sms">0</h2>
-        <span>Completed follow-ups</span>
-      </div>
-
-      <div class="stat-card">
-        <p>Automation Type</p>
-        <h2>SMS</h2>
-        <span>Client retention</span>
-      </div>
-    </section>
-
-    <section class="dashboard-panel usage-panel">
-  <div class="panel-header">
-    <div>
-      <h2>Monthly SMS Usage</h2>
-      <p id="usage-plan-text">Plan: Starter</p>
-    </div>
-
-    <strong id="usage-count-text">0 / 500 SMS</strong>
-  </div>
-
-  <div class="usage-bar">
-    <div id="usage-bar-fill"></div>
-  </div>
-
-  <p class="usage-small-text" id="usage-remaining-text">
-    500 SMS remaining this month
-  </p>
-</section>
-
-    <section class="dashboard-panel automation-form-panel">
-      <div class="panel-header">
-        <div>
-          <h2>Create Follow-Up SMS</h2>
-          <p>Schedule a retention or follow-up text for a customer.</p>
-        </div>
-      </div>
-
-      <form id="scheduled-message-form" class="automation-form">
-        <div class="form-grid">
-          <div>
-            <label>Phone Number</label>
-            <div class="custom-select-wrapper">
-              <button type="button" id="phone-dropdown-btn" class="custom-select-btn">Select Phone Numbers</button>
-                  <div id="sms-phone-list" class="phone-dropdown hidden">
-                    <p>Loading lead numbers...</p>
-                  </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Send At</label>
-            <input id="sms-send-at" type="datetime-local" required />
-          </div>
-        </div>
-
-        <div>
-          <label>Message</label>
-          <textarea id="sms-message" placeholder="Hey! Just checking in — were you still interested?" required></textarea>
-        </div>
-
-        <button type="submit">Schedule SMS</button>
-      </form>
-    </section>
-
-    <section class="dashboard-panel">
-      <div class="panel-header">
-        <div>
-          <h2>Scheduled Messages</h2>
-          <p>Track pending and completed follow-up SMS messages.</p>
-        </div>
-
-        <div class="panel-actions">
-          <button id="bulk-delete-toggle" class="bulk-delete-btn">Bulk Delete</button>
-
-            <select id="scheduled-filter">
-              <option value="All">All</option>
-              <option value="pending">Pending</option>
-              <option value="sent">Sent</option>
-              <option value="cancelled">Cancelled</option>
-              <option value="failed">Failed</option>
-            </select>
-          </div>
-      </div>
-
-      <div class="table-wrap">
-        <table class="leads-table">
-          <thead>
-            <tr>
-              <th>Phone</th>
-              <th>Message</th>
-              <th>Send At</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody id="scheduled-table-body"></tbody>
-        </table>
-      </div>
+  <main class="dashboard-main" style="margin-left:0; width:100%; min-height:100vh;">
+    <section class="dashboard-panel" style="max-width:560px; margin:80px auto;">
+      <p class="eyebrow">Client Portal</p>
+      <h1>SMS Control Center</h1>
+      <p>This page has moved to the unified SMS Control Center.</p>
+      <a href="messages.html" class="quote-builder-open" style="display:inline-block; margin-top:18px; text-decoration:none;">Open SMS Control</a>
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
-  <script src="js/automations.js"></script>
-
+  <script>
+    window.location.replace("messages.html");
+  </script>
 </body>
 </html>

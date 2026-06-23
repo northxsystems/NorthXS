@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Messages | NorthX Systems</title>
+  <title>SMS Control Center | NorthX Systems</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="dashboard-body">
@@ -14,13 +14,13 @@
 
       <nav class="sidebar-nav">
         <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html">Customers</a>
         <a href="leads.html">Leads</a>
         <a href="quote-requests.html">Quote Requests</a>
-        <a href="messages.html" class="active">Messages</a>
-        <a href="automations.html">Automations</a>
+        <a href="messages.html" class="active">SMS Control</a>
         <a href="plans.html">Plans</a>
         <a href="contact.html">Contact Us</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
       </nav>
     </div>
 
@@ -31,15 +31,126 @@
     <header class="dashboard-topbar">
       <div>
         <p class="eyebrow">Client Portal</p>
-        <h1>Messages</h1>
+        <h1>SMS Control Center</h1>
       </div>
 
       <div class="topbar-actions">
-        <input type="text" id="message-search" placeholder="Search messages..." />
+        <input type="text" id="message-search" placeholder="Search SMS activity..." />
       </div>
     </header>
 
-    <section class="dashboard-panel">
+    <section class="stats-grid sms-overview-grid">
+      <div class="stat-card">
+        <p>SMS Used</p>
+        <h2 id="sms-used-card">0</h2>
+        <span id="usage-plan-text">Plan: Starter</span>
+      </div>
+
+      <div class="stat-card">
+        <p>SMS Remaining</p>
+        <h2 id="sms-remaining-card">0</h2>
+        <span id="usage-count-text">0 / 500 SMS</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Pending SMS</p>
+        <h2 id="pending-sms">0</h2>
+        <span>Waiting to send</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Sent SMS</p>
+        <h2 id="sent-sms">0</h2>
+        <span>Completed messages</span>
+      </div>
+    </section>
+
+    <section class="dashboard-panel usage-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Monthly SMS Usage</h2>
+          <p id="usage-remaining-text">500 SMS remaining this month</p>
+        </div>
+      </div>
+
+      <div class="usage-bar">
+        <div id="usage-bar-fill"></div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel sms-control-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Missed Call Auto-Reply</h2>
+          <p>Customize the SMS customers receive when your team misses a call.</p>
+        </div>
+      </div>
+
+      <div class="sms-control-grid">
+        <form id="auto-reply-form" class="sms-auto-reply-form">
+          <label>
+            Auto-reply message
+            <textarea id="auto-reply-message" rows="5" maxlength="320"></textarea>
+          </label>
+
+          <div class="sms-auto-reply-actions">
+            <span id="auto-reply-count">0 / 320 characters</span>
+            <button type="submit" id="auto-reply-save">Save Changes</button>
+          </div>
+
+          <p id="auto-reply-status" aria-live="polite"></p>
+        </form>
+
+        <div class="sms-preview-card">
+          <span>Customer Preview</span>
+          <div class="sms-phone-preview">
+            <div id="auto-reply-preview" class="sms-bubble"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel automation-form-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Send / Schedule SMS</h2>
+          <p>Schedule a retention or follow-up text for one or more customers.</p>
+        </div>
+      </div>
+
+      <form id="scheduled-message-form" class="automation-form">
+        <div class="form-grid">
+          <div>
+            <label>Phone Number</label>
+            <div class="custom-select-wrapper">
+              <button type="button" id="phone-dropdown-btn" class="custom-select-btn">Select Phone Numbers</button>
+              <div id="sms-phone-list" class="phone-dropdown hidden">
+                <p>Loading lead numbers...</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>Send At</label>
+            <input id="sms-send-at" type="datetime-local" required />
+          </div>
+        </div>
+
+        <div>
+          <label>Message</label>
+          <textarea id="sms-message" placeholder="Hey! Just checking in - were you still interested?" required></textarea>
+        </div>
+
+        <button type="submit">Schedule SMS</button>
+      </form>
+    </section>
+
+    <section class="sms-tabs" aria-label="SMS tables">
+      <button type="button" class="sms-tab active" data-sms-tab="history">Sent Messages</button>
+      <button type="button" class="sms-tab" data-sms-tab="scheduled">Scheduled Messages</button>
+    </section>
+
+    <section class="dashboard-panel sms-tab-panel active" id="sms-history-panel">
       <div class="panel-header">
         <div>
           <h2>Message History</h2>
@@ -65,6 +176,43 @@
           </thead>
 
           <tbody id="messages-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dashboard-panel sms-tab-panel" id="sms-scheduled-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Scheduled Messages</h2>
+          <p>Track pending and completed follow-up SMS messages.</p>
+        </div>
+
+        <div class="panel-actions">
+          <button id="bulk-delete-toggle" class="bulk-delete-btn">Bulk Delete</button>
+
+          <select id="scheduled-filter">
+            <option value="All">All</option>
+            <option value="pending">Pending</option>
+            <option value="sent">Sent</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Phone</th>
+              <th>Message</th>
+              <th>Send At</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="scheduled-table-body"></tbody>
         </table>
       </div>
     </section>

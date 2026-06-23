@@ -8,141 +8,120 @@
 </head>
 <body class="dashboard-body">
 
- <aside class="sidebar">
+  <aside class="sidebar">
     <div>
       <div class="sidebar-logo">NorthX<span>Systems</span></div>
 
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="customers.html">Customers</a>
         <a href="leads.html">Leads</a>
         <a href="quote-requests.html">Quote Requests</a>
-        <a href="messages.html">Messages</a>
-        <a href="automations.html">Automations</a>
+        <a href="messages.html">SMS Control</a>
         <a href="plans.html">Plans</a>
         <a href="contact.html">Contact Us</a>
-        <a href="#">Settings</a>
+        <a href="settings.html">Settings</a>
       </nav>
     </div>
 
-    <button id="logout-button" class="sidebar-logout">
-  Logout
-</button>
+    <button id="logout-button" class="sidebar-logout">Logout</button>
   </aside>
 
   <main class="dashboard-main">
-    <header class="dashboard-topbar">
+    <header class="dashboard-topbar client-home-header">
       <div>
         <p class="eyebrow">Client Portal</p>
-        <h1>Lead Dashboard</h1>
-      </div>
-
-      <div class="topbar-actions">
-        <input type="text" placeholder="Search leads..." />
-        <button id="export-csv">Export CSV</button>
+        <h1 id="dashboard-welcome">Welcome back</h1>
+        <p id="dashboard-subtitle">Here is what needs your attention today.</p>
       </div>
     </header>
 
-    <section class="stats-grid">
+    <section class="stats-grid client-snapshot-grid">
       <div class="stat-card">
-        <p>Total Leads</p>
-        <h2 id="total-leads">0</h2>
-        <span id="monthly-leads-text">0 this month</span>
+        <p>New Quote Requests</p>
+        <h2 id="new-quote-requests">0</h2>
+        <span>Needs review</span>
       </div>
 
       <div class="stat-card">
-        <p>Missed Calls</p>
-        <h2 id="missed-calls">0</h2>
-        <span id="recovered-text">0 recovered</span>
+        <p>Quotes Sent</p>
+        <h2 id="quotes-sent">0</h2>
+        <span>Out with customers</span>
       </div>
 
       <div class="stat-card">
-        <p>Contacted</p>
-        <h2 id="contacted-leads">0</h2>
-        <span id="followups-text">0 follow-ups</span>
+        <p>Quotes Won</p>
+        <h2 id="quotes-won">0</h2>
+        <span>Accepted work</span>
       </div>
 
       <div class="stat-card">
-        <p>Booked</p>
-        <h2 id="booked-leads">0</h2>
-        <span id="converted-text">0 converted</span>
+        <p>Estimated Revenue Quoted</p>
+        <h2 id="estimated-revenue">$0</h2>
+        <span>Total quote value</span>
+      </div>
+
+      <div class="stat-card">
+        <p>Missed Calls Recovered</p>
+        <h2 id="missed-calls-recovered">0</h2>
+        <span>Recovered automatically</span>
+      </div>
+
+      <div class="stat-card">
+        <p>SMS Used This Month</p>
+        <h2 id="sms-used-month">0</h2>
+        <span id="sms-used-limit">0 / 0 SMS</span>
       </div>
     </section>
 
-    <section class="dashboard-panel">
-      <div class="panel-header">
-        <div>
-          <h2>Recent Leads</h2>
-          <p>Track missed calls, replies, and follow-up progress.</p>
+    <section class="dashboard-home-grid">
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Quick Actions</h2>
+            <p>Jump into the most common client workflows.</p>
+          </div>
         </div>
 
-        <select id="lead-filter">
-          <option>All Leads</option>
-          <option>New</option>
-          <option>Contacted</option>
-          <option>Booked</option>
-          <option>Lost</option>
-        </select>
+        <div class="quick-actions-grid">
+          <a href="quote-requests.html" class="quick-action-card">
+            <strong>View Quote Requests</strong>
+            <span>Review new customer submissions and status updates.</span>
+          </a>
+
+          <a href="quote-requests.html" class="quick-action-card">
+            <strong>Create Quote</strong>
+            <span>Open a request and build a customer quote.</span>
+          </a>
+
+          <a href="messages.html" class="quick-action-card">
+            <strong>SMS Control Center</strong>
+            <span>Manage replies, scheduled SMS, and usage.</span>
+          </a>
+
+          <a href="settings.html" class="quick-action-card">
+            <strong>Edit Quote PDF Settings</strong>
+            <span>Update branding, terms, tax, and PDF appearance.</span>
+          </a>
+        </div>
       </div>
 
-      <div class="table-wrap">
-        <table class="leads-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Call Status</th>
-              <th>Time</th>
-              <th>Follow-Up</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
+      <div class="dashboard-panel activity-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Recent Activity</h2>
+            <p>Latest quote, SMS, and missed call activity.</p>
+          </div>
+        </div>
 
-       <tbody id="leads-table-body"></tbody>
-
-        </table>
+        <div id="activity-feed" class="activity-feed"></div>
       </div>
     </section>
   </main>
 
-  <div class="lead-modal" id="lead-modal">
-  <div class="lead-modal-card">
-    <button class="modal-close" id="modal-close">×</button>
-
-    <p class="eyebrow">Lead Details</p>
-    <h2 id="modal-lead-name">Unknown Lead</h2>
-
-    <div class="modal-grid">
-      <div>
-        <span>Phone</span>
-        <strong id="modal-lead-phone">-</strong>
-      </div>
-
-      <div>
-        <span>Call Status</span>
-        <strong id="modal-lead-status">-</strong>
-      </div>
-
-      <div>
-        <span>Follow-Up</span>
-        <strong id="modal-lead-followup">-</strong>
-      </div>
-
-      <div>
-        <span>Created</span>
-        <strong id="modal-lead-created">-</strong>
-      </div>
-    </div>
-
-    <label class="modal-label">Notes</label>
-    <textarea id="modal-lead-notes"></textarea>
-
-    <button class="modal-save" id="modal-save-notes">Save Notes</button>
-  </div>
-</div>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js"></script>
-<script src="js/dashboard.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/dashboard.js"></script>
 
 </body>
 </html>

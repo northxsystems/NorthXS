@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html">Customers</a>
+        <a href="leads.html">Leads</a>
+        <a href="quote-requests.html">Quote Requests</a>
+        <a href="messages.html">SMS Control</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="settings.html" class="active">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Settings</h1>
+      </div>
+    </header>
+
+    <section class="settings-grid">
+      <div class="dashboard-panel settings-panel quote-pdf-settings-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Quote PDF Settings</h2>
+            <p>Customize the branding and defaults used on downloaded quote PDFs.</p>
+          </div>
+        </div>
+
+        <form id="quote-pdf-settings-form" class="settings-form">
+          <label>
+            Company Display Name
+            <input id="pdf-company-name" type="text" placeholder="NorthX Systems" />
+          </label>
+
+          <label>
+            Logo URL
+            <input id="pdf-logo-url" type="url" placeholder="https://example.com/logo.png" />
+          </label>
+
+          <div class="settings-form-row">
+            <label>
+              Business Phone
+              <input id="pdf-business-phone" type="tel" placeholder="(555) 555-5555" />
+            </label>
+
+            <label>
+              Business Email
+              <input id="pdf-business-email" type="email" placeholder="quotes@example.com" />
+            </label>
+          </div>
+
+          <label>
+            Website
+            <input id="pdf-website" type="url" placeholder="https://example.com" />
+          </label>
+
+          <label>
+            Business Address
+            <textarea id="pdf-business-address" rows="3" placeholder="Street, city, state, ZIP"></textarea>
+          </label>
+
+          <label>
+            Default Quote Terms
+            <textarea id="pdf-default-terms" rows="5" placeholder="This quote is valid for 30 days..."></textarea>
+          </label>
+
+          <div class="settings-form-row compact">
+            <label>
+              Default Tax Rate
+              <input id="pdf-default-tax-rate" type="number" min="0" step="0.01" placeholder="0" />
+            </label>
+
+            <label>
+              PDF Accent Color
+              <input id="pdf-accent-color" type="color" value="#4f8cff" />
+            </label>
+          </div>
+
+          <div class="settings-form-actions">
+            <button type="submit" id="quote-pdf-settings-save">Save PDF Settings</button>
+            <span id="quote-pdf-settings-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="dashboard-panel settings-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Workspace</h2>
+            <p>Review the active NorthX portal configuration.</p>
+          </div>
+        </div>
+
+        <div class="settings-list">
+          <div>
+            <span>Portal</span>
+            <strong>NorthX Systems</strong>
+          </div>
+          <div>
+            <span>Environment</span>
+            <strong>Production</strong>
+          </div>
+          <div>
+            <span>Access</span>
+            <strong>Authenticated users only</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-panel settings-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Account</h2>
+            <p>Manage account access and session controls.</p>
+          </div>
+        </div>
+
+        <div class="settings-list">
+          <div>
+            <span>Session</span>
+            <strong>Protected by Supabase Auth</strong>
+          </div>
+          <div>
+            <span>Support</span>
+            <strong>northxsystems@gmail.com</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
