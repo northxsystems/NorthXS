@@ -1,0 +1,47 @@
+.quote-company-logo {
+  display: none;
+  max-width: 210px;
+  max-height: 86px;
+  object-fit: contain;
+  margin-bottom: 22px;
+}
+
+.quote-company-logo.visible {
+  display: block;
+}
+
+.quote-business-contact {
+  display: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--nx-border, rgba(148, 163, 184, 0.16));
+}
+
+.quote-business-contact.visible {
+  display: grid;
+}
+
+.quote-business-contact a {
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.quote-business-contact a:hover {
+  border-color: rgba(79, 140, 255, 0.48);
+  color: #f8fafc;
+}
+
+@media (max-width: 760px) {
+  .quote-business-contact {
+    grid-template-columns: 1fr;
+  }
+}

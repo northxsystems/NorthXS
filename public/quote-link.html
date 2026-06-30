@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Request Link | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/quote-link.css" />
+</head>
+
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html">Customers</a>
+        <a href="leads.html">Leads</a>
+        <a href="quote-requests.html">Quote Requests</a>
+        <a href="quote-link.html" class="active">Quote Request Link</a>
+        <a href="messages.html">SMS Control</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-topbar quote-link-topbar">
+      <div>
+        <p class="eyebrow">Client Portal</p>
+        <h1>Quote Request Link</h1>
+        <p>Share this link with customers or embed it on your website.</p>
+      </div>
+    </header>
+
+    <section class="quote-link-grid">
+      <div class="dashboard-panel quote-link-card quote-link-primary">
+        <div class="panel-header">
+          <div>
+            <h2>Your Quote Request Link</h2>
+            <p>Send customers straight to your public quote request form.</p>
+          </div>
+        </div>
+
+        <label class="quote-link-field">
+          Public form URL
+          <input id="quote-link-url" type="text" readonly value="Loading..." />
+        </label>
+
+        <div class="quote-link-actions">
+          <button id="copy-link-button" type="button">Copy Link</button>
+          <button id="preview-link-button" type="button" class="quote-link-secondary">Preview Form</button>
+        </div>
+      </div>
+
+      <div class="dashboard-panel quote-link-card">
+        <div class="panel-header">
+          <div>
+            <h2>Embed On Your Website</h2>
+            <p>Paste this iframe into a website page or builder embed block.</p>
+          </div>
+        </div>
+
+        <label class="quote-link-field">
+          Embed code
+          <textarea id="quote-link-embed" rows="5" readonly>Loading...</textarea>
+        </label>
+
+        <div class="quote-link-actions">
+          <button id="copy-embed-button" type="button">Copy Embed Code</button>
+        </div>
+      </div>
+
+      <div class="dashboard-panel quote-link-card quote-link-help-card">
+        <div class="panel-header">
+          <div>
+            <h2>How to use this</h2>
+            <p>Give customers a simple path to request work.</p>
+          </div>
+        </div>
+
+        <ul class="quote-link-help-list">
+          <li>Add the link to your website button</li>
+          <li>Add it to Facebook/Instagram/Google profile</li>
+          <li>Or paste the embed code into your website</li>
+        </ul>
+      </div>
+
+      <div class="dashboard-panel quote-link-card quote-link-customize-card">
+        <div class="panel-header">
+          <div>
+            <h2>Customize Public Quote Form</h2>
+            <p>Control the branding and contact details customers see before submitting a request.</p>
+          </div>
+        </div>
+
+        <form id="quote-form-customization-form" class="quote-customization-form">
+          <div class="quote-customization-grid">
+            <label class="quote-link-field">
+              Company Name
+              <input id="custom-company-name" type="text" placeholder="Your Company" />
+            </label>
+
+            <label class="quote-link-field">
+              Business Phone
+              <input id="custom-business-phone" type="tel" placeholder="(555) 555-5555" />
+            </label>
+
+            <label class="quote-link-field">
+              Business Email
+              <input id="custom-business-email" type="email" placeholder="quotes@example.com" />
+            </label>
+
+            <label class="quote-link-field">
+              Website URL
+              <input id="custom-business-website" type="url" placeholder="https://example.com" />
+            </label>
+          </div>
+
+          <label class="quote-link-field">
+            Intro Message
+            <textarea id="custom-form-intro" rows="4" placeholder="Tell customers what to expect after submitting a quote request."></textarea>
+          </label>
+
+          <div class="quote-customization-grid compact">
+            <label class="quote-link-field">
+              Accent Color
+              <input id="custom-accent-color" type="color" value="#4f8cff" />
+            </label>
+
+            <label class="quote-link-field">
+              Logo Upload
+              <input id="custom-logo-file" type="file" accept="image/*" />
+            </label>
+          </div>
+
+          <div class="quote-logo-preview-wrap">
+            <span>Current logo preview</span>
+            <div class="quote-logo-preview">
+              <img id="custom-logo-preview" alt="Current company logo" />
+              <p id="custom-logo-empty">No logo uploaded yet.</p>
+            </div>
+          </div>
+
+          <div class="quote-link-actions">
+            <button id="save-customization-button" type="submit">Save Customization</button>
+          </div>
+
+          <p id="quote-customization-status" class="quote-link-status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <p id="quote-link-status" class="quote-link-status" aria-live="polite"></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/quote-link.js"></script>
+</body>
+</html>
