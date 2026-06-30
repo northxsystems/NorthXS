@@ -1,5 +1,8 @@
 let currentClientId = null;
+let currentUserId = null;
 let allQuoteRequests = [];
+let allQuoteFollowUps = [];
+let quoteFollowUpColumnsAvailable = true;
 let selectedQuoteId = null;
 let selectedQuoteRequest = null;
 let selectedSavedQuoteId = null;
@@ -84,6 +87,7 @@ async function protectPage() {
 async function getCurrentClientId() {
   const { data: sessionData } = await supabaseClient.auth.getSession();
   const userId = sessionData.session.user.id;
+  currentUserId = userId;
 
   const { data: profile, error } = await supabaseClient
     .from("profiles")
@@ -97,6 +101,31 @@ async function getCurrentClientId() {
   }
 
   return profile.client_id;
+}
+
+async function createCustomerTimelineEvent(event) {
+  if (!currentUserId) return;
+
+  const { error } = await supabaseClient
+    .from("customer_timeline")
+    .insert({
+      client_id: currentUserId,
+      customer_id: event.customer_id || null,
+      lead_id: event.lead_id || null,
+      quote_request_id: event.quote_request_id || null,
+      event_type: event.event_type,
+      event_title: event.event_title,
+      event_description: event.event_description
+    });
+
+  if (error) {
+    console.warn("Could not add customer timeline event:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+  }
 }
 
 async function loadQuotePdfSettings() {
@@ -126,7 +155,7 @@ function setTableMessage(message) {
 
   tableBody.innerHTML = `
     <tr>
-      <td colspan="6">
+      <td colspan="7">
         <div class="quote-empty-state">
           <strong>${escapeHtml(message)}</strong>
           <span>New customer submissions will appear here automatically.</span>
@@ -173,11 +202,52 @@ function renderStatusBadge(status) {
   return `<span class="badge quote-badge ${statusMeta.className}">${statusMeta.label}</span>`;
 }
 
+function getQuoteFollowUps(quoteRequestId) {
+  return allQuoteFollowUps.filter(
+    (message) => String(message.quote_request_id) === String(quoteRequestId)
+  );
+}
+
+function getLatestQuoteFollowUp(quoteRequestId) {
+  return getQuoteFollowUps(quoteRequestId)[0] || null;
+}
+
+function getPendingQuoteFollowUp(quoteRequestId) {
+  return getQuoteFollowUps(quoteRequestId).find((message) => message.status === "pending") || null;
+}
+
+function getFollowUpStatusMeta(quote) {
+  if ((quote.status || "new") === "booked") {
+    return { label: "Won", className: "won" };
+  }
+
+  if ((quote.status || "new") === "lost") {
+    return { label: "Lost", className: "lost" };
+  }
+
+  const followUp = getLatestQuoteFollowUp(quote.id);
+
+  if (followUp && followUp.status === "sent") {
+    return { label: "Followed up", className: "followed" };
+  }
+
+  if (followUp && followUp.status === "pending") {
+    return { label: "Follow-up scheduled", className: "scheduled" };
+  }
+
+  return { label: "No follow-up scheduled", className: "none" };
+}
+
+function renderFollowUpBadge(quote) {
+  const followUpMeta = getFollowUpStatusMeta(quote);
+  return `<span class="badge follow-up-badge ${followUpMeta.className}">${followUpMeta.label}</span>`;
+}
+
 function renderStatusButtons(quote) {
   const currentStatus = quote.status || "new";
 
   return quoteStatuses
-    .filter((status) => status.value !== currentStatus)
+    .filter((status) => status.value !== currentStatus && !["booked", "lost"].includes(status.value))
     .map((status) => `
       <button
         type="button"
@@ -189,6 +259,41 @@ function renderStatusButtons(quote) {
       </button>
     `)
     .join("");
+}
+
+function renderFollowUpButtons(quote) {
+  if (!quoteFollowUpColumnsAvailable) {
+    return "";
+  }
+
+  const pendingFollowUp = getPendingQuoteFollowUp(quote.id);
+  const isClosed = ["booked", "lost"].includes(quote.status || "new");
+
+  if (pendingFollowUp) {
+    return `
+      <button
+        type="button"
+        class="quote-follow-up-action cancel"
+        data-quote-id="${quote.id}"
+        data-follow-up-id="${pendingFollowUp.id}"
+        data-action="cancel-follow-up"
+      >
+        Cancel Follow-Up
+      </button>
+    `;
+  }
+
+  return `
+    <button
+      type="button"
+      class="quote-follow-up-action"
+      data-quote-id="${quote.id}"
+      data-action="schedule-follow-up"
+      ${isClosed ? "disabled" : ""}
+    >
+      Schedule Follow-Up
+    </button>
+  `;
 }
 
 function renderQuoteRequests(quotes) {
@@ -213,12 +318,34 @@ function renderQuoteRequests(quotes) {
         <td>${escapeHtml(quote.phone || "-")}</td>
         <td>${escapeHtml(serviceRequested)}</td>
         <td>${renderStatusBadge(quote.status)}</td>
+        <td>${renderFollowUpBadge(quote)}</td>
         <td>${formatDate(quote.created_at)}</td>
         <td>
           <div class="quote-row-actions">
             <div class="quote-primary-actions">
               <button class="view-quote-btn" type="button" data-quote-id="${quote.id}">View</button>
               <button class="create-row-quote-btn" type="button" data-quote-id="${quote.id}">Create Quote</button>
+            </div>
+            <div class="quote-quick-actions">
+              <button
+                type="button"
+                class="quote-inline-status"
+                data-quote-id="${quote.id}"
+                data-status="booked"
+                ${quote.status === "booked" ? "disabled" : ""}
+              >
+                Mark Won
+              </button>
+              <button
+                type="button"
+                class="quote-inline-status lost"
+                data-quote-id="${quote.id}"
+                data-status="lost"
+                ${quote.status === "lost" ? "disabled" : ""}
+              >
+                Mark Lost
+              </button>
+              ${renderFollowUpButtons(quote)}
             </div>
             <div class="quote-quick-actions">${renderStatusButtons(quote)}</div>
           </div>
@@ -228,6 +355,129 @@ function renderQuoteRequests(quotes) {
 
     tableBody.innerHTML += row;
   });
+}
+
+async function loadQuoteFollowUps() {
+  const { data, error } = await supabaseClient
+    .from("scheduled_messages")
+    .select("*")
+    .eq("client_id", currentClientId)
+    .eq("message_type", "quote_follow_up")
+    .order("send_at", { ascending: false });
+
+  if (error) {
+    quoteFollowUpColumnsAvailable = false;
+    allQuoteFollowUps = [];
+    console.warn("Quote follow-up fields are not available on scheduled_messages:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+    return;
+  }
+
+  quoteFollowUpColumnsAvailable = true;
+  allQuoteFollowUps = data || [];
+}
+
+function buildQuoteFollowUpMessage(quote) {
+  const customerName = quote.customer_name || "there";
+  const companyName = getPdfSetting("company_display_name", "NorthX Systems");
+  return `Hey ${customerName}, just checking in on your quote from ${companyName}. Did you want to move forward?`;
+}
+
+async function scheduleQuoteFollowUp(quote, options = {}) {
+  if (!quote || !quote.phone) {
+    if (!options.silent) alert("This quote request needs a customer phone number first.");
+    return null;
+  }
+
+  if (!quoteFollowUpColumnsAvailable) {
+    if (!options.silent) {
+      alert("Quote follow-up scheduling needs the scheduled_messages migration notes applied first.");
+    }
+    return null;
+  }
+
+  const existingPending = getPendingQuoteFollowUp(quote.id);
+
+  if (existingPending) {
+    return existingPending;
+  }
+
+  const sendAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const payload = {
+    client_id: currentClientId,
+    phone: quote.phone,
+    customer_name: quote.customer_name || null,
+    quote_request_id: quote.id,
+    message: buildQuoteFollowUpMessage(quote),
+    status: "pending",
+    send_at: sendAt,
+    message_type: "quote_follow_up"
+  };
+
+  const { data, error } = await supabaseClient
+    .from("scheduled_messages")
+    .insert(payload)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error scheduling quote follow-up:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+      raw: error
+    });
+
+    if (!options.silent) alert("Could not schedule quote follow-up.");
+    return null;
+  }
+
+  allQuoteFollowUps = [data, ...allQuoteFollowUps];
+  await createCustomerTimelineEvent({
+    customer_id: quote.customer_id,
+    quote_request_id: quote.id,
+    event_type: "follow_up_scheduled",
+    event_title: "Follow-Up Scheduled",
+    event_description: "follow-up SMS was scheduled for the customer"
+  });
+  applyQuoteFilters();
+  return data;
+}
+
+async function scheduleQuoteFollowUpById(quoteId) {
+  const quote = allQuoteRequests.find((item) => String(item.id) === String(quoteId));
+  const followUp = await scheduleQuoteFollowUp(quote);
+
+  if (followUp) {
+    alert("Follow-up scheduled for 24 hours from now.");
+  }
+}
+
+async function cancelQuoteFollowUp(followUpId) {
+  const confirmCancel = confirm("Cancel this quote follow-up SMS?");
+
+  if (!confirmCancel) return;
+
+  const { error } = await supabaseClient
+    .from("scheduled_messages")
+    .update({ status: "cancelled" })
+    .eq("id", followUpId)
+    .eq("client_id", currentClientId)
+    .eq("message_type", "quote_follow_up");
+
+  if (error) {
+    console.error("Error cancelling quote follow-up:", error);
+    alert("Could not cancel quote follow-up.");
+    return;
+  }
+
+  await loadQuoteFollowUps();
+  applyQuoteFilters();
 }
 
 async function updateQuoteStatus(quoteId, newStatus) {
@@ -241,6 +491,19 @@ async function updateQuoteStatus(quoteId, newStatus) {
     console.error("Error updating quote status:", error);
     alert("Could not update quote status.");
     return;
+  }
+
+  if (["booked", "lost"].includes(newStatus)) {
+    const pendingFollowUp = getPendingQuoteFollowUp(quoteId);
+
+    if (pendingFollowUp) {
+      await supabaseClient
+        .from("scheduled_messages")
+        .update({ status: "cancelled" })
+        .eq("id", pendingFollowUp.id)
+        .eq("client_id", currentClientId)
+        .eq("message_type", "quote_follow_up");
+    }
   }
 
   await loadQuoteRequests();
@@ -764,13 +1027,27 @@ async function downloadQuotePdf() {
     return;
   }
 
+  const followUp = await scheduleQuoteFollowUp(selectedQuoteRequest, { silent: true });
+
+  await createCustomerTimelineEvent({
+    customer_id: selectedQuoteRequest.customer_id,
+    quote_request_id: selectedQuoteRequest.id,
+    event_type: "quote_sent",
+    event_title: "Quote Sent",
+    event_description: "quote was sent to the customer"
+  });
+
   await generateQuotePdf(quote);
   await loadQuoteRequests();
   selectedQuoteRequest = allQuoteRequests.find(
     (item) => String(item.id) === String(quote.quote_request_id)
   ) || selectedQuoteRequest;
 
-  alert("Quote PDF downloaded and marked as sent.");
+  alert(
+    followUp
+      ? "Quote PDF downloaded, marked as sent, and follow-up scheduled for 24 hours from now."
+      : "Quote PDF downloaded and marked as sent. Follow-up scheduling needs the scheduled_messages migration notes applied."
+  );
 }
 
 document.getElementById("quote-search").addEventListener("input", applyQuoteFilters);
@@ -784,6 +1061,20 @@ document.addEventListener("click", function (event) {
     return;
   }
 
+  const followUpButton = event.target.closest(".quote-follow-up-action");
+
+  if (followUpButton) {
+    if (followUpButton.dataset.action === "schedule-follow-up") {
+      scheduleQuoteFollowUpById(followUpButton.dataset.quoteId);
+      return;
+    }
+
+    if (followUpButton.dataset.action === "cancel-follow-up") {
+      cancelQuoteFollowUp(followUpButton.dataset.followUpId);
+      return;
+    }
+  }
+
   const createQuoteButton = event.target.closest(".create-row-quote-btn");
 
   if (createQuoteButton) {
@@ -792,11 +1083,17 @@ document.addEventListener("click", function (event) {
   }
 
   const viewButton = event.target.closest(".view-quote-btn");
-  const row = viewButton ? viewButton.closest(".quote-row") : event.target.closest(".quote-row");
+
+  if (viewButton) {
+    openQuoteDetails(viewButton.dataset.quoteId);
+    return;
+  }
+
+  const row = event.target.closest(".quote-row");
 
   if (!row) return;
 
-  openQuoteDetails(row.dataset.quoteId);
+  window.location.href = `customer-details.html?quote_request_id=${encodeURIComponent(row.dataset.quoteId)}`;
 });
 
 document.querySelectorAll(".quote-status-action").forEach((button) => {
@@ -891,6 +1188,21 @@ supabaseClient
   )
   .subscribe();
 
+supabaseClient
+  .channel("quote-follow-ups-realtime")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "scheduled_messages"
+    },
+    function () {
+      loadQuoteFollowUps().then(applyQuoteFilters);
+    }
+  )
+  .subscribe();
+
 async function initQuoteRequestsPage() {
   await protectPage();
 
@@ -899,6 +1211,7 @@ async function initQuoteRequestsPage() {
   if (!currentClientId) return;
 
   await loadQuotePdfSettings();
+  await loadQuoteFollowUps();
   await loadQuoteRequests();
 }
 

@@ -1,5 +1,7 @@
 let allMessages = [];
 let allScheduledMessages = [];
+let leadPhoneOptions = [];
+let currentUserId = null;
 let currentClientId = null;
 let currentProfile = null;
 let bulkDeleteMode = false;
@@ -14,6 +16,7 @@ async function protectPage() {
     window.location.href = "login.html";
   }
 
+  currentUserId = data.session.user.id;
   return data.session;
 }
 
@@ -252,7 +255,7 @@ async function loadLeadPhones() {
 
   const { data, error } = await supabaseClient
     .from("leads")
-    .select("name, phone")
+    .select("id, name, phone")
     .eq("client_id", currentClientId)
     .order("created_at", { ascending: false });
 
@@ -267,19 +270,45 @@ async function loadLeadPhones() {
     return;
   }
 
+  leadPhoneOptions = data || [];
   phoneList.innerHTML = "";
 
-  data.forEach((lead) => {
+  leadPhoneOptions.forEach((lead) => {
     const label = document.createElement("label");
     label.className = "phone-option";
 
     label.innerHTML = `
-      <input type="checkbox" value="${escapeHtml(lead.phone)}">
+      <input type="checkbox" value="${escapeHtml(lead.phone)}" data-lead-id="${escapeHtml(lead.id)}">
       <span>${escapeHtml(lead.name || "Unknown Lead")} - ${escapeHtml(lead.phone)}</span>
     `;
 
     phoneList.appendChild(label);
   });
+}
+
+async function createCustomerTimelineEvent(event) {
+  if (!currentUserId || (!event.customer_id && !event.lead_id && !event.quote_request_id)) return;
+
+  const { error } = await supabaseClient
+    .from("customer_timeline")
+    .insert({
+      client_id: currentUserId,
+      customer_id: event.customer_id || null,
+      lead_id: event.lead_id || null,
+      quote_request_id: event.quote_request_id || null,
+      event_type: event.event_type,
+      event_title: event.event_title,
+      event_description: event.event_description
+    });
+
+  if (error) {
+    console.warn("Could not add SMS timeline event:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+  }
 }
 
 async function loadScheduledMessages() {
@@ -413,9 +442,10 @@ function switchSmsTab(tabName) {
 async function scheduleSms(event) {
   event.preventDefault();
 
-  const selectedPhones = Array.from(
+  const selectedPhoneInputs = Array.from(
     document.querySelectorAll("#sms-phone-list input:checked")
-  ).map((input) => input.value);
+  );
+  const selectedPhones = selectedPhoneInputs.map((input) => input.value);
 
   if (selectedPhones.length === 0) {
     alert("Please select at least one phone number.");
@@ -452,6 +482,13 @@ async function scheduleSms(event) {
     alert("Could not schedule SMS.");
     return;
   }
+
+  await Promise.all(selectedPhoneInputs.map((input) => createCustomerTimelineEvent({
+    lead_id: input.dataset.leadId || null,
+    event_type: "follow_up_scheduled",
+    event_title: "Follow-Up Scheduled",
+    event_description: "SMS follow-up was scheduled for the customer"
+  })));
 
   document.getElementById("scheduled-message-form").reset();
   document.getElementById("phone-dropdown-btn").textContent = "Select Phone Numbers";
@@ -532,7 +569,21 @@ supabaseClient
       schema: "public",
       table: "messages"
     },
-    function () {
+    function (payload) {
+      const message = payload.new;
+      const matchedLead = message && message.direction === "sent"
+        ? leadPhoneOptions.find((lead) => lead.phone === message.phone)
+        : null;
+
+      if (matchedLead) {
+        createCustomerTimelineEvent({
+          lead_id: matchedLead.id,
+          event_type: "sms_sent",
+          event_title: "SMS Sent",
+          event_description: "SMS was sent to the customer"
+        });
+      }
+
       loadMessages();
     }
   )

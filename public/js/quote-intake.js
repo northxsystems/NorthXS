@@ -100,6 +100,34 @@ function hideUnavailableForm(message) {
   `;
 }
 
+async function addQuoteRequestedTimelineEvent(quoteRequest) {
+  const timelineClientId =
+    activeClientSettings.user_id ||
+    activeClientSettings.owner_id ||
+    activeClientSettings.profile_id ||
+    activeClientSettings.client_id;
+
+  const { error } = await supabaseClient
+    .from("customer_timeline")
+    .insert({
+      client_id: timelineClientId,
+      customer_id: quoteRequest.customer_id || null,
+      quote_request_id: quoteRequest.id || null,
+      event_type: "quote_requested",
+      event_title: "Quote Requested",
+      event_description: "customer submitted a quote request"
+    });
+
+  if (error) {
+    console.warn("Could not add quote request timeline event:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+  }
+}
+
 async function loadClientFromCompanySlug() {
   const companySlug = getCompanySlugFromUrl();
   const submitButton = quoteIntakeForm ? quoteIntakeForm.querySelector("button[type='submit']") : null;
@@ -190,6 +218,8 @@ if (quoteIntakeForm) {
       alert("Could not submit your quote request. Please try again.");
       return;
     }
+
+    await addQuoteRequestedTimelineEvent(payload);
 
     quoteIntakeForm.reset();
     alert("Quote request submitted. The team will review it shortly.");

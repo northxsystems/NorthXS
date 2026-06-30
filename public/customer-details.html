@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Timeline | NorthX Systems</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="customer-details.css" />
+</head>
+
+<body class="dashboard-body customer-details-body">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">NorthX<span>Systems</span></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="customers.html" class="active">Customers</a>
+        <a href="leads.html">Leads</a>
+        <a href="quote-requests.html">Quote Requests</a>
+        <a href="quote-link.html">Quote Request Link</a>
+        <a href="messages.html">SMS Control</a>
+        <a href="plans.html">Plans</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+    </div>
+
+    <button id="logout-button" class="sidebar-logout">Logout</button>
+  </aside>
+
+  <main class="dashboard-main customer-details-main">
+    <header class="dashboard-topbar customer-details-topbar">
+      <div>
+        <p class="eyebrow">Customer Timeline</p>
+        <h1 id="page-title">Customer Details</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="customer-back-link" href="customers.html">Back to Customers</a>
+      </div>
+    </header>
+
+    <section id="customer-empty" class="dashboard-panel customer-state-panel hidden">
+      <div class="quote-empty-state">
+        <strong>Customer not found.</strong>
+        <span>Try opening the customer from Leads, Customers, or Quote Requests again.</span>
+      </div>
+    </section>
+
+    <section id="customer-content" class="customer-details-grid hidden">
+      <article class="dashboard-panel customer-header-card">
+        <div class="customer-header-main">
+          <div>
+            <p class="eyebrow" id="customer-source-label">Customer</p>
+            <h2 id="customer-name">Unknown Customer</h2>
+          </div>
+
+          <span id="customer-status" class="badge new">Active</span>
+        </div>
+
+        <div class="customer-header-details">
+          <div>
+            <span>Phone</span>
+            <strong id="customer-phone">-</strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong id="customer-email">-</strong>
+          </div>
+
+          <div>
+            <span>Source</span>
+            <strong id="customer-source">-</strong>
+          </div>
+
+          <div>
+            <span>Created</span>
+            <strong id="customer-created">-</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="dashboard-panel customer-note-card">
+        <div class="panel-header">
+          <div>
+            <h2>Add Note</h2>
+            <p>Keep internal context tied to this customer timeline.</p>
+          </div>
+        </div>
+
+        <form id="timeline-note-form" class="customer-note-form">
+          <textarea id="timeline-note-input" rows="5" placeholder="Add an internal note..."></textarea>
+          <button type="submit">Add Note</button>
+        </form>
+      </article>
+
+      <section class="dashboard-panel customer-timeline-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Timeline</h2>
+            <p>Newest activity appears first.</p>
+          </div>
+        </div>
+
+        <div id="timeline-list" class="customer-page-timeline"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="customer-details.js"></script>
+</body>
+</html>

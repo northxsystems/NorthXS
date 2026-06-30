@@ -2175,6 +2175,15 @@ footer {
   display: block;
 }
 
+.customer-detail-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.customer-detail-link:hover .quote-customer-name {
+  color: #93c5fd;
+}
+
 .quote-customer-name {
   color: var(--nx-text);
   font-weight: 800;
@@ -2207,7 +2216,8 @@ footer {
 }
 
 .quote-inline-status,
-.quote-status-action {
+.quote-status-action,
+.quote-follow-up-action {
   border: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(255, 255, 255, 0.055);
   color: var(--nx-soft);
@@ -2220,7 +2230,8 @@ footer {
 }
 
 .quote-inline-status:hover,
-.quote-status-action:hover {
+.quote-status-action:hover,
+.quote-follow-up-action:hover {
   border-color: rgba(79, 140, 255, 0.55);
   background: rgba(79, 140, 255, 0.14);
   color: white;
@@ -2231,11 +2242,26 @@ footer {
   font-size: 0.86rem;
 }
 
+.quote-inline-status.lost:hover,
 .quote-status-action.lost:hover {
   border-color: rgba(239, 68, 68, 0.48);
   background: rgba(239, 68, 68, 0.14);
 }
 
+.quote-follow-up-action {
+  border-color: rgba(124, 92, 255, 0.30);
+  background: rgba(124, 92, 255, 0.12);
+  color: #c4b5fd;
+}
+
+.quote-follow-up-action.cancel {
+  border-color: rgba(239, 68, 68, 0.30);
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+}
+
+.quote-inline-status:disabled,
+.quote-follow-up-action:disabled,
 .quote-status-action:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -2251,6 +2277,35 @@ footer {
   background: rgba(124, 92, 255, 0.18);
   border-color: rgba(124, 92, 255, 0.32);
   color: #c4b5fd;
+}
+
+.follow-up-badge {
+  white-space: nowrap;
+}
+
+.follow-up-badge.none {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #cbd5e1;
+}
+
+.follow-up-badge.scheduled {
+  background: rgba(79, 140, 255, 0.16);
+  border-color: rgba(79, 140, 255, 0.28);
+  color: #93c5fd;
+}
+
+.follow-up-badge.followed,
+.follow-up-badge.won {
+  background: rgba(34, 197, 94, 0.16);
+  border-color: rgba(34, 197, 94, 0.28);
+  color: #86efac;
+}
+
+.follow-up-badge.lost {
+  background: rgba(239, 68, 68, 0.16);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #fca5a5;
 }
 
 .quote-empty-state {
@@ -2276,11 +2331,15 @@ footer {
   max-width: 760px;
 }
 
-.customer-row {
+.customer-row,
+.lead-row,
+.quote-row {
   cursor: pointer;
 }
 
-.customer-row:hover {
+.customer-row:hover,
+.lead-row:hover,
+.quote-row:hover {
   background: rgba(255, 255, 255, 0.045);
 }
 
@@ -2724,6 +2783,7 @@ footer {
   }
 
   .quote-inline-status,
+  .quote-follow-up-action,
   .quote-status-action,
   .view-quote-btn,
   .create-row-quote-btn,
@@ -3064,6 +3124,7 @@ footer {
 }
 
 .quote-inline-status,
+.quote-follow-up-action,
 .quote-status-action {
   padding: 6px 9px;
   font-size: 0.72rem;
