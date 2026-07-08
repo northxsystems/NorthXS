@@ -325,6 +325,7 @@ function renderQuoteRequests(quotes) {
             <div class="quote-primary-actions">
               <button class="view-quote-btn" type="button" data-quote-id="${quote.id}">View</button>
               <button class="create-row-quote-btn" type="button" data-quote-id="${quote.id}">Create Quote</button>
+              <button class="quote-timeline-btn" type="button" data-quote-id="${quote.id}">Timeline</button>
             </div>
             <div class="quote-quick-actions">
               <button
@@ -1057,6 +1058,7 @@ document.addEventListener("click", function (event) {
   const inlineStatusButton = event.target.closest(".quote-inline-status");
 
   if (inlineStatusButton) {
+    event.stopPropagation();
     updateQuoteStatus(inlineStatusButton.dataset.quoteId, inlineStatusButton.dataset.status);
     return;
   }
@@ -1064,6 +1066,8 @@ document.addEventListener("click", function (event) {
   const followUpButton = event.target.closest(".quote-follow-up-action");
 
   if (followUpButton) {
+    event.stopPropagation();
+
     if (followUpButton.dataset.action === "schedule-follow-up") {
       scheduleQuoteFollowUpById(followUpButton.dataset.quoteId);
       return;
@@ -1078,13 +1082,23 @@ document.addEventListener("click", function (event) {
   const createQuoteButton = event.target.closest(".create-row-quote-btn");
 
   if (createQuoteButton) {
+    event.stopPropagation();
     openQuoteBuilder(createQuoteButton.dataset.quoteId);
+    return;
+  }
+
+  const timelineButton = event.target.closest(".quote-timeline-btn");
+
+  if (timelineButton) {
+    event.stopPropagation();
+    window.location.href = `customer-details.html?quote_request_id=${encodeURIComponent(timelineButton.dataset.quoteId)}`;
     return;
   }
 
   const viewButton = event.target.closest(".view-quote-btn");
 
   if (viewButton) {
+    event.stopPropagation();
     openQuoteDetails(viewButton.dataset.quoteId);
     return;
   }
@@ -1093,7 +1107,7 @@ document.addEventListener("click", function (event) {
 
   if (!row) return;
 
-  window.location.href = `customer-details.html?quote_request_id=${encodeURIComponent(row.dataset.quoteId)}`;
+  openQuoteDetails(row.dataset.quoteId);
 });
 
 document.querySelectorAll(".quote-status-action").forEach((button) => {

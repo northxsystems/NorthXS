@@ -19,6 +19,7 @@
         <a href="leads.html">Leads</a>
         <a href="quote-requests.html">Quote Requests</a>
         <a href="quote-link.html">Quote Request Link</a>
+        <a href="chatbot.html">Chatbot</a>
         <a href="messages.html">SMS Control</a>
         <a href="plans.html">Plans</a>
         <a href="contact.html">Contact Us</a>
@@ -85,15 +86,17 @@
       <article class="dashboard-panel customer-note-card">
         <div class="panel-header">
           <div>
-            <h2>Add Note</h2>
-            <p>Keep internal context tied to this customer timeline.</p>
+            <h2>Internal Notes</h2>
+            <p>Private notes for this customer record.</p>
           </div>
         </div>
 
-        <form id="timeline-note-form" class="customer-note-form">
-          <textarea id="timeline-note-input" rows="5" placeholder="Add an internal note..."></textarea>
-          <button type="submit">Add Note</button>
+        <form id="internal-note-form" class="customer-note-form">
+          <textarea id="internal-note-input" rows="5" placeholder="Add an internal note..."></textarea>
+          <button type="submit">Save Note</button>
         </form>
+
+        <div id="internal-notes-list" class="internal-notes-list"></div>
       </article>
 
       <section class="dashboard-panel customer-timeline-panel">

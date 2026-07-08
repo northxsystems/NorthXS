@@ -2,6 +2,12 @@ let currentUserId = null;
 let currentClientId = null;
 let routeIds = {};
 let activeCustomerRecord = null;
+let internalNotes = [];
+let relatedTimelineIds = {
+  customerIds: [],
+  leadIds: [],
+  quoteRequestIds: []
+};
 
 const eventMeta = {
   lead_created: { label: "New Lead", icon: "LD" },
@@ -173,13 +179,174 @@ function renderCustomerHeader(record) {
   statusBadge.className = `badge ${getStatusClass(record.status)}`;
 }
 
+function addUniqueId(list, value) {
+  if (!value) return;
+
+  const stringValue = String(value);
+
+  if (!list.some((item) => String(item) === stringValue)) {
+    list.push(value);
+  }
+}
+
+function getRecordPhone() {
+  return activeCustomerRecord && activeCustomerRecord.phone
+    ? activeCustomerRecord.phone.trim()
+    : "";
+}
+
+function getRecordEmail() {
+  return activeCustomerRecord && activeCustomerRecord.email
+    ? activeCustomerRecord.email.trim()
+    : "";
+}
+
+async function safeRelatedSelect(table, queryBuilder) {
+  const { data, error } = await queryBuilder;
+
+  if (error) {
+    console.warn(`Could not load related ${table} records for timeline:`, {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+    return [];
+  }
+
+  return data || [];
+}
+
+async function loadRelatedTimelineIds() {
+  relatedTimelineIds = {
+    customerIds: [],
+    leadIds: [],
+    quoteRequestIds: []
+  };
+
+  addUniqueId(relatedTimelineIds.customerIds, routeIds.customerId);
+  addUniqueId(relatedTimelineIds.leadIds, routeIds.leadId);
+  addUniqueId(relatedTimelineIds.quoteRequestIds, routeIds.quoteRequestId);
+
+  if (activeCustomerRecord) {
+    addUniqueId(relatedTimelineIds.customerIds, activeCustomerRecord.customerId);
+
+    if (activeCustomerRecord.source === "customer") {
+      addUniqueId(relatedTimelineIds.customerIds, activeCustomerRecord.id);
+    }
+
+    if (activeCustomerRecord.source === "lead") {
+      addUniqueId(relatedTimelineIds.leadIds, activeCustomerRecord.id);
+    }
+
+    if (activeCustomerRecord.source === "quote_request") {
+      addUniqueId(relatedTimelineIds.quoteRequestIds, activeCustomerRecord.id);
+    }
+  }
+
+  const phone = getRecordPhone();
+  const email = getRecordEmail();
+  const relatedQueries = [];
+
+  if (phone) {
+    relatedQueries.push(
+      safeRelatedSelect(
+        "customers",
+        supabaseClient
+          .from("customers")
+          .select("id")
+          .eq("client_id", currentClientId)
+          .eq("phone", phone)
+      ).then((records) => records.forEach((record) => addUniqueId(relatedTimelineIds.customerIds, record.id)))
+    );
+    relatedQueries.push(
+      safeRelatedSelect(
+        "leads",
+        supabaseClient
+          .from("leads")
+          .select("id, customer_id")
+          .eq("client_id", currentClientId)
+          .eq("phone", phone)
+      ).then((records) => records.forEach((record) => {
+        addUniqueId(relatedTimelineIds.leadIds, record.id);
+        addUniqueId(relatedTimelineIds.customerIds, record.customer_id);
+      }))
+    );
+    relatedQueries.push(
+      safeRelatedSelect(
+        "quote_requests",
+        supabaseClient
+          .from("quote_requests")
+          .select("id, customer_id")
+          .eq("client_id", currentClientId)
+          .eq("phone", phone)
+      ).then((records) => records.forEach((record) => {
+        addUniqueId(relatedTimelineIds.quoteRequestIds, record.id);
+        addUniqueId(relatedTimelineIds.customerIds, record.customer_id);
+      }))
+    );
+  }
+
+  if (email) {
+    relatedQueries.push(
+      safeRelatedSelect(
+        "customers",
+        supabaseClient
+          .from("customers")
+          .select("id")
+          .eq("client_id", currentClientId)
+          .ilike("email", email)
+      ).then((records) => records.forEach((record) => addUniqueId(relatedTimelineIds.customerIds, record.id)))
+    );
+    relatedQueries.push(
+      safeRelatedSelect(
+        "leads",
+        supabaseClient
+          .from("leads")
+          .select("id, customer_id")
+          .eq("client_id", currentClientId)
+          .ilike("email", email)
+      ).then((records) => records.forEach((record) => {
+        addUniqueId(relatedTimelineIds.leadIds, record.id);
+        addUniqueId(relatedTimelineIds.customerIds, record.customer_id);
+      }))
+    );
+    relatedQueries.push(
+      safeRelatedSelect(
+        "quote_requests",
+        supabaseClient
+          .from("quote_requests")
+          .select("id, customer_id")
+          .eq("client_id", currentClientId)
+          .ilike("email", email)
+      ).then((records) => records.forEach((record) => {
+        addUniqueId(relatedTimelineIds.quoteRequestIds, record.id);
+        addUniqueId(relatedTimelineIds.customerIds, record.customer_id);
+      }))
+    );
+  }
+
+  await Promise.all(relatedQueries);
+}
+
 function buildTimelineFilter() {
+  const filters = [];
+
+  relatedTimelineIds.customerIds.forEach((id) => filters.push(`customer_id.eq.${id}`));
+  relatedTimelineIds.leadIds.forEach((id) => filters.push(`lead_id.eq.${id}`));
+  relatedTimelineIds.quoteRequestIds.forEach((id) => filters.push(`quote_request_id.eq.${id}`));
+
+  return [...new Set(filters)];
+}
+
+function buildNoteFilter() {
   const filters = [];
 
   if (routeIds.customerId) filters.push(`customer_id.eq.${routeIds.customerId}`);
   if (routeIds.leadId) filters.push(`lead_id.eq.${routeIds.leadId}`);
   if (routeIds.quoteRequestId) filters.push(`quote_request_id.eq.${routeIds.quoteRequestId}`);
-  if (activeCustomerRecord && activeCustomerRecord.customerId) {
+
+  if (filters.length === 0 && activeCustomerRecord && activeCustomerRecord.customerId) {
     filters.push(`customer_id.eq.${activeCustomerRecord.customerId}`);
   }
 
@@ -189,7 +356,17 @@ function buildTimelineFilter() {
 async function loadTimelineEvents() {
   const filters = buildTimelineFilter();
 
-  if (filters.length === 0) return [];
+  const [derivedEvents, contactFallbackEvents] = await Promise.all([
+    loadDerivedTimelineEvents(),
+    loadContactFallbackTimelineEvents()
+  ]);
+
+  if (filters.length === 0) {
+    return sortTimelineEvents(dedupeTimelineEvents([
+      ...derivedEvents,
+      ...contactFallbackEvents
+    ]));
+  }
 
   const { data, error } = await supabaseClient
     .from("customer_timeline")
@@ -205,10 +382,169 @@ async function loadTimelineEvents() {
       hint: error.hint,
       code: error.code
     });
+    return sortTimelineEvents(dedupeTimelineEvents([
+      ...derivedEvents,
+      ...contactFallbackEvents
+    ]));
+  }
+
+  return sortTimelineEvents(dedupeTimelineEvents([
+    ...(data || []),
+    ...derivedEvents,
+    ...contactFallbackEvents
+  ]));
+}
+
+function sortTimelineEvents(events) {
+  return events.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+}
+
+function normalizePhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+async function loadContactFallbackTimelineEvents() {
+  const phone = normalizePhone(getRecordPhone());
+  const email = normalizeCompareText(getRecordEmail());
+
+  if (!phone && !email) return [];
+
+  const { data, error } = await supabaseClient
+    .from("customer_timeline")
+    .select("*")
+    .eq("client_id", currentUserId)
+    .order("created_at", { ascending: false })
+    .limit(250);
+
+  if (error) {
+    console.warn("Could not load contact fallback timeline events:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
     return [];
   }
 
-  return data || [];
+  return (data || []).filter((event) => {
+    const eventPhone = normalizePhone(
+      event.phone ||
+      event.customer_phone ||
+      event.contact_phone
+    );
+    const eventEmail = normalizeCompareText(
+      event.email ||
+      event.customer_email ||
+      event.contact_email
+    );
+
+    return Boolean(
+      (phone && eventPhone && eventPhone === phone) ||
+      (email && eventEmail && eventEmail === email)
+    );
+  });
+}
+
+async function loadDerivedTimelineEvents() {
+  const quoteRequestFilters = [];
+  const quoteFilters = [];
+
+  relatedTimelineIds.customerIds.forEach((id) => {
+    quoteRequestFilters.push(`customer_id.eq.${id}`);
+    quoteFilters.push(`customer_id.eq.${id}`);
+  });
+  relatedTimelineIds.quoteRequestIds.forEach((id) => {
+    quoteRequestFilters.push(`id.eq.${id}`);
+    quoteFilters.push(`quote_request_id.eq.${id}`);
+  });
+
+  const phone = getRecordPhone();
+  const email = getRecordEmail();
+
+  if (phone) {
+    quoteRequestFilters.push(`phone.eq.${phone}`);
+    quoteFilters.push(`phone.eq.${phone}`);
+  }
+
+  if (email) {
+    quoteRequestFilters.push(`email.ilike.${email}`);
+    quoteFilters.push(`email.ilike.${email}`);
+  }
+
+  const [requests, customerQuotes] = await Promise.all([
+    quoteRequestFilters.length > 0
+      ? safeRelatedSelect(
+        "quote_requests",
+        supabaseClient
+          .from("quote_requests")
+          .select("*")
+          .eq("client_id", currentClientId)
+          .or([...new Set(quoteRequestFilters)].join(","))
+      )
+      : Promise.resolve([]),
+    quoteFilters.length > 0
+      ? safeRelatedSelect(
+        "quotes",
+        supabaseClient
+          .from("quotes")
+          .select("*")
+          .eq("client_id", currentClientId)
+          .or([...new Set(quoteFilters)].join(","))
+      )
+      : Promise.resolve([])
+  ]);
+
+  return [
+    ...requests.map((request) => ({
+      created_at: request.created_at,
+      event_type: "quote_requested",
+      event_title: "Quote request submitted",
+      event_description: request.service_requested || request.problem_description || "New request"
+    })),
+    ...customerQuotes.map((quote) => ({
+      created_at: quote.updated_at || quote.created_at,
+      event_type: "quote_sent",
+      event_title: `Quote ${quote.status || "draft"}`,
+      event_description: `${formatCurrency(quote.grand_total)} total`
+    }))
+  ].filter((event) => event.created_at);
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  }).format(Number(value) || 0);
+}
+
+function normalizeCompareText(value) {
+  return String(value || "").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function dedupeTimelineEvents(events) {
+  const visibleNoteDescriptions = new Set(
+    internalNotes.map((note) => normalizeCompareText(note.note))
+  );
+  const seen = new Set();
+
+  return events.filter((event) => {
+    const normalizedDescription = normalizeCompareText(event.event_description);
+
+    if (event.event_type === "note_added" && visibleNoteDescriptions.has(normalizedDescription)) {
+      return false;
+    }
+
+    const key = [
+      event.event_type || "",
+      event.event_title || "",
+      normalizedDescription,
+      event.created_at || ""
+    ].join("|");
+
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function renderTimeline(events) {
@@ -231,62 +567,161 @@ function renderTimeline(events) {
 
     return `
       <article class="customer-page-timeline-item">
-        <span class="timeline-icon ${escapeHtml(event.event_type || "")}">${escapeHtml(meta.icon)}</span>
-        <div class="timeline-content">
-          <strong>${escapeHtml(event.event_title || meta.label)}</strong>
-          <p>${escapeHtml(event.event_description || "")}</p>
-          <time>${formatDate(event.created_at)}</time>
-        </div>
+        <span>${formatDate(event.created_at)}</span>
+        <strong>${escapeHtml(event.event_title || meta.label)}</strong>
+        <p>${escapeHtml(event.event_description || "")}</p>
       </article>
     `;
   }).join("");
 }
 
-function buildTimelinePayload(note) {
+function buildNotePayload(note) {
   return {
     client_id: currentUserId,
     customer_id: routeIds.customerId || activeCustomerRecord.customerId || null,
     lead_id: routeIds.leadId || null,
     quote_request_id: routeIds.quoteRequestId || null,
-    event_type: "note_added",
-    event_title: "Internal Note",
-    event_description: note
+    note
   };
 }
 
-async function addTimelineNote(event) {
+async function loadInternalNotes() {
+  const filters = buildNoteFilter();
+
+  if (filters.length === 0) {
+    internalNotes = [];
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("customer_notes")
+    .select("*")
+    .eq("client_id", currentUserId)
+    .or(filters.join(","))
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.warn("Could not load internal notes:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+    internalNotes = [];
+    return;
+  }
+
+  internalNotes = data || [];
+}
+
+function renderInternalNotes() {
+  const notesList = document.getElementById("internal-notes-list");
+
+  if (internalNotes.length === 0) {
+    notesList.innerHTML = `<div class="customer-empty-mini">No internal notes yet.</div>`;
+    return;
+  }
+
+  notesList.innerHTML = internalNotes.map((note) => `
+    <article class="internal-note-item">
+      <p>${escapeHtml(note.note || "")}</p>
+      <div class="internal-note-meta">
+        <time>${formatDate(note.created_at)}</time>
+        <button type="button" class="delete-note-btn" data-note-id="${escapeHtml(note.id)}">Delete</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+async function refreshInternalNotes() {
+  await loadInternalNotes();
+  renderInternalNotes();
+}
+
+async function createNoteTimelineEvent(note) {
+  const { error } = await supabaseClient
+    .from("customer_timeline")
+    .insert({
+      client_id: currentUserId,
+      customer_id: routeIds.customerId || activeCustomerRecord.customerId || null,
+      lead_id: routeIds.leadId || null,
+      quote_request_id: routeIds.quoteRequestId || null,
+      event_type: "note_added",
+      event_title: "Note added",
+      event_description: note
+    });
+
+  if (error) {
+    console.warn("Could not add note timeline event:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
+  }
+}
+
+async function addInternalNote(event) {
   event.preventDefault();
 
-  const noteInput = document.getElementById("timeline-note-input");
+  const noteInput = document.getElementById("internal-note-input");
   const note = noteInput.value.trim();
 
   if (!note) return;
 
   const submitButton = event.target.querySelector("button[type='submit']");
   submitButton.disabled = true;
-  submitButton.textContent = "Adding...";
+  submitButton.textContent = "Saving...";
 
   const { error } = await supabaseClient
-    .from("customer_timeline")
-    .insert(buildTimelinePayload(note));
+    .from("customer_notes")
+    .insert(buildNotePayload(note));
 
   submitButton.disabled = false;
-  submitButton.textContent = "Add Note";
+  submitButton.textContent = "Save Note";
 
   if (error) {
-    console.error("Error adding timeline note:", {
+    console.error("Error adding internal note:", {
       message: error.message,
       details: error.details,
       hint: error.hint,
       code: error.code,
       raw: error
     });
-    alert("Could not add note. Check the customer_timeline table setup.");
+    alert("Could not save note. Check the customer_notes table setup.");
     return;
   }
 
   noteInput.value = "";
+  await createNoteTimelineEvent(note);
+  await refreshInternalNotes();
   renderTimeline(await loadTimelineEvents());
+}
+
+async function deleteInternalNote(noteId) {
+  const confirmDelete = confirm("Delete this internal note?");
+
+  if (!confirmDelete) return;
+
+  const { error } = await supabaseClient
+    .from("customer_notes")
+    .delete()
+    .eq("id", noteId)
+    .eq("client_id", currentUserId);
+
+  if (error) {
+    console.error("Error deleting internal note:", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+      raw: error
+    });
+    alert("Could not delete note.");
+    return;
+  }
+
+  await refreshInternalNotes();
 }
 
 function showCustomerNotFound() {
@@ -308,7 +743,14 @@ if (logoutButton) {
   });
 }
 
-document.getElementById("timeline-note-form").addEventListener("submit", addTimelineNote);
+document.getElementById("internal-note-form").addEventListener("submit", addInternalNote);
+document.getElementById("internal-notes-list").addEventListener("click", function (event) {
+  const deleteButton = event.target.closest(".delete-note-btn");
+
+  if (!deleteButton) return;
+
+  deleteInternalNote(deleteButton.dataset.noteId);
+});
 
 async function initCustomerDetailsPage() {
   routeIds = getRouteIds();
@@ -333,6 +775,8 @@ async function initCustomerDetailsPage() {
 
   renderCustomerHeader(activeCustomerRecord);
   showCustomerContent();
+  await loadRelatedTimelineIds();
+  await refreshInternalNotes();
   renderTimeline(await loadTimelineEvents());
 }
 

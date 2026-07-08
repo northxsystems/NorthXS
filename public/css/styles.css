@@ -2204,7 +2204,7 @@ footer {
 
 .quote-primary-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -2458,6 +2458,7 @@ footer {
 
 .quote-builder-open,
 .create-row-quote-btn,
+.quote-timeline-btn,
 .quote-save-btn,
 .quote-send-btn,
 .quote-secondary-btn {
@@ -2471,9 +2472,22 @@ footer {
   box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
 }
 
-.create-row-quote-btn {
+.create-row-quote-btn,
+.quote-timeline-btn {
   padding: 10px 12px;
   font-size: 0.82rem;
+}
+
+.quote-timeline-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--nx-soft);
+  box-shadow: none;
+}
+
+.quote-timeline-btn:hover {
+  border-color: rgba(79, 140, 255, 0.55);
+  background: rgba(79, 140, 255, 0.14);
+  color: white;
 }
 
 .quote-secondary-btn {
@@ -2787,6 +2801,7 @@ footer {
   .quote-status-action,
   .view-quote-btn,
   .create-row-quote-btn,
+  .quote-timeline-btn,
   .quote-builder-open,
   .quote-secondary-btn,
   .quote-send-btn,
@@ -3137,6 +3152,7 @@ footer {
 
 .quote-builder-open,
 .create-row-quote-btn,
+.quote-timeline-btn,
 .quote-save-btn,
 .quote-send-btn,
 .quote-secondary-btn {
@@ -3231,5 +3247,710 @@ footer {
 
   .quote-intake-card {
     padding: 28px 20px;
+  }
+}
+
+/* NORTHX LIGHT SAAS DESIGN SYSTEM */
+
+:root {
+  --nx-bg: #ffffff;
+  --nx-bg-secondary: #f8fafc;
+  --nx-surface: #ffffff;
+  --nx-surface-2: #f8fafc;
+  --nx-surface-3: #f1f5f9;
+  --nx-border: #e5e7eb;
+  --nx-border-strong: #d1d5db;
+  --nx-text: #111827;
+  --nx-muted: #6b7280;
+  --nx-soft: #374151;
+  --nx-blue: #4f8cff;
+  --nx-blue-strong: #2563eb;
+  --nx-purple: #7c5cff;
+  --nx-green: #16a34a;
+  --nx-amber: #d97706;
+  --nx-red: #dc2626;
+  --nx-radius-sm: 10px;
+  --nx-radius: 14px;
+  --nx-radius-lg: 18px;
+  --nx-radius-xl: 24px;
+  --nx-space-1: 6px;
+  --nx-space-2: 10px;
+  --nx-space-3: 14px;
+  --nx-space-4: 18px;
+  --nx-space-5: 24px;
+  --nx-space-6: 32px;
+  --nx-space-7: 44px;
+  --nx-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --nx-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --nx-shadow-lg: 0 24px 70px rgba(15, 23, 42, 0.12);
+  --nx-focus: 0 0 0 4px rgba(79, 140, 255, 0.14);
+  --nx-gradient: linear-gradient(135deg, var(--nx-blue-strong), var(--nx-purple));
+}
+
+body {
+  color: var(--nx-text);
+  background: var(--nx-bg);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+body:not(.dashboard-body):not(.login-body) {
+  background: #ffffff;
+  color: var(--nx-text);
+}
+
+.navbar {
+  padding: 18px 7%;
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--nx-border);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.logo,
+.sidebar-logo {
+  color: var(--nx-text);
+  letter-spacing: 0;
+}
+
+nav a {
+  color: var(--nx-muted);
+  font-weight: 700;
+}
+
+nav a:hover {
+  color: var(--nx-text);
+}
+
+.login-btn,
+.primary-btn {
+  background: var(--nx-gradient);
+  color: white;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
+}
+
+.secondary-btn {
+  background: white;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-soft);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.hero {
+  min-height: auto;
+  padding: 100px 7% 88px;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0), #f8fafc 100%),
+    #ffffff;
+  gap: 72px;
+}
+
+.eyebrow,
+.dashboard-body .eyebrow {
+  color: var(--nx-blue-strong);
+  letter-spacing: 0.12em;
+}
+
+.hero h1,
+.section h2,
+.login-card h1 {
+  color: var(--nx-text);
+  letter-spacing: 0;
+}
+
+.hero-text,
+.section-text,
+.login-subtext,
+.login-help {
+  color: var(--nx-muted);
+}
+
+.hero-stats div,
+.hero-card,
+.service-card,
+.demo-slot,
+.pricing-card {
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-xl);
+  box-shadow: var(--nx-shadow);
+}
+
+.hero-card {
+  padding: 28px;
+}
+
+.card-header span {
+  background: #cbd5e1;
+}
+
+.lead-alert {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.lead-alert span {
+  color: var(--nx-green);
+}
+
+.message-preview {
+  background: #f8fafc;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-soft);
+}
+
+.dashboard-preview div {
+  background: #e5e7eb;
+}
+
+.section {
+  padding: 100px 7%;
+}
+
+.demo-section,
+.pricing-section {
+  background: var(--nx-bg-secondary);
+}
+
+.demo-slot a,
+.pricing-card a {
+  color: var(--nx-blue-strong);
+  font-weight: 900;
+}
+
+.contact-form input,
+.contact-form textarea,
+.login-form input {
+  background: white;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-text);
+  border-radius: var(--nx-radius);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.login-form input:focus {
+  border-color: rgba(79, 140, 255, 0.78);
+  box-shadow: var(--nx-focus);
+}
+
+.contact-form button,
+.login-form button {
+  background: var(--nx-gradient);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
+}
+
+footer {
+  background: white;
+  border-top: 1px solid var(--nx-border);
+  color: var(--nx-muted);
+}
+
+.login-body {
+  background:
+    linear-gradient(180deg, rgba(79, 140, 255, 0.08), transparent 320px),
+    var(--nx-bg-secondary);
+}
+
+.login-body .navbar {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.login-body .logo {
+  color: var(--nx-text);
+}
+
+.login-page {
+  padding: 84px 7%;
+}
+
+.login-card {
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-xl);
+  box-shadow: var(--nx-shadow-lg);
+  padding: 48px;
+}
+
+.login-card h1 {
+  color: var(--nx-text);
+}
+
+.login-form label {
+  color: var(--nx-soft);
+}
+
+.dashboard-body {
+  background:
+    linear-gradient(180deg, #ffffff 0, #f8fafc 360px),
+    var(--nx-bg-secondary);
+  color: var(--nx-text);
+}
+
+.dashboard-body .sidebar {
+  background: rgba(255, 255, 255, 0.94);
+  border-right: 1px solid var(--nx-border);
+  box-shadow: 12px 0 36px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(18px);
+}
+
+.dashboard-body .sidebar-logo {
+  color: var(--nx-text);
+}
+
+.dashboard-body .sidebar-nav {
+  gap: 6px;
+}
+
+.dashboard-body .sidebar-nav a {
+  color: var(--nx-muted);
+  border-radius: var(--nx-radius);
+  padding: 12px 14px;
+  font-weight: 800;
+}
+
+.dashboard-body .sidebar-nav a:hover {
+  background: var(--nx-bg-secondary);
+  border-color: var(--nx-border);
+  color: var(--nx-text);
+}
+
+.dashboard-body .sidebar-nav a.active {
+  background: var(--nx-gradient);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
+}
+
+.dashboard-body .dashboard-main {
+  padding: 42px;
+}
+
+.dashboard-body .dashboard-topbar {
+  min-height: auto;
+  padding: 30px 32px;
+  margin-bottom: 30px;
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-xl);
+  box-shadow: var(--nx-shadow);
+}
+
+.dashboard-body .dashboard-topbar h1 {
+  color: var(--nx-text);
+  letter-spacing: 0;
+}
+
+.dashboard-body .dashboard-topbar p:not(.eyebrow),
+.dashboard-body .panel-header p {
+  color: var(--nx-muted);
+}
+
+.dashboard-body .stats-grid {
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.dashboard-body .stat-card,
+.dashboard-body .dashboard-panel,
+.dashboard-body .plan-card,
+.dashboard-body .quick-action-card,
+.dashboard-body .activity-item,
+.dashboard-body .activity-empty,
+.dashboard-body .customer-mini-item,
+.dashboard-body .customer-timeline-item,
+.dashboard-body .customer-empty-mini,
+.dashboard-body .settings-list div {
+  background: white;
+  border: 1px solid var(--nx-border);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.dashboard-body .stat-card {
+  border-radius: var(--nx-radius-lg);
+  padding: 24px;
+}
+
+.dashboard-body .dashboard-panel {
+  border-radius: var(--nx-radius-xl);
+  padding: 30px;
+}
+
+.dashboard-body .stat-card p,
+.dashboard-body .panel-header p,
+.dashboard-body .usage-small-text,
+.dashboard-body .form-help,
+.dashboard-body .plan-stat span,
+.dashboard-body .current-plan-middle p,
+.dashboard-body .current-plan-left p,
+.dashboard-body .contact-form label,
+.dashboard-body .automation-form > label,
+.dashboard-body .automation-form .form-grid > div > label,
+.dashboard-body .settings-form label {
+  color: var(--nx-muted);
+}
+
+.dashboard-body .stat-card h2,
+.dashboard-body .panel-header h2,
+.dashboard-body .lead-modal-card h2,
+.dashboard-body .current-plan-left h2,
+.dashboard-body .current-plan-middle h3,
+.dashboard-body .plan-card h2,
+.dashboard-body .plan-stat strong,
+.dashboard-body .modal-grid strong,
+.dashboard-body .settings-list strong,
+.dashboard-body .quote-customer-name {
+  color: var(--nx-text);
+}
+
+.dashboard-body .stat-card span,
+.dashboard-body .plan-eyebrow,
+.dashboard-body .plan-label,
+.quote-customer-meta {
+  color: var(--nx-muted);
+}
+
+.dashboard-body .table-wrap {
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-lg);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.dashboard-body .leads-table thead {
+  background: var(--nx-bg-secondary);
+}
+
+.dashboard-body .leads-table th {
+  color: var(--nx-muted);
+  border-bottom: 1px solid var(--nx-border);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.dashboard-body .leads-table td {
+  color: var(--nx-soft);
+  border-top: 1px solid var(--nx-border);
+}
+
+.dashboard-body .leads-table tr:hover,
+.customer-row:hover,
+.lead-row:hover,
+.quote-row:hover {
+  background: #f8fbff;
+}
+
+.dashboard-body .leads-table td[colspan] {
+  background: #fafafa;
+  color: var(--nx-muted);
+}
+
+.dashboard-body .topbar-actions input,
+.dashboard-body .panel-header select,
+.dashboard-body .status-select,
+.dashboard-body .automation-form input,
+.dashboard-body .automation-form textarea,
+.dashboard-body .contact-form input,
+.dashboard-body .contact-form textarea,
+.dashboard-body .custom-select-btn,
+.dashboard-body .settings-form input,
+.dashboard-body .settings-form textarea,
+.quote-link-field input,
+.quote-link-field textarea,
+.quote-builder-summary input,
+.quote-builder-summary select,
+.quote-line-item input,
+.line-description,
+.line-quantity,
+.line-unit-price {
+  background: white;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-text);
+  border-radius: var(--nx-radius);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.dashboard-body .topbar-actions input::placeholder,
+.dashboard-body .automation-form textarea::placeholder,
+.dashboard-body .contact-form input::placeholder,
+.dashboard-body .contact-form textarea::placeholder,
+.quote-link-field input::placeholder,
+.quote-link-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+.dashboard-body .topbar-actions input:focus,
+.dashboard-body .panel-header select:focus,
+.dashboard-body .status-select:focus,
+.dashboard-body .automation-form input:focus,
+.dashboard-body .automation-form textarea:focus,
+.dashboard-body .contact-form input:focus,
+.dashboard-body .contact-form textarea:focus,
+.dashboard-body .custom-select-btn:focus,
+.dashboard-body .settings-form input:focus,
+.dashboard-body .settings-form textarea:focus,
+.quote-link-field input:focus,
+.quote-link-field textarea:focus,
+.quote-line-item input:focus,
+.quote-builder-summary input:focus,
+.quote-builder-summary select:focus {
+  border-color: rgba(79, 140, 255, 0.78);
+  box-shadow: var(--nx-focus);
+}
+
+.dashboard-body .sidebar-logout,
+.dashboard-body .topbar-actions button,
+.dashboard-body .modal-save,
+.dashboard-body .view-quote-btn,
+.dashboard-body .automation-form button[type="submit"],
+.dashboard-body .contact-form button,
+.dashboard-body .plan-card button,
+.quote-builder-open,
+.create-row-quote-btn,
+.quote-save-btn,
+.quote-send-btn,
+.quote-link-actions button,
+.settings-form-actions button {
+  background: var(--nx-gradient);
+  border: 1px solid transparent;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.20);
+}
+
+.dashboard-body .sidebar-logout:hover,
+.dashboard-body .topbar-actions button:hover,
+.dashboard-body .modal-save:hover,
+.dashboard-body .view-quote-btn:hover,
+.dashboard-body .automation-form button[type="submit"]:hover,
+.dashboard-body .contact-form button:hover,
+.dashboard-body .plan-card button:hover,
+.quote-builder-open:hover,
+.create-row-quote-btn:hover,
+.quote-save-btn:hover,
+.quote-send-btn:hover,
+.quote-link-actions button:hover,
+.settings-form-actions button:hover {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  transform: translateY(-1px);
+}
+
+.quote-secondary-btn,
+.quote-timeline-btn,
+.quote-link-actions .quote-link-secondary,
+.dashboard-body .bulk-delete-btn,
+.dashboard-body .cancel-sms-btn {
+  background: white;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-soft);
+  box-shadow: var(--nx-shadow-sm);
+}
+
+.quote-secondary-btn:hover,
+.quote-timeline-btn:hover {
+  border-color: rgba(79, 140, 255, 0.45);
+  background: #eff6ff;
+  color: var(--nx-blue-strong);
+}
+
+.dashboard-body .badge.new,
+.follow-up-badge.scheduled {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.dashboard-body .badge.contacted {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.dashboard-body .badge.booked,
+.follow-up-badge.followed,
+.follow-up-badge.won {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.dashboard-body .badge.lost,
+.follow-up-badge.lost {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.dashboard-body .badge.quoted,
+.quote-badge.quoted {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #5b21b6;
+}
+
+.follow-up-badge.none {
+  background: #f8fafc;
+  border-color: var(--nx-border);
+  color: var(--nx-muted);
+}
+
+.dashboard-body .lead-modal {
+  background: rgba(17, 24, 39, 0.34);
+  backdrop-filter: blur(12px);
+}
+
+.dashboard-body .lead-modal-card {
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-xl);
+  box-shadow: var(--nx-shadow-lg);
+}
+
+.dashboard-body .modal-close {
+  background: var(--nx-bg-secondary);
+  border: 1px solid var(--nx-border);
+  color: var(--nx-text);
+}
+
+.dashboard-body .modal-grid div,
+.dashboard-body .quote-detail-box,
+.dashboard-body #modal-lead-notes,
+.quote-line-item,
+.quote-builder-summary,
+.quote-total-card,
+.quote-logo-preview,
+.phone-option,
+.sms-preview-card,
+.sms-phone-preview {
+  background: var(--nx-bg-secondary);
+  border-color: var(--nx-border);
+  color: var(--nx-soft);
+}
+
+.dashboard-body .modal-grid span,
+.dashboard-body .modal-label {
+  color: var(--nx-muted);
+}
+
+.dashboard-body .phone-dropdown {
+  background: white;
+  border-color: var(--nx-border);
+  box-shadow: var(--nx-shadow-lg);
+}
+
+.dashboard-body .phone-option:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.dashboard-body .phone-option span {
+  color: var(--nx-soft);
+}
+
+.dashboard-body .usage-bar {
+  background: #e5e7eb;
+}
+
+.dashboard-body .featured-plan {
+  border-color: rgba(79, 140, 255, 0.58);
+  box-shadow: 0 18px 48px rgba(37, 99, 235, 0.14);
+}
+
+.dashboard-body .plan-card li {
+  color: var(--nx-soft);
+  border-bottom-color: var(--nx-border);
+}
+
+.quick-action-card,
+.activity-item,
+.activity-empty {
+  background: white;
+}
+
+.quick-action-card:hover,
+.activity-item:hover {
+  background: #f8fbff;
+  border-color: #bfdbfe;
+}
+
+.activity-type {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.activity-item strong,
+.activity-empty strong {
+  color: var(--nx-text);
+}
+
+.activity-item p,
+.activity-empty span,
+.activity-item time {
+  color: var(--nx-muted);
+}
+
+.sms-bubble {
+  background: white;
+  color: var(--nx-text);
+  border: 1px solid var(--nx-border);
+}
+
+.quote-intake-body {
+  background:
+    linear-gradient(180deg, rgba(79, 140, 255, 0.08), transparent 320px),
+    var(--nx-bg-secondary);
+}
+
+.quote-intake-card {
+  background: white;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-xl);
+  box-shadow: var(--nx-shadow-lg);
+}
+
+.quote-intake-card h1,
+.quote-intake-form label {
+  color: var(--nx-text);
+}
+
+.quote-intake-subtext {
+  color: var(--nx-muted);
+}
+
+.quote-intake-form input,
+.quote-intake-form select,
+.quote-intake-form textarea {
+  background: white;
+  border: 1px solid var(--nx-border);
+  color: var(--nx-text);
+}
+
+.quote-intake-form input:focus,
+.quote-intake-form select:focus,
+.quote-intake-form textarea:focus {
+  border-color: rgba(79, 140, 255, 0.78);
+  box-shadow: var(--nx-focus);
+}
+
+.quote-intake-form button {
+  background: var(--nx-gradient);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.20);
+}
+
+.settings-list div,
+.customer-mini-item,
+.customer-timeline-item,
+.customer-empty-mini {
+  border-radius: var(--nx-radius);
+}
+
+@media (max-width: 850px) {
+  .dashboard-body .sidebar {
+    background: white;
+    box-shadow: var(--nx-shadow);
+  }
+
+  .dashboard-body .dashboard-main {
+    padding: 24px;
   }
 }

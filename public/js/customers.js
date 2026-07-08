@@ -1,4 +1,5 @@
 let currentClientId = null;
+let currentUserId = null;
 let customers = [];
 let quoteRequests = [];
 let quotes = [];
@@ -53,6 +54,7 @@ async function protectPage() {
     window.location.href = "login.html";
   }
 
+  currentUserId = data.session ? data.session.user.id : null;
   return data.session;
 }
 
@@ -106,7 +108,7 @@ async function loadCustomerData() {
     supabaseClient
       .from("customer_notes")
       .select("*")
-      .eq("client_id", currentClientId)
+      .eq("client_id", currentUserId)
       .order("created_at", { ascending: false })
   ]);
 
@@ -319,7 +321,7 @@ async function addCustomerNote(event) {
   const { error } = await supabaseClient
     .from("customer_notes")
     .insert({
-      client_id: currentClientId,
+      client_id: currentUserId,
       customer_id: selectedCustomerId,
       note
     });

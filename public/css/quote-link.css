@@ -30,7 +30,7 @@
 .quote-link-field textarea {
   width: 100%;
   border: 1px solid var(--nx-border-strong);
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
   color: var(--nx-text);
   border-radius: 12px;
   padding: 13px 14px;
@@ -61,7 +61,7 @@
 }
 
 .quote-link-actions button {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid transparent;
   background: linear-gradient(135deg, var(--nx-blue-strong), #7c5cff);
   color: white;
   border-radius: 999px;
@@ -83,9 +83,10 @@
 }
 
 .quote-link-actions .quote-link-secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border-color: var(--nx-border);
   color: var(--nx-soft);
-  box-shadow: none;
+  box-shadow: var(--nx-shadow-sm);
 }
 
 .quote-link-help-list {
@@ -98,7 +99,7 @@
 
 .quote-link-help-list li {
   border: 1px solid var(--nx-border);
-  background: rgba(255, 255, 255, 0.045);
+  background: #ffffff;
   border-radius: 12px;
   color: var(--nx-soft);
   padding: 13px 14px;
@@ -152,7 +153,7 @@
   align-items: center;
   gap: 14px;
   border: 1px solid var(--nx-border);
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--nx-bg-secondary);
   border-radius: 14px;
   padding: 14px;
 }
@@ -163,7 +164,7 @@
   max-height: 72px;
   object-fit: contain;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
   padding: 8px;
 }
 

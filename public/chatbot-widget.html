@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat | NorthX Systems</title>
+  <link rel="stylesheet" href="chatbot-widget.css" />
+</head>
+
+<body>
+  <main class="chat-widget-shell">
+    <section class="chat-widget-card">
+      <header class="chat-widget-header">
+        <div>
+          <span id="chat-company">NorthX</span>
+          <strong>Chat Assistant</strong>
+        </div>
+        <span id="chat-status">Online</span>
+      </header>
+
+      <div id="chat-messages" class="chat-messages"></div>
+
+      <div id="chat-quick-actions" class="chat-quick-actions"></div>
+
+      <form id="chat-input-form" class="chat-input-form">
+        <input id="chat-input" type="text" autocomplete="off" placeholder="Type your answer..." />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="chatbot-widget.js"></script>
+</body>
+</html>
