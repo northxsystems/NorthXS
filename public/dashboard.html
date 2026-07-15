@@ -3,126 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | NorthX Systems</title>
+  <title>Overview | NorthX</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="dashboard-body">
+<body class="dashboard-body" data-section="overview">
 
-  <aside class="sidebar">
-    <div>
-      <div class="sidebar-logo">NorthX<span>Systems</span></div>
-
-      <nav class="sidebar-nav">
-        <a href="dashboard.html" class="active">Dashboard</a>
-        <a href="customers.html">Customers</a>
-        <a href="leads.html">Leads</a>
-        <a href="quote-requests.html">Quote Requests</a>
-        <a href="quote-link.html">Quote Request Link</a>
-        <a href="chatbot.html">Chatbot</a>
-        <a href="messages.html">SMS Control</a>
-        <a href="plans.html">Plans</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="settings.html">Settings</a>
-      </nav>
-    </div>
-
-    <button id="logout-button" class="sidebar-logout">Logout</button>
-  </aside>
+  <aside class="sidebar"></aside>
 
   <main class="dashboard-main">
-    <header class="dashboard-topbar client-home-header">
-      <div>
-        <p class="eyebrow">Client Portal</p>
-        <h1 id="dashboard-welcome">Welcome back</h1>
-        <p id="dashboard-subtitle">Here is what needs your attention today.</p>
+    <header class="page-header overview-header">
+      <div class="page-header-row">
+        <div>
+          <p class="eyebrow" id="overview-date">Overview</p>
+          <h1 id="overview-greeting">Good morning.</h1>
+          <p class="page-subtitle" id="overview-summary">
+            NorthX is checking what needs your attention today.
+          </p>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="leads.html" class="secondary-action">Add Lead</a>
+          <a href="messages.html" class="primary-action">View Inbox</a>
+        </div>
       </div>
     </header>
 
-    <section class="stats-grid client-snapshot-grid">
-      <div class="stat-card">
-        <p>New Quote Requests</p>
-        <h2 id="new-quote-requests">0</h2>
-        <span>Needs review</span>
-      </div>
+    <section class="metric-link-grid" aria-label="Business snapshot">
+      <article class="metric-card">
+        <span>New Leads</span>
+        <strong id="metric-new-leads">0</strong>
+        <p id="metric-new-leads-context">Captured this week</p>
+        <a href="leads.html">Review leads</a>
+      </article>
 
-      <div class="stat-card">
-        <p>Quotes Sent</p>
-        <h2 id="quotes-sent">0</h2>
-        <span>Out with customers</span>
-      </div>
+      <article class="metric-card">
+        <span>Missed Calls</span>
+        <strong id="metric-missed-calls">0</strong>
+        <p id="metric-missed-calls-context">Recovered this week</p>
+        <a href="leads.html">View recovered calls</a>
+      </article>
 
-      <div class="stat-card">
-        <p>Quotes Won</p>
-        <h2 id="quotes-won">0</h2>
-        <span>Accepted work</span>
-      </div>
+      <article class="metric-card">
+        <span>Quotes Awaiting Response</span>
+        <strong id="metric-quotes-awaiting">0</strong>
+        <p id="metric-quotes-awaiting-context">Open customer decisions</p>
+        <a href="quote-requests.html">Open pipeline</a>
+      </article>
 
-      <div class="stat-card">
-        <p>Estimated Revenue Quoted</p>
-        <h2 id="estimated-revenue">$0</h2>
-        <span>Total quote value</span>
-      </div>
+      <article class="metric-card">
+        <span>Appointments Today</span>
+        <strong id="metric-appointments-today">0</strong>
+        <p>Job scheduling is ready for future calendar integration</p>
+        <a href="calendar.html">Open calendar</a>
+      </article>
 
-      <div class="stat-card">
-        <p>Missed Calls Recovered</p>
-        <h2 id="missed-calls-recovered">0</h2>
-        <span>Recovered automatically</span>
-      </div>
+      <article class="metric-card">
+        <span>Revenue This Month</span>
+        <strong id="metric-revenue-month">$0</strong>
+        <p id="metric-revenue-month-context">Accepted quote value</p>
+        <a href="analytics.html">View analytics</a>
+      </article>
 
-      <div class="stat-card">
-        <p>SMS Used This Month</p>
-        <h2 id="sms-used-month">0</h2>
-        <span id="sms-used-limit">0 / 0 SMS</span>
-      </div>
+      <article class="metric-card">
+        <span>Customers Needing Follow-Up</span>
+        <strong id="metric-followups">0</strong>
+        <p id="metric-followups-context">Due or waiting today</p>
+        <a href="messages.html">Follow up</a>
+      </article>
     </section>
 
-    <section class="dashboard-home-grid">
-      <div class="dashboard-panel">
-        <div class="panel-header">
+    <section class="os-grid two">
+      <article class="os-card">
+        <div class="os-card-header">
           <div>
-            <h2>Quick Actions</h2>
-            <p>Jump into the most common client workflows.</p>
+            <p class="eyebrow">Needs Attention</p>
+            <h2>What to handle first</h2>
+            <p>NorthX prioritizes the work most likely to recover revenue or prevent a customer from being forgotten.</p>
           </div>
         </div>
 
-        <div class="quick-actions-grid">
-          <a href="quote-requests.html" class="quick-action-card">
-            <strong>View Quote Requests</strong>
-            <span>Review new customer submissions and status updates.</span>
-          </a>
+        <div id="attention-list" class="attention-list"></div>
+      </article>
 
-          <a href="quote-requests.html" class="quick-action-card">
-            <strong>Create Quote</strong>
-            <span>Open a request and build a customer quote.</span>
-          </a>
-
-          <a href="messages.html" class="quick-action-card">
-            <strong>SMS Control Center</strong>
-            <span>Manage replies, scheduled SMS, and usage.</span>
-          </a>
-
-          <a href="settings.html" class="quick-action-card">
-            <strong>Edit Quote PDF Settings</strong>
-            <span>Update branding, terms, tax, and PDF appearance.</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="dashboard-panel activity-panel">
-        <div class="panel-header">
+      <aside class="os-card">
+        <div class="os-card-header">
           <div>
-            <h2>Recent Activity</h2>
-            <p>Latest quote, SMS, and missed call activity.</p>
+            <p class="eyebrow">Launch Checklist</p>
+            <h2>Setup Progress</h2>
+            <p id="launch-progress-text">Finish the basics so NorthX can capture and recover more opportunities.</p>
           </div>
         </div>
 
-        <div id="activity-feed" class="activity-feed"></div>
+        <div id="launch-checklist" class="launch-checklist"></div>
+      </aside>
+    </section>
+
+    <section class="os-grid two">
+      <article class="os-card">
+        <div class="os-card-header">
+          <div>
+            <p class="eyebrow">Revenue Opportunities</p>
+            <h2>Money still on the table</h2>
+            <p>Open leads, quotes, and follow-ups that can turn into booked work.</p>
+          </div>
+        </div>
+
+        <div id="opportunity-list" class="opportunity-list"></div>
+      </article>
+
+      <article class="os-card">
+        <div class="os-card-header">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h2>Operational schedule</h2>
+            <p>Follow-ups, reminders, and scheduled business activity for today.</p>
+          </div>
+        </div>
+
+        <div id="today-list" class="today-list"></div>
+      </article>
+    </section>
+
+    <section class="os-card">
+      <div class="os-card-header">
+        <div>
+          <p class="eyebrow">Recent Activity</p>
+          <h2>What changed recently</h2>
+          <p>Business events translated into plain language for owners and office staff.</p>
+        </div>
       </div>
+
+      <div id="activity-feed" class="activity-feed os-activity-feed"></div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
+  <script src="js/app-shell.js"></script>
   <script src="js/dashboard.js"></script>
 
 </body>

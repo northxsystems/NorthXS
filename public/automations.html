@@ -3,23 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=messages.html" />
-  <title>SMS Control Center | NorthX Systems</title>
+  <title>Automations | NorthX</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+<body class="dashboard-body" data-section="automations">
+  <aside class="sidebar"></aside>
 
-<body class="dashboard-body">
-  <main class="dashboard-main" style="margin-left:0; width:100%; min-height:100vh;">
-    <section class="dashboard-panel" style="max-width:560px; margin:80px auto;">
-      <p class="eyebrow">Client Portal</p>
-      <h1>SMS Control Center</h1>
-      <p>This page has moved to the unified SMS Control Center.</p>
-      <a href="messages.html" class="quote-builder-open" style="display:inline-block; margin-top:18px; text-decoration:none;">Open SMS Control</a>
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div class="page-header-row">
+        <div>
+          <p class="eyebrow">Automation Center</p>
+          <h1>Automate the office work that protects revenue.</h1>
+          <p class="page-subtitle">
+            Outcome-focused workflows for missed calls, quote follow-ups, reviews, appointment reminders, and customer reactivation.
+          </p>
+        </div>
+
+        <a href="messages.html" class="primary-action">Manage Follow-Ups</a>
+      </div>
+    </header>
+
+    <section class="automation-outcome-grid">
+      <article class="automation-outcome-card active">
+        <span class="status-pill green">Live where SMS is configured</span>
+        <h2>Recover Missed Calls</h2>
+        <p>Automatically text missed callers so potential customers do not disappear.</p>
+        <dl>
+          <div><dt>Uses</dt><dd>Missed-call leads and auto-reply SMS settings</dd></div>
+          <div><dt>Configure</dt><dd><a href="messages.html">Open Inbox settings</a></dd></div>
+        </dl>
+      </article>
+
+      <article class="automation-outcome-card active">
+        <span class="status-pill blue">Connected to quote follow-ups</span>
+        <h2>Follow Up on Quotes</h2>
+        <p>Remind customers who have not responded after a quote is sent.</p>
+        <dl>
+          <div><dt>Uses</dt><dd>Quote requests, saved quotes, and scheduled follow-ups</dd></div>
+          <div><dt>Configure</dt><dd><a href="quote-requests.html">Open Pipeline</a></dd></div>
+        </dl>
+      </article>
+
+      <article class="automation-outcome-card">
+        <span class="status-pill amber">Backend needed</span>
+        <h2>Confirm Appointments</h2>
+        <p>Reduce no-shows with automatic reminders before estimates and jobs.</p>
+        <dl>
+          <div><dt>Next step</dt><dd>Add appointments/jobs table or calendar integration</dd></div>
+        </dl>
+      </article>
+
+      <article class="automation-outcome-card">
+        <span class="status-pill amber">Backend needed</span>
+        <h2>Request Reviews</h2>
+        <p>Ask satisfied customers for reviews after completed work.</p>
+        <dl>
+          <div><dt>Next step</dt><dd>Add job completion and review destination settings</dd></div>
+        </dl>
+      </article>
+
+      <article class="automation-outcome-card active">
+        <span class="status-pill blue">Uses scheduled SMS</span>
+        <h2>Reconnect With Past Customers</h2>
+        <p>Bring inactive customers back with planned follow-up messages.</p>
+        <dl>
+          <div><dt>Uses</dt><dd>Lead phone numbers and scheduled messages</dd></div>
+          <div><dt>Configure</dt><dd><a href="growth.html">Open Growth</a></dd></div>
+        </dl>
+      </article>
+
+      <article class="automation-outcome-card active">
+        <span class="status-pill blue">Website assistant ready</span>
+        <h2>Welcome New Leads</h2>
+        <p>Immediately confirm that a request was received and collect the details your team needs.</p>
+        <dl>
+          <div><dt>Uses</dt><dd>Website chatbot and quote intake settings</dd></div>
+          <div><dt>Configure</dt><dd><a href="chatbot.html">Open assistant settings</a></dd></div>
+        </dl>
+      </article>
     </section>
   </main>
 
-  <script>
-    window.location.replace("messages.html");
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app-shell.js"></script>
+  <script src="js/os-foundation.js"></script>
 </body>
 </html>

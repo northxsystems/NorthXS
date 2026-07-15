@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar | NorthX</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body" data-section="calendar">
+  <aside class="sidebar"></aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div class="page-header-row">
+        <div>
+          <p class="eyebrow">Calendar</p>
+          <h1>See the day before it gets away from you.</h1>
+          <p class="page-subtitle">
+            Calendar is the foundation for appointments, estimates, jobs, follow-ups, scheduled messages, and automation reminders.
+          </p>
+        </div>
+        <a href="messages.html" class="primary-action">Schedule Follow-Up</a>
+      </div>
+    </header>
+
+    <section class="os-grid two">
+      <article class="os-card">
+        <div class="os-card-header">
+          <div>
+            <p class="eyebrow">Connected Today</p>
+            <h2>Upcoming Follow-Ups</h2>
+            <p>Uses the existing scheduled messages table. Appointment and job scheduling still need backend support.</p>
+          </div>
+        </div>
+        <div class="empty-state">
+          <strong>Follow-up list foundation is ready.</strong>
+          <span>The next phase will render `scheduled_messages` into day, week, month, and upcoming views.</span>
+        </div>
+      </article>
+
+      <article class="os-card">
+        <div class="os-card-header">
+          <div>
+            <p class="eyebrow">Future Integration</p>
+            <h2>Appointments and Jobs</h2>
+            <p>This screen is prepared for estimates, jobs, confirmations, and reminders once scheduling data exists.</p>
+          </div>
+        </div>
+        <div class="placeholder-note">Backend needed: appointments/jobs table or calendar provider integration.</div>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app-shell.js"></script>
+  <script src="js/os-foundation.js"></script>
+</body>
+</html>

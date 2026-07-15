@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics | NorthX</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body" data-section="analytics">
+  <aside class="sidebar"></aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Analytics</p>
+        <h1>Understand where the business is growing or leaking revenue.</h1>
+        <p class="page-subtitle">
+          Analytics will answer business questions about leads, response time, quote performance, recovered revenue, and retention.
+        </p>
+      </div>
+    </header>
+
+    <section class="analytics-foundation-grid">
+      <article class="os-card">
+        <h2>Revenue</h2>
+        <p>Takeaway: accepted quote value and open quote value are available from saved quotes.</p>
+      </article>
+      <article class="os-card">
+        <h2>Leads</h2>
+        <p>Takeaway: lead source and missed-call recovery can be measured from existing lead records.</p>
+      </article>
+      <article class="os-card">
+        <h2>Quote Performance</h2>
+        <p>Takeaway: quote request status and saved quote status can power conversion reporting.</p>
+      </article>
+      <article class="os-card">
+        <h2>Automation Results</h2>
+        <p>Takeaway: scheduled messages and sent messages can show follow-up volume today.</p>
+      </article>
+      <article class="os-card">
+        <h2>Response Time</h2>
+        <p>Backend needed: consistent first-response timestamps across Inbox channels.</p>
+      </article>
+      <article class="os-card">
+        <h2>Customer Retention</h2>
+        <p>Backend needed: completed jobs, repeat service dates, and review outcomes.</p>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app-shell.js"></script>
+  <script src="js/os-foundation.js"></script>
+</body>
+</html>
