@@ -1,0 +1,64 @@
+.dashboard-body {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, #ffffff 0, #f8fafc 420px),
+    var(--color-bg-app);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.dashboard-body button,
+.dashboard-body input,
+.dashboard-body select,
+.dashboard-body textarea {
+  font: inherit;
+}
+
+.dashboard-body button,
+.dashboard-body a,
+.dashboard-body input,
+.dashboard-body select,
+.dashboard-body textarea {
+  transition:
+    background-color var(--transition-hover),
+    border-color var(--transition-hover),
+    color var(--transition-hover),
+    box-shadow var(--transition-focus),
+    transform var(--transition-hover);
+}
+
+.dashboard-body :focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.dashboard-body h1,
+.dashboard-body h2,
+.dashboard-body h3 {
+  color: var(--color-text-primary);
+  line-height: var(--line-height-heading);
+  letter-spacing: 0;
+}
+
+.dashboard-body .eyebrow,
+.nx-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.nx-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

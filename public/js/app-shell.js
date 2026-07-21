@@ -1,4 +1,6 @@
 (function () {
+  const designSystemHref = "css/northx-design-system.css";
+
   const navItems = [
     { key: "overview", label: "Overview", href: "dashboard.html", icon: "layout-dashboard" },
     { key: "inbox", label: "Inbox", href: "messages.html", icon: "inbox" },
@@ -8,8 +10,7 @@
     { key: "calendar", label: "Calendar", href: "calendar.html", icon: "calendar-days" },
     { key: "automations", label: "Automations", href: "automations.html", icon: "workflow" },
     { key: "growth", label: "Growth", href: "growth.html", icon: "trending-up" },
-    { key: "analytics", label: "Analytics", href: "analytics.html", icon: "chart-no-axes-combined" },
-    { key: "settings", label: "Settings", href: "settings.html", icon: "settings" }
+    { key: "analytics", label: "Analytics", href: "analytics.html", icon: "chart-no-axes-combined" }
   ];
 
   const pathMap = {
@@ -42,6 +43,19 @@
     return `<i data-lucide="${name}" aria-hidden="true"></i>`;
   }
 
+  function ensureDesignSystemStyles() {
+    const existing = Array.from(document.styleSheets).some((sheet) => {
+      return sheet.href && sheet.href.endsWith(designSystemHref);
+    });
+
+    if (existing || document.querySelector(`link[href="${designSystemHref}"]`)) return;
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = designSystemHref;
+    document.head.appendChild(link);
+  }
+
   function navMarkup(activeSection) {
     return navItems.map((item) => {
       const isActive = item.key === activeSection;
@@ -57,6 +71,9 @@
   }
 
   function renderShell() {
+    ensureDesignSystemStyles();
+    document.body.classList.add("nx-shell-ready");
+
     const activeSection = getActiveSection();
     const existingSidebar = document.querySelector(".sidebar");
 
@@ -86,7 +103,7 @@
           <a href="settings.html" class="user-profile-link">
             ${createIcon("circle-user-round")}
             <span>
-              <strong>Business Owner</strong>
+              <strong id="shell-account-name">Business Owner</strong>
               <small>Settings and account</small>
             </span>
           </a>
@@ -128,6 +145,13 @@
         <nav class="mobile-nav-list" aria-label="Mobile navigation">
           ${navMarkup(activeSection)}
         </nav>
+        <a href="settings.html" class="user-profile-link mobile-account-link">
+          ${createIcon("circle-user-round")}
+          <span>
+            <strong>Settings</strong>
+            <small>Account and workspace</small>
+          </span>
+        </a>
       `;
       document.body.appendChild(drawer);
     }

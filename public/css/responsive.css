@@ -1,0 +1,84 @@
+@media (max-width: 1180px) {
+  .nx-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nx-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-body .nx-app-sidebar {
+    display: none;
+  }
+
+  .dashboard-body .dashboard-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 86px 18px 22px;
+  }
+
+  .page-header-row,
+  .dashboard-body .dashboard-topbar,
+  .nx-section-header,
+  .panel-header {
+    display: grid;
+    align-items: flex-start;
+  }
+
+  .topbar-actions,
+  .panel-actions,
+  .overview-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .form-grid,
+  .nx-form-grid,
+  .modal-grid,
+  .nx-summary-grid,
+  .nx-grid-2,
+  .nx-grid-3,
+  .nx-grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .lead-modal,
+  .nx-modal {
+    align-items: flex-end;
+    padding: var(--space-3);
+  }
+
+  .lead-modal-card,
+  .nx-modal-card {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-xl) var(--radius-xl) var(--radius-lg) var(--radius-lg);
+  }
+}
+
+@media (max-width: 640px) {
+  .page-header,
+  .dashboard-body .dashboard-topbar,
+  .dashboard-panel,
+  .os-card,
+  .nx-card {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
+  .page-header h1,
+  .dashboard-body .dashboard-topbar h1 {
+    font-size: 1.65rem;
+  }
+
+  .nx-btn,
+  .primary-action,
+  .secondary-action,
+  .topbar-actions button,
+  .automation-form button[type="submit"] {
+    width: 100%;
+  }
+}

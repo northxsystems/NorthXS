@@ -1,0 +1,482 @@
+.nx-btn,
+.primary-action,
+.secondary-action,
+.topbar-actions button,
+.modal-save,
+.view-quote-btn,
+.create-row-quote-btn,
+.quote-timeline-btn,
+.quote-inline-status,
+.quote-builder-open,
+.quote-status-action,
+.quote-secondary-btn,
+.quote-save-btn,
+.quote-send-btn,
+.cancel-sms-btn,
+.bulk-delete-btn,
+.automation-form button[type="submit"],
+.contact-form button,
+.plan-card button {
+  min-height: var(--size-button-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-4);
+  cursor: pointer;
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.nx-btn-primary,
+.primary-action,
+.modal-save,
+.view-quote-btn,
+.quote-builder-open,
+.quote-save-btn,
+.automation-form button[type="submit"],
+.contact-form button,
+.plan-card button {
+  color: var(--color-text-inverse);
+  background: var(--gradient-brand);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.16);
+}
+
+.nx-btn-secondary,
+.secondary-action,
+.create-row-quote-btn,
+.quote-timeline-btn,
+.quote-secondary-btn,
+.quote-send-btn,
+.bulk-delete-btn {
+  color: var(--color-text-secondary);
+  background: var(--color-bg-surface);
+  border-color: var(--color-border);
+}
+
+.nx-btn-ghost,
+.quote-inline-status,
+.quote-status-action {
+  color: var(--color-brand-primary);
+  background: var(--color-brand-soft);
+  border-color: #bfdbfe;
+}
+
+.nx-btn-danger,
+.quote-status-action.lost,
+.quote-inline-status.lost,
+.cancel-sms-btn {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border-color: #fecaca;
+}
+
+.nx-btn:hover,
+.primary-action:hover,
+.secondary-action:hover,
+.topbar-actions button:hover,
+.modal-save:hover,
+.view-quote-btn:hover,
+.create-row-quote-btn:hover,
+.quote-timeline-btn:hover,
+.quote-inline-status:hover,
+.quote-builder-open:hover,
+.quote-status-action:hover,
+.quote-secondary-btn:hover,
+.quote-save-btn:hover,
+.quote-send-btn:hover,
+.cancel-sms-btn:hover,
+.bulk-delete-btn:hover,
+.automation-form button[type="submit"]:hover,
+.contact-form button:hover,
+.plan-card button:hover {
+  transform: translateY(-1px);
+}
+
+.nx-btn:disabled,
+.primary-action:disabled,
+.secondary-action:disabled,
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nx-icon-btn,
+.modal-close,
+#mobile-nav-toggle,
+#mobile-nav-close {
+  width: var(--size-icon-container);
+  height: var(--size-icon-container);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-surface);
+  cursor: pointer;
+}
+
+.dashboard-panel,
+.os-card,
+.nx-card,
+.stat-card,
+.metric-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-panel,
+.os-card,
+.nx-card {
+  padding: var(--space-5);
+}
+
+.nx-card-compact {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+.nx-card-highlighted,
+.launch-brief-card {
+  background: var(--color-brand-soft);
+  border-color: #bfdbfe;
+}
+
+.nx-card-warning {
+  background: var(--color-warning-soft);
+  border-color: #fde68a;
+}
+
+.stat-card,
+.metric-card {
+  padding: var(--space-4);
+}
+
+.metric-card {
+  min-height: 128px;
+}
+
+.metric-icon,
+.nx-metric-icon {
+  width: var(--size-icon-metric);
+  height: var(--size-icon-metric);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  color: var(--color-brand-primary);
+  background: var(--color-brand-soft);
+}
+
+.metric-icon svg,
+.nx-metric-icon svg {
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.badge,
+.status-pill,
+.nx-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 24px;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  background: var(--color-neutral-soft);
+  color: var(--color-text-muted);
+}
+
+.badge.new,
+.badge.active,
+.status-pill.blue,
+.nx-badge-new,
+.nx-badge-active,
+.nx-badge-info {
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+.badge.booked,
+.badge.success,
+.nx-badge-success,
+.nx-badge-completed {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.badge.contacted,
+.badge.warning,
+.nx-badge-warning,
+.nx-badge-paused {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.badge.lost,
+.badge.danger,
+.nx-badge-danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.nx-table,
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-body-sm);
+}
+
+.nx-table thead,
+.leads-table thead {
+  background: var(--color-bg-subtle);
+}
+
+.nx-table th,
+.leads-table th {
+  height: 44px;
+  padding: 0 var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.nx-table td,
+.leads-table td {
+  min-height: var(--size-table-row);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+.nx-table tbody tr:hover,
+.leads-table tbody tr:hover {
+  background: var(--color-bg-subtle);
+}
+
+.table-wrap,
+.nx-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.table-wrap .leads-table th:first-child,
+.table-wrap .leads-table td:first-child {
+  padding-left: var(--space-5);
+}
+
+.topbar-actions input,
+.panel-header select,
+.status-select,
+.automation-form input,
+.automation-form textarea,
+.automation-form select,
+.contact-form input,
+.contact-form textarea,
+.custom-select-btn,
+.form-control,
+.nx-input,
+.nx-select,
+.nx-textarea {
+  width: 100%;
+  min-height: var(--size-input-height);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  padding: 0 var(--space-3);
+  outline: none;
+}
+
+.automation-form textarea,
+.contact-form textarea,
+.nx-textarea {
+  min-height: 112px;
+  padding-top: var(--space-3);
+  resize: vertical;
+}
+
+.topbar-actions input:focus,
+.panel-header select:focus,
+.status-select:focus,
+.automation-form input:focus,
+.automation-form textarea:focus,
+.automation-form select:focus,
+.contact-form input:focus,
+.contact-form textarea:focus,
+.custom-select-btn:focus,
+.form-control:focus,
+.nx-input:focus,
+.nx-select:focus,
+.nx-textarea:focus {
+  border-color: rgba(37, 99, 235, 0.72);
+  box-shadow: var(--shadow-focus);
+}
+
+.form-grid,
+.nx-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.automation-form label,
+.contact-form label,
+.modal-label,
+.nx-field label {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.form-help,
+.nx-help-text,
+.nx-validation-message {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+}
+
+.nx-validation-message.is-error {
+  color: var(--color-danger);
+}
+
+.lead-modal,
+.nx-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.lead-modal.open,
+.nx-modal.open {
+  display: flex;
+}
+
+.lead-modal-card,
+.nx-modal-card {
+  position: relative;
+  width: min(100%, var(--size-modal-md));
+  max-height: min(86vh, 920px);
+  overflow: auto;
+  padding: var(--space-6);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.quote-builder-card {
+  width: min(100%, var(--size-modal-lg));
+}
+
+.modal-grid,
+.nx-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.modal-grid div,
+.nx-summary-tile {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-subtle);
+}
+
+.empty-state,
+.quote-empty-state,
+.nx-empty-state {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+}
+
+.empty-state strong,
+.nx-empty-state strong {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-card-title);
+}
+
+.nx-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+}
+
+.nx-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.68), transparent);
+  animation: nx-skeleton 1.2s infinite;
+}
+
+@keyframes nx-skeleton {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.nx-alert,
+.nx-toast {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+  color: var(--color-text-secondary);
+}
+
+.nx-alert-success,
+.nx-toast-success {
+  border-color: #bbf7d0;
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.nx-alert-warning,
+.nx-toast-warning {
+  border-color: #fde68a;
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.nx-alert-error,
+.nx-toast-error {
+  border-color: #fecaca;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}

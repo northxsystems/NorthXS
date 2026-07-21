@@ -3,321 +3,491 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NorthX Systems | AI Lead Recovery</title>
+  <title>NorthX | Operating System for Local Service Businesses</title>
+  <meta name="description" content="NorthX helps local service businesses capture leads, recover missed revenue, automate follow-up, manage customers, and run daily operations from one place." />
+  <meta property="og:title" content="NorthX | Operating System for Local Service Businesses" />
+  <meta property="og:description" content="Capture leads, recover missed revenue, automate follow-up, manage customers, and run daily operations from one place." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://northxsystems.com/" />
+  <link rel="canonical" href="https://northxsystems.com/" />
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="public/css/northx-design-system.css" />
   <link rel="stylesheet" href="public/css/styles.css" />
+  <link rel="stylesheet" href="public/css/homepage.css" />
 </head>
-<body>
+<body class="marketing-body">
 
-  <header class="navbar">
-    <div class="logo">NorthX<span>Systems</span></div>
+  <header class="marketing-nav" id="top">
+    <a href="#top" class="marketing-logo" aria-label="NorthX home">
+      <span class="brand-mark">NX</span>
+      <span>
+        <strong>NorthX</strong>
+        <small>Local Business OS</small>
+      </span>
+    </a>
 
-    <nav>
-      <a href="#services">Services</a>
-      <a href="#demo">Demo</a>
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="marketing-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="nx-visually-hidden">Open navigation</span>
+    </button>
+
+    <nav class="marketing-menu" id="marketing-menu" aria-label="Public navigation">
+      <a href="#product">Product</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#solutions">Solutions</a>
       <a href="#pricing">Pricing</a>
-      <a href="#contact">Contact</a>
+      <a href="#faq">Resources</a>
     </nav>
 
-    <a href="./public/login.html" class="login-btn">Client Login</a>
+    <div class="marketing-nav-actions">
+      <a href="./public/login.html" class="nav-login">Log In</a>
+      <a href="#contact" class="nav-cta">Book a Demo</a>
+    </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <p class="eyebrow">AI-Powered Lead Recovery</p>
-      <h1>Stop Losing Customers From Missed Calls.</h1>
-      <p class="hero-text">
-        NorthX helps local businesses respond with AI, SMS, quote intake, and customer
-        organization tools that turn missed opportunities into clean, trackable leads.
-      </p>
+  <main>
+    <section class="home-hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">The operating system for local service businesses</p>
+        <h1>Run Your Entire Business From One Place.</h1>
+        <p class="hero-lede">
+          NorthX helps local service businesses capture every lead, recover missed revenue, automate repetitive work, and stay in control without adding more disconnected software or office overhead.
+        </p>
 
-      <div class="hero-buttons">
-        <a href="#demo" class="primary-btn">View Demo</a>
-        <a href="#contact" class="secondary-btn">Book Setup Call</a>
-      </div>
-
-      <div class="hero-stats">
-        <div>
-          <h3>24/7</h3>
-          <p>Lead response</p>
+        <div class="hero-actions">
+          <a href="#contact" class="primary-action">Book a Demo</a>
+          <a href="#product" class="secondary-action">Explore the Platform</a>
         </div>
-        <div>
-          <h3>Instant</h3>
-          <p>SMS follow-up</p>
+
+        <p class="hero-trust">Built for contractors and local service teams that want to grow without creating more administrative chaos.</p>
+      </div>
+
+      <div class="hero-product-frame" aria-label="NorthX Overview dashboard preview">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <span></span>
+            <span></span>
+            <span></span>
+            <p>NorthX Overview</p>
+          </div>
+
+          <div class="product-preview overview-preview">
+            <div class="preview-sidebar">
+              <strong>NorthX</strong>
+              <span class="active"></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="preview-main">
+              <div class="preview-header">
+                <div>
+                  <span>Overview</span>
+                  <h2>Good morning.</h2>
+                  <p>NorthX is checking what needs attention today.</p>
+                </div>
+                <div class="preview-actions">
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+              <div class="preview-metrics">
+                <div><span>New Leads</span><strong>4</strong></div>
+                <div><span>Missed Calls</span><strong>2</strong></div>
+                <div><span>Quotes Awaiting</span><strong>3</strong></div>
+                <div><span>Today</span><strong>4</strong></div>
+              </div>
+
+              <div class="preview-grid">
+                <div class="preview-panel attention">
+                  <h3>Needs Your Attention</h3>
+                  <p>Quote follow-up due</p>
+                  <p>Missed caller needs response</p>
+                  <p>New lead waiting</p>
+                </div>
+                <div class="preview-panel">
+                  <h3>Revenue Opportunities</h3>
+                  <p>Open quote pipeline</p>
+                  <strong>$8,400</strong>
+                </div>
+                <div class="preview-panel">
+                  <h3>Today’s Schedule</h3>
+                  <p>2 appointments</p>
+                  <p>5 follow-ups</p>
+                </div>
+              </div>
+
+              <div class="preview-bottom">
+                <div><h3>Recent Activity</h3><p>Lead captured from quote request</p></div>
+                <div><h3>Business Health</h3><p>Follow-up response is improving</p></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3>Clean</h3>
-          <p>Lead dashboard</p>
+
+        <div class="floating-note note-one">3 quotes need follow-up</div>
+        <div class="floating-note note-two">2 missed calls recovered</div>
+        <div class="floating-note note-three">$8,400 open pipeline</div>
+      </div>
+    </section>
+
+    <section class="home-section chaos-section" id="how-it-works">
+      <div class="section-heading centered">
+        <p class="section-kicker">From scattered work to one system</p>
+        <h2>Stop Running Your Business Across Six Different Tools.</h2>
+        <p>Your leads, customers, quotes, follow-ups, campaigns, and daily priorities should not live in separate apps and notebooks. NorthX brings the operation together so nothing gets lost.</p>
+      </div>
+
+      <div class="consolidation-map" aria-label="Business tools flowing into NorthX">
+        <div class="tool-cloud">
+          <span>Missed calls</span>
+          <span>Text messages</span>
+          <span>Spreadsheets</span>
+          <span>Quote docs</span>
+          <span>Calendars</span>
+          <span>Follow-up reminders</span>
+          <span>Campaign lists</span>
+          <span>Analytics</span>
+          <span>Social inquiries</span>
         </div>
-      </div>
-    </div>
-
-    <div class="hero-card">
-      <div class="card-header">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <div class="lead-alert">
-        <p>New Missed Call Lead</p>
-        <h3>+1 (403) 555-0182</h3>
-        <span>Auto-text sent successfully</span>
-      </div>
-
-      <div class="message-preview">
-        "Hey! Sorry we missed your call. Please reply with your name and what service you need."
-      </div>
-
-      <div class="dashboard-preview">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section feature-section" id="demo">
-    <div class="chat-preview feature-mockup" aria-label="AI assistant conversation preview">
-      <div class="mockup-topbar">
-        <span></span>
-        <strong>NorthX Assistant</strong>
-      </div>
-
-      <div class="chat-message customer">
-        <span>Customer</span>
-        <p>Hi, I need help with a furnace install.</p>
-      </div>
-      <div class="chat-message assistant">
-        <span>Assistant</span>
-        <p>Absolutely - what city are you located in?</p>
-      </div>
-      <div class="chat-message customer">
-        <span>Customer</span>
-        <p>Calgary.</p>
-      </div>
-      <div class="chat-message assistant">
-        <span>Assistant</span>
-        <p>Great. What's the best phone number to reach you?</p>
-      </div>
-    </div>
-
-    <div class="feature-copy">
-      <p class="eyebrow">AI Chatbot</p>
-      <h2>Turn website visitors into leads with an AI assistant.</h2>
-      <p class="section-text">
-        The NorthX chatbot answers questions, collects customer details, and creates
-        leads or quote requests automatically so every visitor has a clear next step.
-      </p>
-      <ul class="feature-list">
-        <li>Answers questions 24/7</li>
-        <li>Collects name, phone, and service details</li>
-        <li>Sends new leads into your dashboard</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section feature-section feature-section-alt">
-    <div class="feature-copy">
-      <p class="eyebrow">Quote Requests</p>
-      <h2>Collect better quote requests from your website.</h2>
-      <p class="section-text">
-        Customers can submit service details, urgency, address, and notes through a
-        branded quote form before your team ever picks up the phone.
-      </p>
-      <ul class="feature-list">
-        <li>Branded quote request forms</li>
-        <li>Captures job details before the call</li>
-        <li>Sends requests directly into NorthX</li>
-      </ul>
-    </div>
-
-    <div class="quote-preview feature-mockup" aria-label="Quote request form preview">
-      <div class="mockup-topbar">
-        <span></span>
-        <strong>Quote Request</strong>
-      </div>
-
-      <label>Name</label>
-      <div class="form-line">Taylor Morgan</div>
-      <label>Phone</label>
-      <div class="form-line">(403) 555-0198</div>
-      <label>Service requested</label>
-      <div class="form-line">Furnace install</div>
-      <label>Urgency</label>
-      <div class="form-line">This week</div>
-      <label>Description</label>
-      <div class="form-area">Replacing an older unit and need an estimate.</div>
-      <button type="button">Submit Quote Request</button>
-    </div>
-  </section>
-
-  <section class="section services-section" id="services">
-    <p class="eyebrow">Core Services</p>
-    <h2>Everything NorthX helps you manage.</h2>
-
-    <div class="service-grid expanded-service-grid">
-      <div class="service-card">
-        <h3>Missed Call Text-Back</h3>
-        <p>Reply instantly when your team misses a call and capture the lead before it cools off.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>AI Website Assistant</h3>
-        <p>Answer visitor questions and qualify service needs from your website around the clock.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>Quote Requests</h3>
-        <p>Collect service details, urgency, address, and notes in a branded intake flow.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>SMS Campaigns</h3>
-        <p>Send retention messages, review requests, and follow-ups from one simple control center.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>Customer Timeline</h3>
-        <p>See calls, messages, chatbot activity, quotes, and follow-ups in one customer history.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>Internal Notes</h3>
-        <p>Keep job context, customer preferences, and team updates attached to each customer.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section dashboard-story-section">
-    <div class="section-heading">
-      <p class="eyebrow">Dashboard</p>
-      <h2>Everything organized in one dashboard.</h2>
-      <p class="section-text">
-        Track missed calls, leads, quotes, chatbot conversations, SMS campaigns, and
-        customer activity from one clean portal.
-      </p>
-    </div>
-
-    <div class="large-dashboard-preview" aria-label="NorthX dashboard preview">
-      <div class="dashboard-preview-header">
-        <div>
-          <span>NorthX Portal</span>
-          <strong>Today</strong>
-        </div>
-        <p>Live lead activity</p>
-      </div>
-
-      <div class="dashboard-metric-grid">
-        <div>
-          <span>New Leads</span>
-          <strong>18</strong>
-        </div>
-        <div>
-          <span>Quote Requests</span>
-          <strong>7</strong>
-        </div>
-        <div>
-          <span>SMS Sent</span>
-          <strong>142</strong>
-        </div>
-        <div>
-          <span>Chatbot Conversations</span>
-          <strong>23</strong>
+        <div class="map-arrow">into</div>
+        <div class="northx-system-card">
+          <span class="brand-mark">NX</span>
+          <strong>One NorthX operating system</strong>
+          <p>Daily priorities, customer records, revenue opportunities, follow-up, campaigns, and performance in one place.</p>
         </div>
       </div>
+    </section>
 
-      <div class="recent-activity">
-        <h3>Recent Activity</h3>
-        <div class="activity-row">
-          <span></span>
-          <p>Missed call lead captured from +1 (403) 555-0182</p>
-        </div>
-        <div class="activity-row">
-          <span></span>
-          <p>New quote request submitted for furnace install</p>
-        </div>
-        <div class="activity-row">
-          <span></span>
-          <p>Review request campaign sent to 36 customers</p>
-        </div>
-        <div class="activity-row">
-          <span></span>
-          <p>Chatbot qualified a new Calgary service lead</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section pricing-section" id="pricing">
-    <p class="eyebrow">Pricing</p>
-    <h2>Start simple. Scale later.</h2>
-
-    <div class="plans-grid homepage-plans-grid">
-      <div class="plan-card">
-        <p class="plan-label">Starter</p>
-        <h2>$99<span>/mo</span></h2>
-        <ul>
-          <li>Missed call text-back</li>
-          <li>Lead dashboard</li>
-          <li>Messages page</li>
-          <li>500 SMS/month</li>
+    <section class="home-section product-section" id="product">
+      <div class="product-copy">
+        <p class="section-kicker">Product command center</p>
+        <h2>Know What Is Happening in Your Business Every Morning.</h2>
+        <p>The Overview page acts like the owner’s daily briefing: what needs attention, where revenue is waiting, which customers need follow-up, and what changed since yesterday.</p>
+        <ul class="outcome-list">
+          <li>See what needs your attention first</li>
+          <li>Know where revenue is currently waiting</li>
+          <li>Catch leads and quotes before they go cold</li>
+          <li>Understand today without digging through multiple systems</li>
         </ul>
-        <a href="#contact">Request Access</a>
       </div>
 
-      <div class="plan-card featured-plan">
-        <p class="plan-label">Growth</p>
-        <h2>$199<span>/mo</span></h2>
-        <ul>
-          <li>Everything in Starter</li>
-          <li>Retention SMS campaigns</li>
-          <li>Review request campaigns</li>
-          <li>Quote request system</li>
-          <li>1,500 SMS/month</li>
-        </ul>
-        <a href="#contact">Book Setup Call</a>
+      <div class="command-center-card">
+        <div class="daily-brief">
+          <p>Owner Briefing</p>
+          <h3>Today needs focus in three places.</h3>
+          <div class="brief-row"><span></span><strong>Follow up on open quotes</strong><small>Revenue waiting</small></div>
+          <div class="brief-row"><span></span><strong>Respond to new leads</strong><small>Before they cool off</small></div>
+          <div class="brief-row"><span></span><strong>Review missed calls</strong><small>Recovery available</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section outcomes-section" id="solutions">
+      <div class="section-heading centered">
+        <p class="section-kicker">Business outcomes</p>
+        <h2>Built Around the Work That Protects Revenue.</h2>
+        <p>NorthX is organized around what owners need to accomplish, not technical modules.</p>
       </div>
 
-      <div class="plan-card">
-        <p class="plan-label">AI Front Desk</p>
-        <h2>$399<span>/mo</span></h2>
-        <ul>
-          <li>Everything in Growth</li>
-          <li>AI chatbot</li>
-          <li>AI quote intake</li>
-          <li>Customer timeline</li>
-          <li>3,000 SMS/month</li>
-        </ul>
-        <a href="#contact">Book Setup Call</a>
+      <div class="outcome-showcase">
+        <article class="outcome-row">
+          <div class="mini-product-card inbox-card">
+            <span class="status-dot"></span>
+            <h3>New inquiry captured</h3>
+            <p>Website quote request and missed call response are now visible in the same workflow.</p>
+          </div>
+          <div>
+            <h3>Never Miss Another Opportunity</h3>
+            <p>When a customer reaches out, NorthX helps make sure they receive a response and enter a visible workflow instead of disappearing into voicemail or forgotten messages.</p>
+            <span>Missed-call recovery · Lead capture · Quote requests · Unified inbox</span>
+          </div>
+        </article>
+
+        <article class="outcome-row reverse">
+          <div class="mini-product-card pipeline-card">
+            <h3>Open Pipeline</h3>
+            <div class="pipeline-line"><span>Awaiting follow-up</span><strong>$4,800</strong></div>
+            <div class="pipeline-line"><span>Quote sent</span><strong>$3,600</strong></div>
+          </div>
+          <div>
+            <h3>Follow Up Before Revenue Disappears</h3>
+            <p>NorthX keeps leads, quotes, and reminders visible so your team can recover money the business already worked to earn.</p>
+            <span>Quote reminders · Lead follow-up · Overdue opportunity alerts · Pipeline visibility</span>
+          </div>
+        </article>
+
+        <article class="outcome-row">
+          <div class="mini-product-card customer-card">
+            <h3>Customer Record</h3>
+            <p>Contact details, notes, quotes, history, and next actions stay attached to one reliable profile.</p>
+          </div>
+          <div>
+            <h3>Keep Every Customer Organized</h3>
+            <p>Give the office and field team a shared source of truth for every customer, instead of hunting through texts, paper notes, and old quote files.</p>
+            <span>Profiles · Conversation history · Quotes · Notes · Activity timeline</span>
+          </div>
+        </article>
+
+        <article class="outcome-row reverse">
+          <div class="mini-product-card automation-card">
+            <h3>Office Workflows</h3>
+            <p>Recover missed calls, confirm appointments, request reviews, and reconnect with inactive customers.</p>
+          </div>
+          <div>
+            <h3>Automate Repetitive Office Work</h3>
+            <p>NorthX helps reduce repetitive admin work so owners can grow without immediately adding more office overhead.</p>
+            <span>Follow-up messages · Appointment reminders · Review requests · Recurring service reminders</span>
+          </div>
+        </article>
+
+        <article class="outcome-row">
+          <div class="mini-product-card analytics-card">
+            <h3>Business Performance</h3>
+            <div class="bar-row"><span></span><span></span><span></span></div>
+            <p>See which work creates revenue and where opportunities slow down.</p>
+          </div>
+          <div>
+            <h3>Understand What Is Making You Money</h3>
+            <p>Make decisions from business signals like lead sources, pipeline value, quote performance, response times, recovered opportunities, and campaign results.</p>
+            <span>Lead sources · Pipeline value · Quote performance · Campaign results</span>
+          </div>
+        </article>
       </div>
+    </section>
+
+    <section class="home-section lifecycle-section">
+      <div class="section-heading centered">
+        <p class="section-kicker">Customer lifecycle</p>
+        <h2>From First Inquiry to Repeat Customer.</h2>
+        <p>NorthX connects the entire journey so your team always knows where each opportunity stands and what should happen next.</p>
+      </div>
+
+      <div class="workflow-strip" aria-label="NorthX customer lifecycle workflow">
+        <span>New Inquiry</span>
+        <span>Conversation</span>
+        <span>Qualified Lead</span>
+        <span>Quote</span>
+        <span>Follow-Up</span>
+        <span>Customer Won</span>
+        <span>Appointment</span>
+        <span>Review Request</span>
+        <span>Future Campaign</span>
+        <span>Repeat Customer</span>
+      </div>
+    </section>
+
+    <section class="home-section daily-section">
+      <div class="morning-card">
+        <p class="section-kicker">Example daily briefing</p>
+        <h2>The First Screen You Open Every Morning.</h2>
+        <div class="briefing-panel">
+          <h3>Good morning, Austin.</h3>
+          <ul>
+            <li>4 new leads need a first response</li>
+            <li>3 quotes worth $7,200 need follow-up</li>
+            <li>2 appointments are scheduled</li>
+            <li>1 missed caller still needs attention</li>
+            <li>5 completed customers are ready for a review request</li>
+          </ul>
+          <div class="briefing-total">
+            <span>Potential revenue waiting</span>
+            <strong>$12,450</strong>
+          </div>
+        </div>
+      </div>
+      <div class="daily-copy">
+        <p>NorthX does not just store information. It helps owners understand what matters today and where action can create revenue.</p>
+        <p>That makes it useful as a morning check-in, an end-of-day review, and the place your team returns to between jobs, calls, and customer follow-up.</p>
+      </div>
+    </section>
+
+    <section class="home-section growth-section">
+      <div class="section-heading centered">
+        <p class="section-kicker">Growth and campaigns</p>
+        <h2>When You Want More Business, Start in NorthX.</h2>
+        <p>Campaigns can use the customer and lead data already inside NorthX, so growth work starts from real business context instead of exported lists.</p>
+      </div>
+
+      <div class="campaign-layout">
+        <div class="campaign-board">
+          <div><strong>Bring Past Customers Back</strong><span>Available now</span></div>
+          <div><strong>Request Reviews</strong><span>Available now</span></div>
+          <div><strong>Follow Up With Old Leads</strong><span>Available now</span></div>
+          <div><strong>Promote Seasonal Services</strong><span>Available now</span></div>
+          <div><strong>Send SMS Campaigns</strong><span>Available now</span></div>
+          <div><strong>Send Email Campaigns</strong><span>Coming soon</span></div>
+          <div><strong>Ask for Referrals</strong><span>Coming soon</span></div>
+          <div><strong>Rebook Repeat Services</strong><span>Coming soon</span></div>
+        </div>
+        <div class="campaign-example">
+          <p>Example</p>
+          <h3>A landscaping company can send a spring cleanup campaign to past landscaping customers without exporting contacts into another platform.</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section automation-section">
+      <div>
+        <p class="section-kicker">Automation and assistant</p>
+        <h2>Automation That Works Like an Extra Office Employee.</h2>
+        <p>NorthX focuses automation on useful outcomes: recover missed calls, welcome new leads, follow up on quotes, confirm appointments, request reviews, and reconnect inactive customers.</p>
+      </div>
+      <div class="assistant-preview">
+        <span class="roadmap-label">Coming to Pro</span>
+        <h3>Meet Your AI Business Manager.</h3>
+        <p>NorthX is being built to summarize what happened, identify cold leads, flag neglected quotes, recommend customer campaigns, surface revenue opportunities, and tell owners what deserves attention.</p>
+        <small>Future assistant capabilities will be labeled clearly as they become available.</small>
+      </div>
+    </section>
+
+    <section class="home-section integrations-section">
+      <div class="section-heading centered">
+        <p class="section-kicker">Connected tools</p>
+        <h2>Bring Your Business Tools Together.</h2>
+        <p>NorthX should become the place where customer activity, communication, marketing, and operations come together.</p>
+      </div>
+
+      <div class="integration-grid">
+        <div>Business phone <span>Available now where configured</span></div>
+        <div>SMS <span>Available now</span></div>
+        <div>Website forms <span>Available now</span></div>
+        <div>Calendar <span>Foundation available</span></div>
+        <div>Email <span>Planned</span></div>
+        <div>Facebook and Instagram leads <span>Planned</span></div>
+        <div>Advertising data <span>Planned</span></div>
+        <div>Payment and accounting tools <span>Planned</span></div>
+      </div>
+    </section>
+
+    <section class="home-section pricing-home-section" id="pricing">
+      <div class="section-heading centered">
+        <p class="section-kicker">Pricing</p>
+        <h2>Choose the NorthX Plan That Fits How You Operate.</h2>
+        <p>No long-term contracts. Usage limits and add-ons are shown clearly before activation.</p>
+      </div>
+
+      <div class="pricing-grid" id="pricing-grid" aria-live="polite"></div>
+      <div class="pricing-comparison" id="pricing-comparison"></div>
+    </section>
+
+    <section class="home-section faq-section" id="faq">
+      <div class="section-heading centered">
+        <p class="section-kicker">FAQ</p>
+        <h2>Questions Business Owners Usually Ask.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details>
+          <summary>What type of businesses is NorthX built for?</summary>
+          <p>NorthX is built for local service businesses such as contractors, home service teams, trades, and appointment-based local companies that need to manage leads, customers, quotes, follow-up, and campaigns from one place.</p>
+        </details>
+        <details>
+          <summary>Does NorthX replace my CRM?</summary>
+          <p>For many small service businesses, NorthX can become the main customer and lead system. If you already use a CRM, NorthX can still help organize daily work, missed opportunities, follow-up, and customer activity around your operating workflow.</p>
+        </details>
+        <details>
+          <summary>Can NorthX recover missed calls?</summary>
+          <p>Yes. Missed-call recovery is one of the core workflows NorthX supports when phone and SMS setup is configured for your business.</p>
+        </details>
+        <details>
+          <summary>Does NorthX include SMS?</summary>
+          <p>Yes. Plans include a monthly SMS segment allowance. Additional usage can be handled separately or as an add-on depending on setup.</p>
+        </details>
+        <details>
+          <summary>Are email campaigns included?</summary>
+          <p>Email campaigns are part of the roadmap and are labeled as coming soon. Current campaign workflows focus on available lead, customer, follow-up, review, and SMS capabilities.</p>
+        </details>
+        <details>
+          <summary>Can NorthX connect to Facebook or Instagram?</summary>
+          <p>Social lead connections are planned. NorthX already supports website forms and customer workflows, and future integrations will be labeled clearly as they become available.</p>
+        </details>
+        <details>
+          <summary>Is NorthX difficult to set up?</summary>
+          <p>The goal is a guided setup. NorthX is designed for non-technical owners and office teams, with support for getting the core workflows connected.</p>
+        </details>
+        <details>
+          <summary>Can my team use it?</summary>
+          <p>Yes. NorthX is intended for owners, office staff, and team members who need visibility into leads, customers, quotes, and follow-up work.</p>
+        </details>
+        <details>
+          <summary>Is there a contract?</summary>
+          <p>The public pricing direction is no long-term contracts. Any usage limits, add-ons, and activation details should be reviewed clearly before setup.</p>
+        </details>
+        <details>
+          <summary>Which features are available now versus coming soon?</summary>
+          <p>Core operating workflows such as Overview, leads, customers, quote requests, timelines, SMS, missed-call recovery, and basic follow-up exist in the product. Email campaigns, deeper integrations, and the AI Business Manager are roadmap items and are labeled as future capabilities.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="final-home-cta" id="contact">
+      <div>
+        <p class="section-kicker">See NorthX in action</p>
+        <h2>Run Your Business With More Control and Less Chaos.</h2>
+        <p>See how NorthX can help your business capture more opportunities, automate repetitive work, and operate from one place.</p>
+        <div class="hero-actions">
+          <a href="#contact-form" class="primary-action">Book a Demo</a>
+          <a href="#product" class="secondary-action">Explore the Platform</a>
+        </div>
+      </div>
+
+      <form class="marketing-contact-form" id="contact-form">
+        <label>
+          Business Name
+          <input name="business" type="text" autocomplete="organization" required />
+        </label>
+        <label>
+          Your Name
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label>
+          Email Address
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          Phone Number
+          <input name="phone" type="tel" autocomplete="tel" />
+        </label>
+        <label>
+          What type of business do you run?
+          <textarea name="message" rows="4"></textarea>
+        </label>
+        <button type="submit" class="primary-action">Request Demo</button>
+        <p id="contact-status" class="contact-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="marketing-footer" id="footer">
+    <div>
+      <a href="#top" class="marketing-logo" aria-label="NorthX home">
+        <span class="brand-mark">NX</span>
+        <span>
+          <strong>NorthX</strong>
+          <small>The operating system for local service businesses.</small>
+        </span>
+      </a>
+      <p>Run daily operations, recover missed revenue, and keep every customer workflow in one place.</p>
     </div>
-  </section>
-
-  <section class="section contact-section" id="contact">
-    <div class="final-cta">
-      <p class="eyebrow">Book A Setup Call</p>
-      <h2>Ready to recover more leads?</h2>
-      <p class="section-text">
-        Book a quick setup call and see how NorthX can capture missed calls, qualify
-        website visitors, and organize quote requests.
-      </p>
-      <a href="#contact-form" class="primary-btn">Book Setup Call</a>
-    </div>
-
-    <form class="contact-form" id="contact-form">
-      <input type="text" placeholder="Business Name" required />
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Email Address" required />
-      <input type="tel" placeholder="Phone Number" />
-      <textarea placeholder="What type of business do you run?"></textarea>
-      <button type="submit">Request Demo</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>&copy; 2026 NorthX Systems. Automated lead recovery for local businesses.</p>
+    <nav aria-label="Footer navigation">
+      <a href="#product">Product</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#pricing">Pricing</a>
+      <a href="./public/login.html">Login</a>
+      <a href="#contact">Contact</a>
+      <a href="#" aria-label="Privacy policy placeholder">Privacy</a>
+      <a href="#" aria-label="Terms placeholder">Terms</a>
+      <a href="#contact">Support</a>
+    </nav>
+    <p>&copy; 2026 NorthX Systems. The operating system for local service businesses.</p>
   </footer>
 
-  <script src="public/js/main.js"></script>
+  <script src="public/js/pricing-config.js"></script>
+  <script src="public/js/homepage.js"></script>
 </body>
 </html>

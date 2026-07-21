@@ -20,17 +20,39 @@ function escapeHtml(value) {
     .replace(/'/g, "&#039;");
 }
 
-function formatDate(value, options) {
-  if (!value) return "-";
-  return new Date(value).toLocaleString(undefined, options);
-}
-
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0
   }).format(Number(value) || 0);
+}
+
+function formatTime(value) {
+  if (!value) return "";
+  return new Date(value).toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function formatRelativeTime(value) {
+  if (!value) return "";
+
+  const diffMs = Date.now() - new Date(value).getTime();
+  const minute = 60 * 1000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+
+  if (diffMs < minute) return "Just now";
+  if (diffMs < hour) return `${Math.floor(diffMs / minute)} min ago`;
+  if (diffMs < day) return `${Math.floor(diffMs / hour)} hr ago`;
+  if (diffMs < 7 * day) return `${Math.floor(diffMs / day)} days ago`;
+
+  return new Date(value).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric"
+  });
 }
 
 function startOfDay(date = new Date()) {
@@ -239,27 +261,12 @@ function greetingPrefix() {
   return "Good evening";
 }
 
-function renderHeader() {
-  const ownerName = getOwnerName();
-  const companyName = getCompanyDisplayName();
-  const dateText = new Date().toLocaleDateString(undefined, {
-    weekday: "long",
-    month: "long",
-    day: "numeric"
-  });
+function quoteValue(quote) {
+  return Number(quote.grand_total || quote.estimated_value || quote.value || 0) || 0;
+}
 
-  document.getElementById("overview-date").textContent = dateText;
-  document.getElementById("overview-greeting").textContent =
-    ownerName ? `${greetingPrefix()}, ${ownerName}.` : `${greetingPrefix()}.`;
-
-  const attentionCount = buildAttentionItems().length;
-  document.getElementById("overview-summary").textContent =
-    attentionCount > 0
-      ? `Here is what needs your attention at ${companyName} today.`
-      : `${companyName} is caught up. New leads, replies, and quote activity will appear here as they arrive.`;
-
-  const workspaceName = document.getElementById("shell-workspace-name");
-  if (workspaceName) workspaceName.textContent = companyName;
+function leadValue(lead) {
+  return Number(lead.estimated_value || lead.value || 0) || 0;
 }
 
 function getOpenQuoteRequests() {
@@ -274,130 +281,170 @@ function getOpenQuotes() {
   );
 }
 
-function quoteValue(quote) {
-  return Number(quote.grand_total || quote.estimated_value || quote.value || 0) || 0;
+function getUncontactedLeads() {
+  return overviewData.leads.filter((lead) => {
+    const status = String(lead.status || lead.follow_up_status || lead.call_status || "new").toLowerCase();
+    return !["contacted", "booked", "won", "lost"].some((closed) => status.includes(closed));
+  });
 }
 
-function leadValue(lead) {
-  return Number(lead.estimated_value || lead.value || 0) || 0;
+function getDueFollowUps() {
+  return overviewData.scheduledMessages.filter((message) =>
+    message.status === "pending" && isBefore(message.send_at, endOfDay())
+  );
+}
+
+function getAwaitingQuotes() {
+  return getOpenQuoteRequests().filter((quote) =>
+    ["quote_sent", "reviewing"].includes(quote.status || "new")
+  );
+}
+
+function getMissedCalls() {
+  return getUncontactedLeads().filter((lead) =>
+    String(lead.call_status || "").toLowerCase().includes("missed")
+  );
+}
+
+function renderHeader() {
+  const ownerName = getOwnerName();
+  const companyName = getCompanyDisplayName();
+  const attentionCount = buildAttentionItems().length;
+
+  document.getElementById("overview-date").textContent = new Date().toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric"
+  });
+  document.getElementById("overview-greeting").textContent =
+    ownerName ? `${greetingPrefix()}, ${ownerName}` : greetingPrefix();
+  document.getElementById("overview-summary").textContent =
+    attentionCount > 0
+      ? `Here is what is happening with ${companyName} today.`
+      : `${companyName} is caught up. New leads, replies, and quote activity will appear here.`;
+
+  const workspaceName = document.getElementById("shell-workspace-name");
+  if (workspaceName) workspaceName.textContent = companyName;
 }
 
 function renderMetrics() {
   const weekStart = daysAgo(7);
+  const yesterdayStart = startOfDay(daysAgo(1));
+  const yesterdayEnd = endOfDay(daysAgo(1));
   const monthStart = new Date();
   monthStart.setDate(1);
   monthStart.setHours(0, 0, 0, 0);
 
   const newLeads = overviewData.leads.filter((lead) => isAfter(lead.created_at, weekStart));
+  const yesterdayLeads = overviewData.leads.filter((lead) =>
+    isAfter(lead.created_at, yesterdayStart) && isBefore(lead.created_at, yesterdayEnd)
+  );
   const missedCalls = overviewData.leads.filter((lead) =>
-    (lead.call_status || "").toLowerCase().includes("missed") && isAfter(lead.created_at, weekStart)
+    String(lead.call_status || "").toLowerCase().includes("missed") && isAfter(lead.created_at, weekStart)
   );
-  const awaitingResponse = getOpenQuoteRequests().filter((quote) =>
-    ["quote_sent", "reviewing"].includes(quote.status || "new")
-  );
+  const awaitingResponse = getAwaitingQuotes();
   const monthlyRevenue = overviewData.quotes
     .filter((quote) => quote.status === "accepted" && isAfter(quote.updated_at || quote.created_at, monthStart))
     .reduce((sum, quote) => sum + quoteValue(quote), 0);
-  const dueFollowUps = overviewData.scheduledMessages.filter((message) =>
-    message.status === "pending" && isBefore(message.send_at, endOfDay())
-  );
+  const dueFollowUps = getDueFollowUps();
 
   document.getElementById("metric-new-leads").textContent = newLeads.length;
   document.getElementById("metric-new-leads-context").textContent =
-    `${overviewData.leads.length} total captured opportunities`;
+    newLeads.length >= yesterdayLeads.length
+      ? `+${Math.max(newLeads.length - yesterdayLeads.length, 0)} vs yesterday`
+      : `${yesterdayLeads.length - newLeads.length} fewer than yesterday`;
 
   document.getElementById("metric-missed-calls").textContent = missedCalls.length;
   document.getElementById("metric-missed-calls-context").textContent =
-    missedCalls.length === 1 ? "Recovered automatically this week" : "Recovered automatically this week";
+    missedCalls.length ? "Recovery available" : "None waiting";
 
   document.getElementById("metric-quotes-awaiting").textContent = awaitingResponse.length;
   document.getElementById("metric-quotes-awaiting-context").textContent =
-    `${formatCurrency(awaitingResponse.reduce((sum, quote) => sum + quoteValue(quote), 0))} connected to open quote records`;
+    `${formatCurrency(awaitingResponse.reduce((sum, quote) => sum + quoteValue(quote), 0))} potential`;
+
+  document.getElementById("metric-appointments-today").textContent = "0";
+  document.getElementById("metric-appointments-today-context").textContent = "No appointments scheduled";
 
   document.getElementById("metric-revenue-month").textContent = formatCurrency(monthlyRevenue);
-  document.getElementById("metric-revenue-month-context").textContent = "Accepted quote value this month";
+  document.getElementById("metric-revenue-month-context").textContent = "Accepted quote value";
 
   document.getElementById("metric-followups").textContent = dueFollowUps.length;
   document.getElementById("metric-followups-context").textContent =
-    dueFollowUps.length ? "Pending follow-ups due by end of day" : "No scheduled follow-ups due today";
+    dueFollowUps.length ? "Needs review today" : "Nothing due today";
 }
 
 function buildAttentionItems() {
   const twoDaysAgo = daysAgo(2);
-  const newUncontactedLeads = overviewData.leads.filter((lead) => {
-    const status = String(lead.status || lead.follow_up_status || lead.call_status || "new").toLowerCase();
-    return !["contacted", "booked", "won", "lost"].some((closed) => status.includes(closed));
-  });
-  const missedCalls = newUncontactedLeads.filter((lead) =>
-    String(lead.call_status || "").toLowerCase().includes("missed")
-  );
   const staleQuotes = getOpenQuoteRequests().filter((quote) =>
     isBefore(quote.updated_at || quote.created_at, twoDaysAgo) &&
     ["quote_sent", "reviewing"].includes(quote.status || "new")
   );
+  const missedCalls = getMissedCalls();
+  const newUncontactedLeads = getUncontactedLeads();
   const unreadReplies = overviewData.messages.filter((message) =>
     message.direction === "received" && isAfter(message.created_at, daysAgo(3))
   );
-  const dueFollowUps = overviewData.scheduledMessages.filter((message) =>
-    message.status === "pending" && isBefore(message.send_at, endOfDay())
-  );
-
+  const dueFollowUps = getDueFollowUps();
   const items = [];
+
+  if (missedCalls.length > 0) {
+    const value = missedCalls.reduce((sum, lead) => sum + leadValue(lead), 0);
+    items.push({
+      icon: "phone-missed",
+      title: `${missedCalls.length} missed call${missedCalls.length === 1 ? "" : "s"}`,
+      detail: "These callers have not been contacted yet.",
+      meta: value > 0 ? `${formatCurrency(value)} potential revenue` : "High-intent leads",
+      action: "Review calls",
+      href: "leads.html",
+      tone: "red"
+    });
+  }
 
   if (staleQuotes.length > 0) {
     const value = staleQuotes.reduce((sum, quote) => sum + quoteValue(quote), 0);
     items.push({
-      title: `${staleQuotes.length} quote${staleQuotes.length === 1 ? "" : "s"} need a response follow-up.`,
-      detail: value > 0
-        ? `${formatCurrency(value)} in open quote value has been waiting for more than 48 hours.`
-        : "These customers have already raised their hand and may need one more nudge.",
-      action: "Follow up",
+      icon: "file-clock",
+      title: `${staleQuotes.length} quote${staleQuotes.length === 1 ? "" : "s"} need follow-up`,
+      detail: "Quotes older than 48 hours without a response.",
+      meta: value > 0 ? `${formatCurrency(value)} potential revenue` : "Decision waiting",
+      action: "View quotes",
       href: "quote-requests.html",
-      value: value > 0 ? formatCurrency(value) : "Revenue at risk",
       tone: "amber"
-    });
-  }
-
-  if (missedCalls.length > 0) {
-    items.push({
-      title: `${missedCalls.length} missed caller${missedCalls.length === 1 ? "" : "s"} still need attention.`,
-      detail: "Missed calls are often high-intent leads. Confirm someone followed up before they call a competitor.",
-      action: "Review missed calls",
-      href: "leads.html",
-      value: "Fast response",
-      tone: "red"
     });
   }
 
   if (newUncontactedLeads.length > 0) {
     items.push({
-      title: `${newUncontactedLeads.length} lead${newUncontactedLeads.length === 1 ? "" : "s"} may be waiting for first contact.`,
-      detail: "New leads should be contacted quickly while the job is still urgent.",
+      icon: "user-plus",
+      title: `${newUncontactedLeads.length} new lead${newUncontactedLeads.length === 1 ? "" : "s"}`,
+      detail: "New opportunities still need first contact.",
+      meta: "Speed matters",
       action: "Open leads",
       href: "leads.html",
-      value: "Speed matters",
       tone: "blue"
     });
   }
 
   if (unreadReplies.length > 0) {
     items.push({
-      title: `${unreadReplies.length} recent customer repl${unreadReplies.length === 1 ? "y" : "ies"} in your Inbox.`,
-      detail: "Customer replies should be handled from one place so conversations do not get lost.",
-      action: "View Inbox",
+      icon: "message-circle",
+      title: `${unreadReplies.length} customer repl${unreadReplies.length === 1 ? "y" : "ies"}`,
+      detail: "Recent replies are waiting in the Inbox.",
+      meta: "Customer response",
+      action: "Open Inbox",
       href: "messages.html",
-      value: "Customer response",
       tone: "green"
     });
   }
 
   if (dueFollowUps.length > 0) {
     items.push({
-      title: `${dueFollowUps.length} follow-up${dueFollowUps.length === 1 ? "" : "s"} scheduled for today.`,
-      detail: "Review upcoming follow-ups and make sure important customers are being reached.",
-      action: "Review follow-ups",
+      icon: "bell-ring",
+      title: `${dueFollowUps.length} follow-up${dueFollowUps.length === 1 ? "" : "s"} due`,
+      detail: "Scheduled follow-ups need review today.",
+      meta: "Due today",
+      action: "Review",
       href: "messages.html",
-      value: "Due today",
       tone: "blue"
     });
   }
@@ -411,63 +458,59 @@ function renderAttention() {
 
   if (items.length === 0) {
     list.innerHTML = `
-      <div class="empty-state">
-        <strong>Nothing urgent needs attention right now.</strong>
-        <span>When a lead waits too long, a quote needs follow-up, or a customer replies, NorthX will surface it here.</span>
-        <a href="messages.html" class="secondary-action">Open Inbox</a>
+      <div class="empty-state compact-empty">
+        <strong>No urgent work right now.</strong>
+        <span>Leads, replies, and quote follow-ups will appear here when they need attention.</span>
+        <a href="messages.html" class="secondary-action compact-action">Open Inbox</a>
       </div>
     `;
     return;
   }
 
   list.innerHTML = items.map((item) => `
-    <div class="attention-item">
+    <div class="attention-item compact-list-row">
+      <span class="row-icon ${item.tone}"><i data-lucide="${item.icon}" aria-hidden="true"></i></span>
       <div>
         <strong>${escapeHtml(item.title)}</strong>
         <p>${escapeHtml(item.detail)}</p>
-        <div class="attention-meta">
-          <span class="status-pill ${item.tone}">${escapeHtml(item.value)}</span>
-        </div>
+        <span class="row-meta ${item.tone}">${escapeHtml(item.meta)}</span>
       </div>
-      <a href="${item.href}" class="primary-action">${escapeHtml(item.action)}</a>
+      <a href="${item.href}" class="secondary-action compact-action">${escapeHtml(item.action)}</a>
     </div>
   `).join("");
 }
 
 function buildOpportunities() {
   const openQuoteValue = getOpenQuotes().reduce((sum, quote) => sum + quoteValue(quote), 0);
-  const quoteRequestCount = getOpenQuoteRequests().length;
+  const awaitingQuotes = getAwaitingQuotes();
+  const missedCalls = getMissedCalls();
   const leadPipelineValue = overviewData.leads.reduce((sum, lead) => sum + leadValue(lead), 0);
-  const pendingQuoteFollowUps = overviewData.scheduledMessages.filter((message) =>
-    message.status === "pending" && message.message_type === "quote_follow_up"
-  ).length;
+  const dueFollowUps = getDueFollowUps();
 
   return [
     {
-      title: "Open quote value",
-      detail: `${getOpenQuotes().length} saved quote${getOpenQuotes().length === 1 ? "" : "s"} still in play.`,
-      value: formatCurrency(openQuoteValue),
-      href: "quote-requests.html"
+      icon: "kanban-square",
+      title: "Open pipeline value",
+      detail: "Total active opportunities",
+      value: formatCurrency(openQuoteValue + leadPipelineValue)
     },
     {
-      title: "Quote requests to convert",
-      detail: `${quoteRequestCount} request${quoteRequestCount === 1 ? "" : "s"} can move through your pipeline.`,
-      value: String(quoteRequestCount),
-      href: "quote-requests.html"
+      icon: "file-clock",
+      title: "Quotes waiting",
+      detail: `${awaitingQuotes.length} customer decision${awaitingQuotes.length === 1 ? "" : "s"}`,
+      value: formatCurrency(awaitingQuotes.reduce((sum, quote) => sum + quoteValue(quote), 0))
     },
     {
-      title: "Lead pipeline value",
-      detail: leadPipelineValue > 0
-        ? "Estimated value captured on current lead records."
-        : "Add estimated values to leads to make pipeline value visible.",
-      value: leadPipelineValue > 0 ? formatCurrency(leadPipelineValue) : "Add values",
-      href: "leads.html"
+      icon: "phone-missed",
+      title: "Missed-call recovery",
+      detail: `${missedCalls.length} call${missedCalls.length === 1 ? "" : "s"} need attention`,
+      value: missedCalls.length
     },
     {
-      title: "Quote follow-ups ready",
-      detail: "Scheduled reminders help recover quotes that would otherwise go quiet.",
-      value: String(pendingQuoteFollowUps),
-      href: "quote-requests.html"
+      icon: "bell-ring",
+      title: "Follow-ups due",
+      detail: "Scheduled customer touches",
+      value: dueFollowUps.length
     }
   ];
 }
@@ -477,43 +520,50 @@ function renderOpportunities() {
   const opportunities = buildOpportunities();
 
   list.innerHTML = opportunities.map((item) => `
-    <a href="${item.href}" class="opportunity-item">
-      <span class="item-dot"></span>
-      <span>
+    <div class="opportunity-item compact-list-row">
+      <span class="row-icon blue"><i data-lucide="${item.icon}" aria-hidden="true"></i></span>
+      <div>
         <strong>${escapeHtml(item.title)}</strong>
         <p>${escapeHtml(item.detail)}</p>
-      </span>
+      </div>
       <span class="opportunity-value">${escapeHtml(item.value)}</span>
-    </a>
+    </div>
   `).join("");
+}
+
+function getScheduleType(message) {
+  if (message.message_type === "quote_follow_up") return "Follow-up";
+  if ((message.message || "").toLowerCase().includes("review")) return "Reminder";
+  if ((message.message || "").toLowerCase().includes("offer")) return "Campaign";
+  return "Follow-up";
 }
 
 function renderToday() {
   const list = document.getElementById("today-list");
   const todayMessages = overviewData.scheduledMessages
     .filter((message) => isSameDay(message.send_at))
-    .slice(0, 6);
+    .sort((a, b) => new Date(a.send_at) - new Date(b.send_at))
+    .slice(0, 7);
 
   if (todayMessages.length === 0) {
     list.innerHTML = `
-      <div class="empty-state">
-        <strong>No follow-ups scheduled for today.</strong>
-        <span>Upcoming quote reminders, retention messages, and appointment reminders will appear here as they are connected.</span>
-        <a href="messages.html" class="secondary-action">Schedule a follow-up</a>
+      <div class="empty-state compact-empty">
+        <strong>No appointments scheduled today.</strong>
+        <span>Upcoming appointments, estimates, and follow-ups will appear here.</span>
+        <a href="calendar.html" class="secondary-action compact-action">View calendar</a>
       </div>
-      <div class="placeholder-note">Appointments and job scheduling are planned for the Calendar foundation and are not connected to a backend table yet.</div>
     `;
     return;
   }
 
   list.innerHTML = todayMessages.map((message) => `
-    <div class="today-item">
-      <span class="item-dot"></span>
-      <span>
+    <div class="today-item schedule-row">
+      <time>${formatTime(message.send_at)}</time>
+      <div>
         <strong>${escapeHtml(message.customer_name || message.phone || "Customer follow-up")}</strong>
-        <p>${escapeHtml(message.message || "Follow-up scheduled")} · ${formatDate(message.send_at, { hour: "numeric", minute: "2-digit" })}</p>
-      </span>
-      <span class="status-pill blue">${escapeHtml(message.status || "pending")}</span>
+        <p>${escapeHtml(message.message || "Follow-up scheduled")}</p>
+      </div>
+      <span class="status-pill blue">${escapeHtml(getScheduleType(message))}</span>
     </div>
   `).join("");
 }
@@ -523,45 +573,46 @@ function buildActivityItems() {
 
   return [
     ...leads.map((lead) => ({
-      title: lead.name || lead.phone || "New lead captured",
-      detail: String(lead.call_status || "").toLowerCase().includes("missed")
-        ? "Missed call recovered and saved as a lead."
-        : "New lead captured for follow-up.",
+      icon: String(lead.call_status || "").toLowerCase().includes("missed") ? "phone-missed" : "user-plus",
+      title: String(lead.call_status || "").toLowerCase().includes("missed")
+        ? "Missed call recovered"
+        : "New lead received",
+      detail: lead.name || lead.phone || "Lead captured for follow-up",
       date: lead.created_at,
       href: "leads.html"
     })),
     ...quoteRequests.map((quote) => ({
-      title: quote.customer_name || "Quote request received",
-      detail: `${quote.service_requested || "Service request"} moved into the sales pipeline.`,
+      icon: "clipboard-list",
+      title: "Quote request received",
+      detail: `${quote.customer_name || "Customer"} - ${quote.service_requested || "Service request"}`,
       date: quote.created_at,
       href: "quote-requests.html"
     })),
     ...quotes.map((quote) => ({
-      title: quote.customer_name || "Quote updated",
-      detail: `Quote ${quote.status || "draft"} for ${formatCurrency(quoteValue(quote))}.`,
+      icon: quote.status === "accepted" ? "badge-check" : "file-text",
+      title: quote.status === "accepted" ? "Customer accepted quote" : "Quote updated",
+      detail: `${quote.customer_name || "Customer"} - ${formatCurrency(quoteValue(quote))}`,
       date: quote.updated_at || quote.created_at,
       href: "quote-requests.html"
     })),
     ...messages.map((message) => ({
-      title: message.phone || "Customer message",
-      detail: message.direction === "received"
-        ? "Customer replied in the Inbox."
-        : "Follow-up sent to a customer.",
+      icon: message.direction === "received" ? "message-circle" : "send",
+      title: message.direction === "received" ? "Customer replied" : "Follow-up sent",
+      detail: message.phone || "Customer conversation",
       date: message.created_at,
       href: "messages.html"
     })),
     ...scheduledMessages.map((message) => ({
-      title: message.customer_name || message.phone || "Follow-up scheduled",
-      detail: message.status === "sent"
-        ? "Follow-up sent automatically."
-        : "Upcoming follow-up is scheduled.",
+      icon: message.status === "sent" ? "check-circle-2" : "clock",
+      title: message.status === "sent" ? "Follow-up sent automatically" : "Follow-up scheduled",
+      detail: message.customer_name || message.phone || "Customer touchpoint",
       date: message.updated_at || message.created_at || message.send_at,
       href: "messages.html"
     }))
   ]
     .filter((item) => item.date)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 12);
+    .slice(0, 9);
 }
 
 function renderActivity() {
@@ -570,75 +621,144 @@ function renderActivity() {
 
   if (items.length === 0) {
     feed.innerHTML = `
-      <div class="empty-state">
-        <strong>No customer activity yet.</strong>
-        <span>New leads, quote requests, customer replies, and automated follow-ups will appear here in plain language.</span>
+      <div class="empty-state compact-empty">
+        <strong>No activity yet.</strong>
+        <span>New leads, quote requests, customer replies, and automated follow-ups will appear here.</span>
       </div>
     `;
     return;
   }
 
   feed.innerHTML = items.map((item) => `
-    <a class="os-activity-item" href="${item.href}">
-      <span class="item-dot"></span>
-      <span>
+    <a class="os-activity-item compact-list-row" href="${item.href}">
+      <span class="row-icon blue"><i data-lucide="${item.icon}" aria-hidden="true"></i></span>
+      <div>
         <strong>${escapeHtml(item.title)}</strong>
         <p>${escapeHtml(item.detail)}</p>
-      </span>
-      <time>${formatDate(item.date)}</time>
+      </div>
+      <time>${escapeHtml(formatRelativeTime(item.date))}</time>
     </a>
   `).join("");
 }
 
+function renderBusinessHealth() {
+  const container = document.getElementById("business-health");
+  const hasEnoughActivity =
+    overviewData.leads.length +
+    overviewData.quoteRequests.length +
+    overviewData.quotes.length +
+    overviewData.messages.length >= 8;
+
+  if (!hasEnoughActivity) {
+    container.innerHTML = `
+      <div class="health-empty">
+        <strong>Business Health will appear once enough activity has been recorded.</strong>
+        <p>NorthX needs more leads, replies, quotes, and follow-ups before it can score this honestly.</p>
+      </div>
+      <div class="health-factor-list">
+        ${renderHealthFactor("Response Time", "Collecting data", "neutral")}
+        ${renderHealthFactor("Quote Conversion", "Collecting data", "neutral")}
+        ${renderHealthFactor("Customer Satisfaction", "Not connected yet", "neutral")}
+        ${renderHealthFactor("Missed Call Recovery", "Collecting data", "neutral")}
+      </div>
+    `;
+    return;
+  }
+
+  const missedCallsWaiting = getMissedCalls().length;
+  const awaitingQuotes = getAwaitingQuotes().length;
+  const dueFollowUps = getDueFollowUps().length;
+  const customerReplies = overviewData.messages.filter((message) => message.direction === "received").length;
+  const score = Math.max(0, 100 - missedCallsWaiting * 10 - awaitingQuotes * 5 - dueFollowUps * 4);
+  const status = score >= 85 ? "Strong" : score >= 70 ? "Good" : "Needs Attention";
+
+  container.innerHTML = `
+    <div class="health-score">
+      <strong>${score}</strong>
+      <span>${status}</span>
+      <p>Based on active opportunities NorthX can measure today.</p>
+    </div>
+    <div class="health-factor-list">
+      ${renderHealthFactor("Response Time", customerReplies ? "Replies active" : "No recent replies", customerReplies ? "green" : "neutral")}
+      ${renderHealthFactor("Quote Conversion", awaitingQuotes ? `${awaitingQuotes} waiting` : "No quotes waiting", awaitingQuotes ? "amber" : "green")}
+      ${renderHealthFactor("Customer Satisfaction", "Not connected yet", "neutral")}
+      ${renderHealthFactor("Missed Call Recovery", missedCallsWaiting ? `${missedCallsWaiting} need review` : "Clear", missedCallsWaiting ? "red" : "green")}
+    </div>
+  `;
+}
+
+function renderHealthFactor(label, value, tone) {
+  return `
+    <div class="health-factor">
+      <span>${escapeHtml(label)}</span>
+      <strong class="${tone}">${escapeHtml(value)}</strong>
+    </div>
+  `;
+}
+
 function renderLaunchChecklist() {
+  const card = document.getElementById("launch-checklist-card");
   const checklist = [
     {
-      label: "Business information added",
+      label: "Business information",
       complete: Boolean(quotePdfSettings && quotePdfSettings.company_display_name),
       href: "settings.html"
     },
     {
-      label: "Missed-call recovery message configured",
+      label: "Missed-call message",
       complete: Boolean(smsSettings && smsSettings.missed_call_auto_reply_message),
       href: "messages.html"
     },
     {
-      label: "Quote request system receiving submissions",
+      label: "Quote request link",
       complete: overviewData.quoteRequests.length > 0,
       href: "quote-link.html"
     },
     {
-      label: "First customer records created",
+      label: "First customers",
       complete: overviewData.customers.length > 0,
       href: "customers.html"
     },
     {
-      label: "Follow-up automation scheduled",
+      label: "Follow-up automation",
       complete: overviewData.scheduledMessages.length > 0,
       href: "messages.html"
     }
   ];
+  const incomplete = checklist.filter((item) => !item.complete);
 
-  const completed = checklist.filter((item) => item.complete).length;
+  if (incomplete.length === 0) {
+    card.classList.add("hidden");
+    return;
+  }
+
+  card.classList.remove("hidden");
   document.getElementById("launch-progress-text").textContent =
-    `${completed} of ${checklist.length} setup steps complete.`;
-
-  document.getElementById("launch-checklist").innerHTML = checklist.map((item) => `
-    <a href="${item.href}" class="checklist-item ${item.complete ? "complete" : ""}">
+    `${incomplete.length} setup step${incomplete.length === 1 ? "" : "s"} left.`;
+  document.getElementById("launch-checklist").innerHTML = incomplete.slice(0, 3).map((item) => `
+    <a href="${item.href}" class="checklist-item">
       <span>${escapeHtml(item.label)}</span>
-      <span>${item.complete ? "Done" : "Set up"}</span>
+      <span>Set up</span>
     </a>
   `).join("");
+}
+
+function refreshIcons() {
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }
 
 function renderOverview() {
   renderHeader();
   renderMetrics();
+  renderLaunchChecklist();
   renderAttention();
   renderOpportunities();
   renderToday();
   renderActivity();
-  renderLaunchChecklist();
+  renderBusinessHealth();
+  refreshIcons();
 }
 
 async function refreshOverview() {

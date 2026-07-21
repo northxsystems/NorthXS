@@ -16,6 +16,20 @@ function formatDate(value) {
   return new Date(value).toLocaleString();
 }
 
+function getLeadStatusBadgeClass(status) {
+  const normalized = String(status || "new").toLowerCase();
+
+  if (normalized.includes("book") || normalized.includes("won")) return "success";
+  if (normalized.includes("lost") || normalized.includes("missed")) return "danger";
+  if (normalized.includes("contact") || normalized.includes("follow")) return "warning";
+  return "new";
+}
+
+function renderLeadStatusBadge(status) {
+  const label = status || "New";
+  return `<span class="badge ${getLeadStatusBadgeClass(label)}">${escapeHtml(label)}</span>`;
+}
+
 async function protectPage() {
   const { data } = await supabaseClient.auth.getSession();
 
@@ -43,12 +57,15 @@ async function getCurrentClientId(session) {
 }
 
 function setTableMessage(message) {
+  const isLoading = message.toLowerCase().includes("loading");
+
   document.getElementById("leads-table-body").innerHTML = `
     <tr>
       <td colspan="6">
-        <div class="quote-empty-state">
+        <div class="quote-empty-state nx-empty-state">
+          ${isLoading ? '<span class="nx-skeleton" style="width: 42px; height: 42px;"></span>' : ""}
           <strong>${escapeHtml(message)}</strong>
-          <span>Captured leads will appear here automatically.</span>
+          <span>Your new leads will appear here. Connect your phone or share your quote request link to begin capturing opportunities.</span>
         </div>
       </td>
     </tr>
@@ -117,9 +134,9 @@ function renderLeads() {
           <span class="quote-customer-meta">${escapeHtml(lead.source || "Lead")}</span>
         </td>
         <td>${escapeHtml(lead.phone || "-")}</td>
-        <td>${escapeHtml(lead.call_status || lead.status || "New")}</td>
+        <td>${renderLeadStatusBadge(lead.call_status || lead.status || "New")}</td>
         <td>${formatDate(lead.created_at)}</td>
-        <td>${escapeHtml(lead.follow_up_status || "-")}</td>
+        <td>${lead.follow_up_status ? renderLeadStatusBadge(lead.follow_up_status) : "-"}</td>
         <td>${escapeHtml(lead.notes || "-")}</td>
       </tr>
     `;

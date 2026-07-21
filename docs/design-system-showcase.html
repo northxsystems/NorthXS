@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthX Design System Showcase</title>
+  <link rel="stylesheet" href="../public/css/northx-design-system.css" />
+</head>
+<body class="dashboard-body" style="padding: 32px;">
+  <main class="nx-page-container nx-page-stack">
+    <header class="page-header">
+      <div class="page-header-row">
+        <div>
+          <p class="eyebrow">Design System</p>
+          <h1>NorthX Components</h1>
+          <p class="page-subtitle">Internal QA page for shared tokens, layout, and reusable app patterns.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="nx-btn nx-btn-primary">Primary</button>
+          <button class="nx-btn nx-btn-secondary">Secondary</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Typography and Buttons</h2>
+          <p>Compact, readable hierarchy for daily workflows.</p>
+        </div>
+      </div>
+      <div class="nx-flex nx-gap-3" style="flex-wrap: wrap;">
+        <button class="nx-btn nx-btn-primary">Save Changes</button>
+        <button class="nx-btn nx-btn-secondary">Export</button>
+        <button class="nx-btn nx-btn-ghost">View Details</button>
+        <button class="nx-btn nx-btn-danger">Cancel</button>
+      </div>
+    </section>
+
+    <section class="nx-grid nx-grid-4">
+      <article class="metric-card">
+        <span class="metric-icon">NX</span>
+        <span>New Leads</span>
+        <strong>18</strong>
+        <p>Captured this week</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-icon">NX</span>
+        <span>Missed Calls</span>
+        <strong>3</strong>
+        <p>Recovery available</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-icon">NX</span>
+        <span>Revenue</span>
+        <strong>$12k</strong>
+        <p>Accepted quote value</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-icon">NX</span>
+        <span>Follow-Ups</span>
+        <strong>7</strong>
+        <p>Due today</p>
+      </article>
+    </section>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Forms and Badges</h2>
+          <p>Shared inputs, validation, and semantic statuses.</p>
+        </div>
+      </div>
+      <div class="nx-form-grid">
+        <label>Customer Name<input class="nx-input" placeholder="Jane Smith" /></label>
+        <label>Status<select class="nx-select"><option>Active</option></select></label>
+      </div>
+      <p class="nx-help-text">Use concise labels and helpful validation messages.</p>
+      <div class="nx-flex nx-gap-2" style="margin-top: 16px; flex-wrap: wrap;">
+        <span class="nx-badge">Neutral</span>
+        <span class="nx-badge nx-badge-new">New</span>
+        <span class="nx-badge nx-badge-success">Success</span>
+        <span class="nx-badge nx-badge-warning">Warning</span>
+        <span class="nx-badge nx-badge-danger">Danger</span>
+      </div>
+    </section>
+
+    <section class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Data Table</h2>
+          <p>One table system for records and actions.</p>
+        </div>
+      </div>
+      <div class="nx-table-wrap">
+        <table class="nx-table">
+          <thead><tr><th>Customer</th><th>Status</th><th>Next Action</th></tr></thead>
+          <tbody>
+            <tr><td>Jane Smith</td><td><span class="nx-badge nx-badge-new">New</span></td><td>Call today</td></tr>
+            <tr><td>Marco Lee</td><td><span class="nx-badge nx-badge-success">Won</span></td><td>Schedule work</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="nx-grid nx-grid-2">
+      <article class="nx-empty-state">
+        <strong>Your new leads will appear here.</strong>
+        <span>Connect your phone or share your quote request link to begin capturing opportunities.</span>
+        <a class="primary-action" href="#">Set Up Capture</a>
+      </article>
+      <article class="nx-alert nx-alert-warning">
+        <strong>Needs attention</strong>
+        <span>Three follow-ups are due before the end of the day.</span>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

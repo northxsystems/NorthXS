@@ -4909,9 +4909,440 @@ footer {
   min-height: 170px;
 }
 
+/* OVERVIEW DAILY BRIEF */
+
+.dashboard-body .overview-main {
+  padding: 28px;
+}
+
+.overview-container {
+  width: min(100%, 1480px);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.overview-header {
+  padding: 20px 22px;
+  margin-bottom: 0;
+}
+
+.overview-header .page-header-row {
+  align-items: center;
+}
+
+.overview-date {
+  color: var(--os-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.overview-header h1 {
+  font-size: clamp(1.75rem, 2.5vw, 2.55rem);
+}
+
+.overview-header .page-subtitle {
+  margin-top: 7px;
+  max-width: 620px;
+  font-size: 0.98rem;
+}
+
+.overview-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.overview-main .primary-action,
+.overview-main .secondary-action {
+  min-height: 38px;
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  box-shadow: none;
+}
+
+.overview-main .primary-action {
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.16);
+}
+
+.overview-main .metric-link-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.overview-main .metric-card {
+  min-height: 104px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 11px;
+  padding: 14px;
+  border-radius: var(--os-radius-lg);
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.metric-icon,
+.row-icon {
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #eff6ff;
+  color: var(--os-blue);
+  flex: 0 0 auto;
+}
+
+.metric-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.metric-icon svg,
+.row-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.2;
+}
+
+.overview-main .metric-card span:not(.metric-icon) {
+  display: block;
+  color: var(--os-muted);
+  font-size: 0.76rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.overview-main .metric-card strong {
+  display: block;
+  margin: 8px 0 5px;
+  color: var(--os-text);
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.overview-main .metric-card p {
+  color: var(--os-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.overview-operating-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.45fr) minmax(270px, 1fr) minmax(250px, 0.95fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.overview-secondary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.overview-main .os-card {
+  padding: 18px;
+  border-radius: var(--os-radius-lg);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.045);
+}
+
+.overview-main .os-card-header {
+  margin-bottom: 12px;
+}
+
+.overview-main .os-card-header h2 {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.overview-main .os-card-header p {
+  margin-top: 3px;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.overview-main .attention-list,
+.overview-main .opportunity-list,
+.overview-main .today-list,
+.overview-main .activity-feed.os-activity-feed {
+  gap: 8px;
+}
+
+.compact-list-row {
+  border: 1px solid var(--os-border);
+  border-radius: var(--os-radius);
+  background: var(--os-surface);
+}
+
+.overview-main .attention-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.row-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.row-icon.red {
+  background: #fef2f2;
+  color: var(--os-red);
+}
+
+.row-icon.amber {
+  background: #fffbeb;
+  color: var(--os-amber);
+}
+
+.row-icon.green {
+  background: #ecfdf5;
+  color: var(--os-green);
+}
+
+.overview-main .attention-item strong,
+.overview-main .opportunity-item strong,
+.overview-main .today-item strong,
+.overview-main .os-activity-item strong {
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.overview-main .attention-item p,
+.overview-main .opportunity-item p,
+.overview-main .today-item p,
+.overview-main .os-activity-item p {
+  margin-top: 2px;
+  color: var(--os-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.row-meta {
+  display: inline-flex;
+  margin-top: 7px;
+  color: var(--os-muted);
+  font-size: 0.74rem;
+  font-weight: 850;
+}
+
+.row-meta.red {
+  color: var(--os-red);
+}
+
+.row-meta.amber {
+  color: var(--os-amber);
+}
+
+.row-meta.green {
+  color: var(--os-green);
+}
+
+.overview-main .compact-action {
+  min-height: 32px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  white-space: nowrap;
+}
+
+.overview-main .opportunity-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 11px;
+  align-items: center;
+  padding: 12px;
+}
+
+.overview-main .opportunity-value {
+  min-width: auto;
+  color: var(--os-text);
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.panel-footer-link {
+  display: inline-flex;
+  margin-top: 12px;
+  color: var(--os-blue);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+}
+
+.schedule-row time,
+.os-activity-item time {
+  color: var(--os-muted);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.overview-main .status-pill {
+  padding: 5px 8px;
+  font-size: 0.7rem;
+}
+
+.overview-main .os-activity-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 12px;
+}
+
+.health-empty {
+  padding: 14px;
+  border: 1px solid var(--os-border);
+  border-radius: var(--os-radius);
+  background: var(--os-surface-soft);
+}
+
+.health-empty strong,
+.health-score strong {
+  display: block;
+  color: var(--os-text);
+}
+
+.health-empty p,
+.health-score p {
+  margin-top: 5px;
+  color: var(--os-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.health-score {
+  padding: 16px;
+  border: 1px solid var(--os-border);
+  border-radius: var(--os-radius);
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+.health-score strong {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.health-score span {
+  display: block;
+  margin-top: 6px;
+  color: var(--os-blue);
+  font-weight: 900;
+}
+
+.health-factor-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.health-factor {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--os-border);
+}
+
+.health-factor:last-child {
+  border-bottom: none;
+}
+
+.health-factor span {
+  color: var(--os-muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.health-factor strong {
+  color: var(--os-soft);
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+.health-factor strong.green {
+  color: var(--os-green);
+}
+
+.health-factor strong.amber {
+  color: var(--os-amber);
+}
+
+.health-factor strong.red {
+  color: var(--os-red);
+}
+
+.launch-brief-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--os-radius-lg);
+  background: #eff6ff;
+}
+
+.launch-brief-card strong {
+  color: var(--os-text);
+}
+
+.launch-brief-card p {
+  color: var(--os-muted);
+  font-size: 0.84rem;
+}
+
+.launch-brief-card .launch-checklist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.launch-brief-card .checklist-item {
+  padding: 7px 10px;
+  background: white;
+  font-size: 0.78rem;
+}
+
+.compact-empty {
+  padding: 14px;
+}
+
+.compact-empty span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.hidden {
+  display: none !important;
+}
+
 @media (max-width: 1180px) {
-  .metric-link-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .overview-main .metric-link-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .overview-operating-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+  }
+
+  .schedule-panel {
+    grid-column: 1 / -1;
   }
 
   .os-grid.two {
@@ -4932,6 +5363,10 @@ footer {
   .dashboard-body .dashboard-main {
     margin-left: 0;
     width: 100%;
+    padding: 86px 18px 22px;
+  }
+
+  .dashboard-body .overview-main {
     padding: 86px 18px 22px;
   }
 
@@ -5005,10 +5440,41 @@ footer {
   .opportunity-value {
     text-align: left;
   }
+
+  .overview-header .page-header-row,
+  .launch-brief-card {
+    align-items: flex-start;
+    display: grid;
+  }
+
+  .overview-actions,
+  .launch-brief-card .launch-checklist {
+    justify-content: flex-start;
+  }
+
+  .overview-operating-grid,
+  .overview-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-main .attention-item,
+  .overview-main .opportunity-item,
+  .overview-main .os-activity-item,
+  .schedule-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .overview-main .attention-item .compact-action,
+  .overview-main .opportunity-value,
+  .overview-main .os-activity-item time,
+  .schedule-row .status-pill {
+    grid-column: 2;
+    justify-self: start;
+  }
 }
 
 @media (max-width: 620px) {
-  .metric-link-grid {
+  .overview-main .metric-link-grid {
     grid-template-columns: 1fr;
   }
 
